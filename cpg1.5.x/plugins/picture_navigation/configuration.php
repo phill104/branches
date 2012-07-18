@@ -2,7 +2,7 @@
 /**************************************************
   Coppermine 1.5.x Plugin - picture_navigation
   *************************************************
-  Copyright (c) 2010 eenemeenemuu
+  Copyright (c) 2010-2012 eenemeenemuu
   *************************************************
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -16,10 +16,10 @@
   **************************************************/
 
 $name = 'Picture Navigation';
-$description = 'Previous/next picture by clicking on the picture';
+$description = 'Previous/next picture by clicking next to the picture';
 $author = '<a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=24278" rel="external" class="external">eenemeenemuu</a>';
-$version = '1.4';
-$plugin_cpg_version = array('min' => '1.5.10');
+$version = '2.0';
+$plugin_cpg_version = array('min' => '1.5');
 $extra_info = $install_info = '<a href="http://forum.coppermine-gallery.net/index.php/topic,68456.0.html" rel="external" class="admin_menu">'.cpg_fetch_icon('announcement', 1).'Announcement thread</a>'
 
 ?>
