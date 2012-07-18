@@ -342,4 +342,5 @@ function im_readCookie(im_name) {
     return null;
 }
 
-im_addLoad(im_init);
+//im_addLoad(im_init);
+$(document).ready(function() { im_init(); } );
