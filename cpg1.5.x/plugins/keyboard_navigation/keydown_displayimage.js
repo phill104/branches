@@ -28,10 +28,10 @@ $(document).ready(function() {
             kcode = e.keyCode;
         }
         if (sthhasfocus != true && $("#jquery-lightbox").length != 1) {
-            if(kcode == 37 && $('#prev').attr('title') != '') {
+            if(kcode == 37) {
                 window.location = $('.navmenu_pic img[src*=prev]').parent().attr('href');
             }
-            if(kcode == 39 && $('#next').attr('title') != '') {
+            if(kcode == 39) {
                 window.location = $('.navmenu_pic img[src*=next]').parent().attr('href');
             }
             if(kcode == 38) {
