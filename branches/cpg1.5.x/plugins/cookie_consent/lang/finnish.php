@@ -24,5 +24,7 @@ $lang_plugin_cookie_consent['cookie_cpg_session'] = 'Istuntoeväste, kun galleri
 $lang_plugin_cookie_consent['cookie_mambo_sessioncookie'] = 'Istuntoeväste, kun galleria on integroitu Mambon kanssa.';
 $lang_plugin_cookie_consent['cookie_picinfo'] = 'Tallentaa tiedoston tietolaatikon näkyvyyden.';
 $lang_plugin_cookie_consent['cookie_fav'] = 'Tallentaa käyttäjän suosikkikuvat.';
+$lang_plugin_cookie_consent['cookie_albpw'] = 'Tallentaa syötetytyt albumien salasanat.';
+$lang_plugin_cookie_consent['cookie_client_id'] = '"32&nbsp;merkkiä&nbsp;pitkä jono."';
 
 ?>
