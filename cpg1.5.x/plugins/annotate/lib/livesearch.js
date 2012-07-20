@@ -1,3 +1,5 @@
+var loaded = false;
+
 $(document).ready(function() {
     var alertTimerId = 0;
     $('#livesearch_input').keyup(function() {
@@ -8,11 +10,11 @@ $(document).ready(function() {
                 $('#livesearch_output').html(data); 
                 $('#livesearch_input').removeClass('blue');
             });
+            loaded = true;
         }, 250);
     });
 });
 
-var loaded = false;
 function load_annotation_list() {
     if (loaded == false) {
         $('#livesearch_output').hide();
