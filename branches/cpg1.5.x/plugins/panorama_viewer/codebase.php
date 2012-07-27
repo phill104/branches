@@ -17,9 +17,53 @@
 
 if (!defined('IN_COPPERMINE')) die('Not in Coppermine...');
 
+function panorama_viewer_is_panorama() {
+    global $CONFIG, $CURRENT_PIC_DATA;
+
+    if (panorama_viewer_is_360_degree_panorama()) {
+        return true;
+    }
+
+    switch($CONFIG['plugin_panorama_viewer_use_method']) {
+        case 'width':
+            if ($CURRENT_PIC_DATA['pwidth'] > $CONFIG['plugin_panorama_viewer_use_value']) {
+                return true;
+            } else {
+                return false;
+            }
+            break;
+
+        case 'ratio':
+            if ($CURRENT_PIC_DATA['pwidth'] * $CONFIG['plugin_panorama_viewer_use_value'] > $CURRENT_PIC_DATA['pheight']) {
+                return true;
+            } else {
+                return false;
+            }
+            break;
+
+        case 'filename':
+            if (stripos($CURRENT_PIC_DATA['filename'], $CONFIG['plugin_panorama_viewer_use_value']) !== false) {
+                return true;
+            } else {
+                return false;
+            }
+            break;
+
+        default:
+            return true;
+            break;
+    }
+}
+
 function panorama_viewer_is_360_degree_panorama() {
-    global $CURRENT_PIC_DATA;
-    if (stristr($CURRENT_PIC_DATA['filename'], "_360pano.jp")) {
+    global $CONFIG, $CURRENT_PIC_DATA;
+
+    if (!isset($CONFIG['plugin_panorama_viewer_360_degree'])) {
+        $CONFIG['plugin_panorama_viewer_360_degree'] = '_360pano.jp';
+        cpg_db_query("INSERT INTO {$CONFIG['TABLE_CONFIG']} (name, value) VALUES ('plugin_panorama_viewer_360_degree', '{$CONFIG['plugin_panorama_viewer_360_degree']}')");
+    }
+
+    if (stripos($CURRENT_PIC_DATA['filename'], $CONFIG['plugin_panorama_viewer_360_degree']) !== false) {
         return true;
     } else {
         return false;
@@ -32,10 +76,12 @@ if (defined('DISPLAYIMAGE_PHP')) {
         $thisplugin->add_filter('page_html','panorama_viewer_page_html_slideshow');
 
         function panorama_viewer_page_html_slideshow($html) {
-            $panorama_start = "<table width=\"100%\" style=\"table-layout:fixed;\"><tr><td width=\"100%\" align=\"center\"><div style=\"width:100%; overflow:hidden;\">";
-            $panorama_end = "</div></td></tr></table>";
+            if (panorama_viewer_is_panorama()) {
+                $panorama_start = "<table width=\"100%\" style=\"table-layout:fixed;\"><tr><td width=\"100%\" align=\"center\"><div style=\"width:100%; overflow:hidden;\">";
+                $panorama_end = "</div></td></tr></table>";
 
-            $html = preg_replace("/(<img id=\"showImage\".*\/>)/Uis", $panorama_start."\\1".$panorama_end, $html);
+                $html = preg_replace("/(<img id=\"showImage\".*\/>)/Uis", $panorama_start."\\1".$panorama_end, $html);
+            }
             return $html;
         }
     } else {
@@ -98,14 +144,16 @@ if (defined('DISPLAYIMAGE_PHP')) {
                     </table>
 EOT;
             }
-            $pic_html = "<div style=\"overflow:auto; width:100%; height:{$div_height}px;\">".$pic_html."</div>";
-            $pic_html = "<table width=\"100%\" style=\"table-layout:fixed;\"><tr><td width=\"100%\" align=\"center\">".$pic_html."</td></tr></table>";
+            if (panorama_viewer_is_panorama()) {
+                $pic_html = "<div style=\"overflow:auto; width:100%; height:{$div_height}px;\">".$pic_html."</div>";
+                $pic_html = "<table width=\"100%\" style=\"table-layout:fixed;\"><tr><td width=\"100%\" align=\"center\">".$pic_html."</td></tr></table>";
+            }
             return $pic_html;
         }
     }
 } elseif (defined('INDEX_PHP')) {
     $thisplugin->add_filter('page_html','panorama_viewer_page_html_thumb');
-    
+
     function panorama_viewer_page_html_thumb($html) {
         global $CONFIG;
         $panorama_start = "<table width=\"100%\" style=\"table-layout:fixed;\"><tr><td width=\"100%\" align=\"center\"><div style=\"width:100%; overflow:hidden;\">";
@@ -115,6 +163,5 @@ EOT;
         return $html;
     }
 }
-
 
 ?>
