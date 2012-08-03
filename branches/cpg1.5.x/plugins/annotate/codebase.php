@@ -32,7 +32,18 @@ $thisplugin->add_filter('meta_album', 'annotate_meta_album');
 function annotate_meta($meta) {
     global $JS, $CONFIG, $lang_common, $lang_plugin_annotate;
 
+    // Disable for mobile devices
     if ($CONFIG['plugin_annotate_disable_mobile'] && defined('MOBILE_VIEW')) {
+        return;
+    }
+
+    // disable on 360° panoramas
+    if (function_exists(panorama_viewer_is_360_degree_panorama) && panorama_viewer_is_360_degree_panorama()) {
+        return;
+    }
+
+    // User can view annotations?
+    if (annotate_get_level('permissions') == 0) {
         return;
     }
 
@@ -72,11 +83,60 @@ function annotate_meta($meta) {
 function annotate_file_data($data) {
     global $CONFIG, $LINEBREAK, $lang_plugin_annotate, $annotate_icon_array, $REFERER;
 
+    // Disable for mobile devices
     if ($CONFIG['plugin_annotate_disable_mobile'] && defined('MOBILE_VIEW')) {
         return $data;
     }
 
-    // Determine if the visitor is allowed to have that button
+    // Disable for non-image files
+    if (!is_image($data['filename'])) {
+        return $data;
+    }
+
+    // disable on 360° panoramas
+    if (function_exists(panorama_viewer_is_360_degree_panorama) && panorama_viewer_is_360_degree_panorama()) {
+        return $data;
+    }
+
+    // Logged in user can view annotations? (see check for guests some lines below)
+    if (USER_ID && annotate_get_level('permissions') == 0) {
+        return $data;
+    }
+
+    global $cpg_udb;
+    $notes = array();
+    $sql = "SELECT n.*, u.".$cpg_udb->field['username']." AS user_name FROM {$CONFIG['TABLE_PREFIX']}plugin_annotate n INNER JOIN ".$cpg_udb->usertable." u ON n.user_id = u.".$cpg_udb->field['user_id']." WHERE n.pid = {$data['pid']}";
+    $result = cpg_db_query($sql);
+    while ($row = mysql_fetch_assoc($result)) {
+        //$row['note'] = addslashes($row['note']);
+        $notes[] = $row;
+    }
+    mysql_free_result($result);
+    $nr_notes = count($notes);
+
+    // Promote annotations to guests
+    if (!USER_ID && annotate_get_level('permissions') == 0) {
+        $result = cpg_db_query("SELECT MAX(value) FROM {$CONFIG['TABLE_CONFIG']} WHERE name LIKE 'plugin_annotate_permissions_%'");
+        $max_permission_level = mysql_result($result, 0);
+        mysql_free_result($result);
+        if ($max_permission_level >= 1 && $nr_notes > 0 && $CONFIG['allow_user_registration'] != 0) {
+            if ($nr_notes == 1) {
+                $data['footer'] .= $lang_plugin_annotate['1_annotation_for_file'] . '<br />' . $LINEBREAK;
+            } elseif ($nr_notes > 1) {
+                $data['footer'] .= sprintf($lang_plugin_annotate['x_annotations_for_file'], $nr_notes) . '<br />' . $LINEBREAK;
+            }
+            $data['footer'] .= sprintf(
+                                        $lang_plugin_annotate['registration_promotion'],
+                                        '<a href="login.php?referer='.$REFERER.'">',
+                                        '</a>',
+                                        '<a href="register.php?referer='.$REFERER.'">',
+                                        '</a>'
+                                        );
+        }
+        return $data;
+    }
+
+    // Determine if the user is allowed to have that button
     if (annotate_get_level('permissions') >= 2) {
 
         $menu_buttons = "";
@@ -131,118 +191,69 @@ EOT;
         }
     }
 
-    if (is_image($data['filename'])) {
-        if (function_exists(panorama_viewer_is_360_degree_panorama)) {
-            // disable on 360° panoramas
-            if (panorama_viewer_is_360_degree_panorama()) {
-                return $data;
-            }
+    $jsarray = arrayToJS4($notes, 'annotations');
+
+    $html =& $data['html'];
+
+    $html = str_replace("<img ", "<img style=\"padding:0px\" ", $html);
+
+    if (function_exists(panorama_viewer_image)) {
+        $search = "/(<table.*style=\"table-layout:fixed.*<div style=\"overflow:auto.*>)(.*)(<\/div><\/td><\/tr><\/table>)/Uis";
+        preg_match($search, $html, $panorama_viewer_matches);
+        $html = preg_replace($search, "\\2", $html);
+    }
+
+    $container_width = $data['pwidth'];
+    if ($data['mode'] == 'normal') {
+        $imagesize = getimagesize($CONFIG['fullpath'].$data['filepath'].$CONFIG['normal_pfx'].$data['filename']);
+        $container_width = $imagesize[0];
+    }
+    $container_width += 4;
+
+    $html = '<div class="Photo fn-container" style="width:'.$container_width.'px;" id="PhotoContainer">' . $html . '</div>';
+
+    if (function_exists(panorama_viewer_image)) {
+        $html = $panorama_viewer_matches[1].$html.$panorama_viewer_matches[3];
+    }
+
+    // list annotations from the currently viewed picture and generate link to meta album
+    if (annotate_get_level('display_links') == 1 && $nr_notes > 0) {
+        $on_this_pic_array = array();
+        $n = 0;
+        foreach($notes as $value) {
+            $note = stripslashes($value['note']);
+            $on_this_pic_array[] = "<button onclick=\"window.location.href='thumbnails.php?album=shownotes&amp;note=".addslashes(str_replace(Array("#", "&"), Array("%23", "%26"), $note))."';\" class=\"admin_menu\" title=\"".sprintf($lang_plugin_annotate['all_pics_of'], $note)."\" onmouseover=\"notes.notes[$n].ShowNote(); notes.notes[$n].ShowNoteText();\" onmouseout=\"notes.notes[$n].HideNote(); notes.notes[$n].HideNoteText();\">$note</button> ";
+            $n++;
         }
-        
-        global $cpg_udb;
-        $sql = "SELECT n.*, u.".$cpg_udb->field['username']." AS user_name FROM {$CONFIG['TABLE_PREFIX']}plugin_annotate n INNER JOIN ".$cpg_udb->usertable." u ON n.user_id = u.".$cpg_udb->field['user_id']." WHERE n.pid = {$data['pid']}";
-        $result = cpg_db_query($sql);
-
-        $notes = array();
-
-        while ($row = mysql_fetch_assoc($result)) {
-            //$row['note'] = addslashes($row['note']);
-            $notes[] = $row;
+        sort($on_this_pic_array);
+        $on_this_pic_div = "<div id=\"on_this_pic\" style=\"white-space:normal; cursor:default; padding-bottom:4px;\"> {$lang_plugin_annotate['on_this_pic']}: ";
+        foreach($on_this_pic_array as $value) {
+            $on_this_pic_div .= $value;
         }
+        $on_this_pic_div .= "</div>";
+        $html = $on_this_pic_div.$html;
+    }
 
-        mysql_free_result($result);
-        $nr_notes = count($notes);
-
-        // Visitor can view annotations in the first place?
-        if (USER_ID && annotate_get_level('permissions') == 0) {
-            // Stop processing the annotations any further
-            return $data;
-        } elseif (!USER_ID && annotate_get_level('permissions') == 0) {
-            $result = cpg_db_query("SELECT MAX(value) FROM {$CONFIG['TABLE_CONFIG']} WHERE name LIKE 'plugin_annotate_permissions_%'");
-            $max_permission_level = mysql_result($result, 0);
-            mysql_free_result($result);
-            if ($max_permission_level >= 1 && $nr_notes > 0 && $CONFIG['allow_user_registration'] != 0) {
-                // There are annotations, so let's promote them
-                if ($nr_notes == 1) {
-                    $data['footer'] .= $lang_plugin_annotate['1_annotation_for_file'] . '<br />' . $LINEBREAK;
-                } elseif ($nr_notes > 1) {
-                    $data['footer'] .= sprintf($lang_plugin_annotate['x_annotations_for_file'], $nr_notes) . '<br />' . $LINEBREAK;
-                }
-                $data['footer'] .= sprintf(
-                                            $lang_plugin_annotate['registration_promotion'],
-                                            '<a href="login.php?referer='.$REFERER.'">',
-                                            '</a>',
-                                            '<a href="register.php?referer='.$REFERER.'">',
-                                            '</a>'
-                                            );
-            }
-            // Stop processing the annotations any further
-            return $data;
-        } 
-
-        $jsarray = arrayToJS4($notes, 'annotations');
-
-        $html =& $data['html'];
-
-        $html = str_replace("<img ", "<img style=\"padding:0px\" ", $html);
-
-        if (function_exists(panorama_viewer_image)) {
-            $search = "/(<table.*style=\"table-layout:fixed.*<div style=\"overflow:auto.*>)(.*)(<\/div><\/td><\/tr><\/table>)/Uis";
-            preg_match($search, $html, $panorama_viewer_matches);
-            $html = preg_replace($search, "\\2", $html);
+    // Display annotation statistics of the currently viewed album
+    if (annotate_get_level('display_stats') == 1) {
+        $superCage = Inspekt::MakeSuperCage();
+        if ($superCage->get->testInt('album')) {
+            $annotations_pic = $nr_notes;
+            $annotated_pics = mysql_num_rows(cpg_db_query("SELECT DISTINCT n.pid FROM {$CONFIG['TABLE_PREFIX']}plugin_annotate n INNER JOIN {$CONFIG['TABLE_PICTURES']} p ON p.pid = n.pid WHERE p.aid = ".$superCage->get->getInt('album')));
+            $annotations_album = mysql_num_rows(cpg_db_query("SELECT DISTINCT n.nid FROM {$CONFIG['TABLE_PREFIX']}plugin_annotate n INNER JOIN {$CONFIG['TABLE_PICTURES']} p ON p.pid = n.pid WHERE p.aid = ".$superCage->get->getInt('album')));
+            $annotation_stats = "
+                <span title=\"{$lang_plugin_annotate['annotations_pic']}\">($annotations_pic)</span>
+                <span title=\"{$lang_plugin_annotate['annotations_album']}\">($annotations_album)</span>
+                <span title=\"{$lang_plugin_annotate['annotated_pics']}\">($annotated_pics)</span>
+            ";
+            $menu_buttons .= '<li>&nbsp;'.$annotation_stats.'</li>';
         }
+    }
 
-        $container_width = $data['pwidth'];
-        if ($data['mode'] == 'normal') {
-            $imagesize = getimagesize($CONFIG['fullpath'].$data['filepath'].$CONFIG['normal_pfx'].$data['filename']);
-            $container_width = $imagesize[0];
-        }
-        $container_width += 4;
-
-        $html = '<div class="Photo fn-container" style="width:'.$container_width.'px;" id="PhotoContainer">' . $html . '</div>';
-
-        if (function_exists(panorama_viewer_image)) {
-            $html = $panorama_viewer_matches[1].$html.$panorama_viewer_matches[3];
-        }
-
-        // list annotations from the currently viewed picture and generate link to meta album
-        if (annotate_get_level('display_links') == 1 && $nr_notes > 0) {
-            $on_this_pic_array = array();
-            $n = 0;
-            foreach($notes as $value) {
-                $note = stripslashes($value['note']);
-                $on_this_pic_array[] = "<button onclick=\"window.location.href='thumbnails.php?album=shownotes&amp;note=".addslashes(str_replace(Array("#", "&"), Array("%23", "%26"), $note))."';\" class=\"admin_menu\" title=\"".sprintf($lang_plugin_annotate['all_pics_of'], $note)."\" onmouseover=\"notes.notes[$n].ShowNote(); notes.notes[$n].ShowNoteText();\" onmouseout=\"notes.notes[$n].HideNote(); notes.notes[$n].HideNoteText();\">$note</button> ";
-                $n++;
-            }
-            sort($on_this_pic_array);
-            $on_this_pic_div = "<div id=\"on_this_pic\" style=\"white-space:normal; cursor:default; padding-bottom:4px;\"> {$lang_plugin_annotate['on_this_pic']}: ";
-            foreach($on_this_pic_array as $value) {
-                $on_this_pic_div .= $value;
-            }
-            $on_this_pic_div .= "</div>";
-            $html = $on_this_pic_div.$html;
-        }
-
-        // Display annotation statistics of the currently viewed album
-        if (annotate_get_level('display_stats') == 1) {
-            $superCage = Inspekt::MakeSuperCage();
-            if ($superCage->get->testInt('album')) {
-                $annotations_pic = $nr_notes;
-                $annotated_pics = mysql_num_rows(cpg_db_query("SELECT DISTINCT n.pid FROM {$CONFIG['TABLE_PREFIX']}plugin_annotate n INNER JOIN {$CONFIG['TABLE_PICTURES']} p ON p.pid = n.pid WHERE p.aid = ".$superCage->get->getInt('album')));
-                $annotations_album = mysql_num_rows(cpg_db_query("SELECT DISTINCT n.nid FROM {$CONFIG['TABLE_PREFIX']}plugin_annotate n INNER JOIN {$CONFIG['TABLE_PICTURES']} p ON p.pid = n.pid WHERE p.aid = ".$superCage->get->getInt('album')));
-                $annotation_stats = "
-                    <span title=\"{$lang_plugin_annotate['annotations_pic']}\">($annotations_pic)</span>
-                    <span title=\"{$lang_plugin_annotate['annotations_album']}\">($annotations_album)</span>
-                    <span title=\"{$lang_plugin_annotate['annotated_pics']}\">($annotated_pics)</span>
-                ";
-                $menu_buttons .= '<li>&nbsp;'.$annotation_stats.'</li>';
-            }
-        }
-
-        $permission_level = annotate_get_level('permissions');
-        $user_id = USER_ID;
-        
-        $html .= <<< EOT
+    $permission_level = annotate_get_level('permissions');
+    $user_id = USER_ID;
+    
+    $html .= <<< EOT
         
 <script type="text/javascript">
 
@@ -305,8 +316,6 @@ function ajax_delete(note){
 
     
 EOT;
-
-    }
 
     if (empty($data['menu']) || substr($data['menu'], -6) == '<hr />') {
         $data['menu'] .= '<div class="buttonlist align_right"><ul>'.$menu_buttons.'</ul></div>';
