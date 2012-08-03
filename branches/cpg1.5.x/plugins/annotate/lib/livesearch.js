@@ -17,11 +17,11 @@ $(document).ready(function() {
 
 function load_annotation_list() {
     if (loaded == false) {
-        $('#livesearch_output').hide();
+        $('#livesearch_output').attr('disabled', 'disabled');
         $('#livesearch_output_loading').show();
-        $.post('index.php?file=annotate/reqserver', {livesearch:'1',q:$('#livesearch_input').val()}, function(data) {
+        $.post('index.php?file=annotate/reqserver', { livesearch: '1', q: $('#livesearch_input').val() }, function(data) {
             $('#livesearch_output_loading').hide();
-            $('#livesearch_output').html(data).show(); 
+            $('#livesearch_output').html(data).removeAttr('disabled'); 
         });
         loaded = true;
     }
