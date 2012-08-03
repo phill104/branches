@@ -27,7 +27,7 @@ $(document).ready(function() {
         icon_prev = $('.navmenu_pic img[src*=prev]').parent().html().match(/src="(.*?)"/);
         icon_prev = icon_prev[1];
         icon_prev_inactive = icon_prev.replace('prev', 'prev_inactive');
-        btn_prev = '<td onclick="window.location = $(\'.navmenu_pic img[src*=prev]\').parent().attr(\'href\');" onmouseover="$(this).css(\'background-image\', \'url(\' + icon_prev + \')\');" onmouseout="$(this).css(\'background-image\', \'url(\' + icon_prev_inactive + \')\');" style="width: ' + width + '; min-width: 10px; cursor: pointer; background: url(' + icon_prev_inactive + ') no-repeat right center;"></td>';
+        btn_prev = '<td onclick="window.location = $(\'.navmenu_pic img[src*=prev]\').parent().attr(\'href\');" onmouseover="$(this).css(\'background-image\', \'url(\' + icon_prev + \')\');" onmouseout="$(this).css(\'background-image\', \'url(\' + icon_prev_inactive + \')\');" style="width: ' + width + '; min-width: 16px; cursor: pointer; background: url(' + icon_prev_inactive + ') no-repeat right center;"></td>';
     } else {
         btn_prev = '<td style="width: ' + width + ';"></td>';
     }
@@ -35,7 +35,7 @@ $(document).ready(function() {
         icon_next = $('.navmenu_pic img[src*=next]').parent().html().match(/src="(.*?)"/);
         icon_next = icon_next[1];
         icon_next_inactive = icon_next.replace('next', 'next_inactive');
-        btn_next = '<td onclick="window.location = $(\'.navmenu_pic img[src*=next]\').parent().attr(\'href\');" onmouseover="$(this).css(\'background-image\', \'url(\' + icon_next + \')\');" onmouseout="$(this).css(\'background-image\', \'url(\' + icon_next_inactive + \')\');" style="width: ' + width + '; min-width: 10px; cursor: pointer; background: url(' + icon_next_inactive + ') no-repeat left center;"></td>';
+        btn_next = '<td onclick="window.location = $(\'.navmenu_pic img[src*=next]\').parent().attr(\'href\');" onmouseover="$(this).css(\'background-image\', \'url(\' + icon_next + \')\');" onmouseout="$(this).css(\'background-image\', \'url(\' + icon_next_inactive + \')\');" style="width: ' + width + '; min-width: 16px; cursor: pointer; background: url(' + icon_next_inactive + ') no-repeat left center;"></td>';
     } else {
         btn_next = '<td style="width: ' + width + ';"></td>';
     }
