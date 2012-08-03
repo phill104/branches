@@ -51,8 +51,8 @@ function annotate_meta($meta) {
     $annotate_init_array = annotate_initialize();
     $lang_plugin_annotate = $annotate_init_array['language'];
     $annotate_icon_array = $annotate_init_array['icon'];
-    if (in_array('plugins/annotate/lib/httpreq.js', $JS['includes']) != TRUE) {
-        $JS['includes'][] = 'plugins/annotate/lib/httpreq.js';
+    if (in_array('plugins/annotate/lib/annotate.js', $JS['includes']) != TRUE) {
+        $JS['includes'][] = 'plugins/annotate/lib/annotate.js';
     }
     if (in_array('plugins/annotate/lib/photonotes.js', $JS['includes']) != TRUE) {
         $JS['includes'][] = 'plugins/annotate/lib/photonotes.js';
@@ -136,6 +136,9 @@ function annotate_file_data($data) {
         return $data;
     }
 
+    set_js_var('pid', $data['pid']);
+    set_js_var('annotations', $notes);
+
     // Determine if the user is allowed to have that button
     if (annotate_get_level('permissions') >= 2) {
 
@@ -186,12 +189,9 @@ EOT;
             <script type="text/javascript">
                 document.write('<li>{$select_box}{$loading_replacement}&nbsp;{$livesearch_button}</li>');
             </script>
-            <script type="text/javascript" src="plugins/annotate/lib/livesearch.js"></script>
 EOT;
         }
     }
-
-    $jsarray = arrayToJS4($notes, 'annotations');
 
     $html =& $data['html'];
 
@@ -249,73 +249,6 @@ EOT;
             $menu_buttons .= '<li>&nbsp;'.$annotation_stats.'</li>';
         }
     }
-
-    $permission_level = annotate_get_level('permissions');
-    $user_id = USER_ID;
-    
-    $html .= <<< EOT
-        
-<script type="text/javascript">
-
-var $jsarray
-
-/* create the Photo Note Container */
-var container = document.getElementById('PhotoContainer');
-
-var notes = new PhotoNoteContainer(container);
-
-for (var n = 0; n < annotations.length; n++) {
-    /* create a note */
-    var size = new PhotoNoteRect(annotations[n].posx, annotations[n].posy, annotations[n].width, annotations[n].height);
-    var note = new PhotoNote(annotations[n].note, 'note' + n, size, annotations[n].user_name, annotations[n].user_id);
-    /* implement the save/delete functions */
-    note.onsave = function (note) { return ajax_save(note); };
-    note.ondelete = function (note) { return ajax_delete(note); };
-    /* assign the note id number */
-    note.nid = annotations[n].nid;
-    if ($permission_level < 3 && annotations[n].user_id != $user_id) note.editable = false;
-    /* add it to the container */
-    notes.AddNote(note);
-}
-
-notes.HideAllNotes();
-
-addEvent(container, 'mouseover', function() {
-         notes.ShowAllNotes();
-    });
-    
- addEvent(container, 'mouseout', function() {
-         notes.HideAllNotes();
-    });
-
-function addnote(note_text){
-    if (js_vars.visitor_annotate_permission_level < 2) {
-        return false;
-    }
-    var newNote = new PhotoNote(note_text, 'note' + n, new PhotoNoteRect(10,10,50,50), '', '');
-    newNote.onsave = function (note) { return ajax_save(note); };
-    newNote.ondelete = function (note) { return ajax_delete(note); };
-    notes.AddNote(newNote);
-    newNote.Select();
-    newNote.nid = 0;
-    return false;
-}
-
-function ajax_save(note){
-    var data = 'add=' + {$data['pid']} + '&nid=' + note.nid + '&posx=' + note.rect.left + '&posy=' + note.rect.top + '&width=' + note.rect.width + '&height=' + note.rect.height + '&note=' + encodeURI(note.text);
-    annotate_request(data, note);
-    return true;
-}
-
-function ajax_delete(note){
-    var data = 'remove=' + note.nid;
-    annotate_request(data, note);
-    return true;
-}
-</script>
-
-    
-EOT;
 
     if (empty($data['menu']) || substr($data['menu'], -6) == '<hr />') {
         $data['menu'] .= '<div class="buttonlist align_right"><ul>'.$menu_buttons.'</ul></div>';
