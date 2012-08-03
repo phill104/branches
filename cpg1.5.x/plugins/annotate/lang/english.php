@@ -90,4 +90,5 @@ $lang_plugin_annotate['annotations_album'] = 'Annotations in this album';
 $lang_plugin_annotate['annotated_pics'] = 'Annotated pictures in this album';
 $lang_plugin_annotate['filter_annotations'] = 'Filter annotations';
 $lang_plugin_annotate['search_results'] = 'Search results';
+$lang_plugin_annotate['disable_mobile'] = 'Disable for mobile devices (needs the <a href="http://forum.coppermine-gallery.net/index.php/topic,74827.0.html" class="external" rel="external">Theme switch plugin</a>)';
 ?>

@@ -29,8 +29,13 @@ $thisplugin->add_action('plugin_cleanup','annotate_cleanup');
 $thisplugin->add_filter('meta_album_get_pic_pos','annotate_get_pic_pos');
 $thisplugin->add_filter('meta_album', 'annotate_meta_album');
 
-function annotate_meta($meta){
+function annotate_meta($meta) {
     global $JS, $CONFIG, $lang_common, $lang_plugin_annotate;
+
+    if ($CONFIG['plugin_annotate_disable_mobile'] && defined('MOBILE_VIEW')) {
+        return;
+    }
+
     require_once './plugins/annotate/init.inc.php';
     $annotate_init_array = annotate_initialize();
     $lang_plugin_annotate = $annotate_init_array['language'];
@@ -64,8 +69,13 @@ function annotate_meta($meta){
     return $meta;
 }
 
-function annotate_file_data($data){
+function annotate_file_data($data) {
     global $CONFIG, $LINEBREAK, $lang_plugin_annotate, $annotate_icon_array, $REFERER;
+
+    if ($CONFIG['plugin_annotate_disable_mobile'] && defined('MOBILE_VIEW')) {
+        return $data;
+    }
+
     // Determine if the visitor is allowed to have that button
     if (annotate_get_level('permissions') >= 2) {
 
@@ -932,6 +942,7 @@ function annotate_configuration_submit() {
     global $CONFIG;
     $config_changes_counter = 0;
 
+    $config_changes_counter += annotate_configuration_save_value('plugin_annotate_disable_mobile', 1);
     $config_changes_counter += annotate_configuration_save_value('plugin_annotate_type', 3);
 
     $result = cpg_db_query("SELECT group_id FROM {$CONFIG['TABLE_USERGROUPS']} WHERE has_admin_access != '1'");
@@ -983,6 +994,8 @@ function annotate_configure() {
         $additional_submit_information .= '<div class="cpg_message_info">' . $lang_plugin_annotate['submit_to_install'] . '</div>';
     }
 
+    $option_output['plugin_annotate_disable_mobile'] = $CONFIG['plugin_annotate_disable_mobile'] ? 'checked="checked"' : '';
+
     if ($CONFIG['plugin_annotate_type'] == '0') {
         $option_output['plugin_annotate_type_0'] = 'checked="checked"';
         $option_output['plugin_annotate_type_1'] = '';
@@ -1015,6 +1028,14 @@ EOT;
     starttable('100%', $annotate_icon_array['configure'] . $lang_plugin_annotate['configure_plugin'], 8);
     $display_stats_title = sprintf($lang_plugin_annotate['display_stats_title'], $lang_plugin_annotate['annotations_pic'], $lang_plugin_annotate['annotations_album'], $lang_plugin_annotate['annotated_pics']);
     echo <<< EOT
+                    <tr>
+                        <td valign="top" class="tableb">
+                            {$lang_plugin_annotate['disable_mobile']}
+                        </td>
+                        <td valign="top" class="tableb" colspan="7">
+                            <input type="checkbox" name="plugin_annotate_disable_mobile" id="plugin_annotate_disable_mobile" class="checkbox" value="1" {$option_output['plugin_annotate_disable_mobile']} />
+                        </td>
+                    </tr>
                     <tr>
                         <td valign="top" class="tableb">
                             {$lang_plugin_annotate['annotation_type']}
