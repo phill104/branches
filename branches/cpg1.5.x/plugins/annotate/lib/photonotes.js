@@ -578,8 +578,8 @@ PhotoNote.prototype.PositionNote = function()
     this.gui.ElementRect.firstChild.firstChild.firstChild.style.width  = parseInt(this.gui.ElementRect.style.width) - 6 + 'px';
     this.gui.ElementRect.firstChild.firstChild.firstChild.style.height  = parseInt(this.gui.ElementRect.style.height) - 6 + 'px';
 
-    this.gui.ElementNote.style.left  = this.rect.left + this.YOffset + this.rect.width + 'px';
-    this.gui.ElementNote.style.top  = this.rect.top - 4 + 'px';
+    this.gui.ElementNote.style.left  = parseInt(this.rect.left) + parseInt(this.YOffset) + parseInt(this.rect.width) + 'px';
+    this.gui.ElementNote.style.top  = parseInt(this.rect.top) - 4 + 'px';
 
 }
 
