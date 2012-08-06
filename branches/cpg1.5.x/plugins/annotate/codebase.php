@@ -210,6 +210,8 @@ EOT;
     }
     $container_width += 4;
 
+    set_js_var('container_width', $container_width);
+
     $html = '<div class="Photo fn-container" style="width:'.$container_width.'px;" id="PhotoContainer">' . $html . '</div>';
 
     if (function_exists(panorama_viewer_image)) {

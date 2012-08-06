@@ -578,7 +578,14 @@ PhotoNote.prototype.PositionNote = function()
     this.gui.ElementRect.firstChild.firstChild.firstChild.style.width  = parseInt(this.gui.ElementRect.style.width) - 6 + 'px';
     this.gui.ElementRect.firstChild.firstChild.firstChild.style.height  = parseInt(this.gui.ElementRect.style.height) - 6 + 'px';
 
-    this.gui.ElementNote.style.left  = parseInt(this.rect.left) + parseInt(this.YOffset) + parseInt(this.rect.width) + 'px';
+    // align note to the left/right of the box, depending where's more space
+    if (this.rect.left > js_vars.container_width - parseInt(this.rect.left) - parseInt(this.rect.width)) {
+        this.gui.ElementNote.style.left  = '';
+        this.gui.ElementNote.style.right  = js_vars.container_width - parseInt(this.rect.left) + parseInt(this.YOffset) + 'px';
+    } else {
+        this.gui.ElementNote.style.right  = '';
+        this.gui.ElementNote.style.left  = parseInt(this.rect.left) + parseInt(this.YOffset) + parseInt(this.rect.width) + 'px';
+    }
     this.gui.ElementNote.style.top  = parseInt(this.rect.top) - 4 + 'px';
 
 }
