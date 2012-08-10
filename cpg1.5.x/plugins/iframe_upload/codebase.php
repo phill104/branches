@@ -50,7 +50,7 @@ function iframe_upload_html_document($pic_html) {
     global $CONFIG, $CURRENT_PIC_DATA;
 
     if ($CURRENT_PIC_DATA['extension'] == 'iframe') {
-        $contents = file_get_contents($CONFIG['fullpath'].$CURRENT_PIC_DATA['filepath'].$CURRENT_PIC_DATA['filename']);
+        $contents = strip_tags(file_get_contents($CONFIG['fullpath'].$CURRENT_PIC_DATA['filepath'].$CURRENT_PIC_DATA['filename']));
         $width = $CURRENT_PIC_DATA['pwidth'] ? $CURRENT_PIC_DATA['pwidth'] : '95%';
         $height = $CURRENT_PIC_DATA['pheight'] ? $CURRENT_PIC_DATA['pheight'] : $CONFIG['picture_width'];
         $pic_html = "<iframe src=\"{$contents}\" width=\"{$width}\" height=\"{$height}\"></iframe><br />Source: <a href=\"{$contents}\">{$contents}</a>";
