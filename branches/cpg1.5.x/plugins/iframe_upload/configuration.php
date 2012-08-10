@@ -30,7 +30,7 @@ EOT;
 
 $install_info = <<<EOT
     <a href="http://forum.coppermine-gallery.net/index.php/topic,TODO.0.html" rel="external" class="admin_menu">{$announcement_icon}Announcement thread</a>
-    <strong>Please consider your country's law, if you are liable when embedding content.</strong>
+    <strong>Please consider your country's law, if you are liable when embedding content. Also consider, that everyone who's allowed to upload files to your gallery could embed <u>malicious content</u> to the iframe.</strong>
 EOT;
 
 ?>
