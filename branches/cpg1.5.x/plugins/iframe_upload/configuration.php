@@ -21,10 +21,8 @@ $author = '<a href="http://forum.coppermine-gallery.net/index.php?action=profile
 $version = '1.0';
 $plugin_cpg_version = array('min' => '1.5');
 $announcement_icon = cpg_fetch_icon('announcement', 1);
-$config_icon = cpg_fetch_icon('config', 1);
 
 $extra_info = <<<EOT
-    <a href="index.php?file=remote_videos/admin" class="admin_menu">{$config_icon}$name {$lang_gallery_admin_menu['admin_lnk']}</a>
     <a href="http://forum.coppermine-gallery.net/index.php/topic,TODO.0.html" rel="external" class="admin_menu">{$announcement_icon}Announcement thread</a>
 EOT;
 
