@@ -14,10 +14,10 @@
   $Date$
   **************************************************/
 
-var sthhasfocus;
 $(document).ready(function() {
-    $('.textinput').focus(function () {sthhasfocus = true;}).blur(function () {sthhasfocus = false;});
-    $('select').focus(function () {sthhasfocus = true;}).blur(function () {sthhasfocus = false;});
+    jQuery.expr[':'].focus = function( elem ) {
+        return elem === document.activeElement && ( elem.type || elem.href );
+    };
     $(document).keydown(function(e) {
         if (!e) {
             e = window.event;
@@ -27,7 +27,7 @@ $(document).ready(function() {
         } else if (e.keyCode) {
             kcode = e.keyCode;
         }
-        if (sthhasfocus != true && $("#jquery-lightbox").length != 1) {
+        if (!$(':input').is(':focus') && $("#jquery-lightbox").length != 1) {
             if(kcode == 37) {
                 window.location = $('.navmenu_pic img[src*=prev]').parent().attr('href');
             }
