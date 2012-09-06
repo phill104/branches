@@ -32,23 +32,25 @@ $(document).ready(function() {
 
     /* create the Photo Note Container */
     container = document.getElementById('PhotoContainer');
-    notes = new PhotoNoteContainer(container);
-    for (n = 0; n < js_vars.annotations.length; n++) {
-        /* create a note */
-        var size = new PhotoNoteRect(js_vars.annotations[n].posx, js_vars.annotations[n].posy, js_vars.annotations[n].width, js_vars.annotations[n].height);
-        var note = new PhotoNote(js_vars.annotations[n].note, 'note' + n, size, js_vars.annotations[n].user_name, js_vars.annotations[n].user_id);
-        /* implement the save/delete functions */
-        note.onsave = function (note) { return ajax_save(note); };
-        note.ondelete = function (note) { return ajax_delete(note); };
-        /* assign the note id number */
-        note.nid = js_vars.annotations[n].nid;
-        if (js_vars.visitor_annotate_permission_level < 3 && js_vars.annotations[n].user_id != js_vars.visitor_annotate_user_id) note.editable = false;
-        /* add it to the container */
-        notes.AddNote(note);
+    if (container) {
+        notes = new PhotoNoteContainer(container);
+        for (n = 0; n < js_vars.annotations.length; n++) {
+            /* create a note */
+            var size = new PhotoNoteRect(js_vars.annotations[n].posx, js_vars.annotations[n].posy, js_vars.annotations[n].width, js_vars.annotations[n].height);
+            var note = new PhotoNote(js_vars.annotations[n].note, 'note' + n, size, js_vars.annotations[n].user_name, js_vars.annotations[n].user_id);
+            /* implement the save/delete functions */
+            note.onsave = function (note) { return ajax_save(note); };
+            note.ondelete = function (note) { return ajax_delete(note); };
+            /* assign the note id number */
+            note.nid = js_vars.annotations[n].nid;
+            if (js_vars.visitor_annotate_permission_level < 3 && js_vars.annotations[n].user_id != js_vars.visitor_annotate_user_id) note.editable = false;
+            /* add it to the container */
+            notes.AddNote(note);
+        }
+        notes.HideAllNotes();
+        addEvent(container, 'mouseover', function() { notes.ShowAllNotes(); });
+        addEvent(container, 'mouseout', function() { notes.HideAllNotes(); });
     }
-    notes.HideAllNotes();
-    addEvent(container, 'mouseover', function() { notes.ShowAllNotes(); });
-    addEvent(container, 'mouseout', function() { notes.HideAllNotes(); });
 });
 
 function addnote(note_text){
