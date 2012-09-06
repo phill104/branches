@@ -37,7 +37,7 @@ $(document).ready(function() {
         for (n = 0; n < js_vars.annotations.length; n++) {
             /* create a note */
             var size = new PhotoNoteRect(js_vars.annotations[n].posx, js_vars.annotations[n].posy, js_vars.annotations[n].width, js_vars.annotations[n].height);
-            var note = new PhotoNote(js_vars.annotations[n].note, 'note' + n, size, js_vars.annotations[n].user_name, js_vars.annotations[n].user_id);
+            var note = new PhotoNote(stripslashes(js_vars.annotations[n].note), 'note' + n, size, js_vars.annotations[n].user_name, js_vars.annotations[n].user_id);
             /* implement the save/delete functions */
             note.onsave = function (note) { return ajax_save(note); };
             note.ondelete = function (note) { return ajax_delete(note); };
@@ -46,12 +46,23 @@ $(document).ready(function() {
             if (js_vars.visitor_annotate_permission_level < 3 && js_vars.annotations[n].user_id != js_vars.visitor_annotate_user_id) note.editable = false;
             /* add it to the container */
             notes.AddNote(note);
+            if (js_vars.display_links) {
+                $('#on_this_pic').append("<button onclick=\"window.location.href='thumbnails.php?album=shownotes&amp;note=" + encodeURIComponent(js_vars.annotations[n].note) + "';\" class=\"admin_menu\" title=\"" + js_vars.lang_all_pics_of.replace(/%s/, stripslashes(js_vars.annotations[n].note)) + "\" onmouseover=\"notes.notes[" + n + "].ShowNote(); notes.notes[" + n + "].ShowNoteText();\" onmouseout=\"notes.notes[" + n + "].HideNote(); notes.notes[" + n + "].HideNoteText();\">" + stripslashes(js_vars.annotations[n].note) + "</button> ");
+            }
         }
         notes.HideAllNotes();
         addEvent(container, 'mouseover', function() { notes.ShowAllNotes(); });
         addEvent(container, 'mouseout', function() { notes.HideAllNotes(); });
     }
 });
+
+function stripslashes(str) {
+    str = str.replace(/\\'/g,'\'');
+    str = str.replace(/\\"/g,'"');
+    str = str.replace(/\\0/g,'\0');
+    str = str.replace(/\\\\/g,'\\');
+    return str;
+}
 
 function addnote(note_text){
     if (js_vars.visitor_annotate_permission_level < 2) {

@@ -105,7 +105,7 @@ function annotate_file_data($data) {
 
     global $cpg_udb;
     $notes = array();
-    $sql = "SELECT n.*, u.".$cpg_udb->field['username']." AS user_name FROM {$CONFIG['TABLE_PREFIX']}plugin_annotate n INNER JOIN ".$cpg_udb->usertable." u ON n.user_id = u.".$cpg_udb->field['user_id']." WHERE n.pid = {$data['pid']}";
+    $sql = "SELECT n.*, u.".$cpg_udb->field['username']." AS user_name FROM {$CONFIG['TABLE_PREFIX']}plugin_annotate n INNER JOIN ".$cpg_udb->usertable." u ON n.user_id = u.".$cpg_udb->field['user_id']." WHERE n.pid = {$data['pid']} ORDER BY note ASC";
     $result = cpg_db_query($sql);
     while ($row = mysql_fetch_assoc($result)) {
         //$row['note'] = addslashes($row['note']);
@@ -220,20 +220,9 @@ EOT;
 
     // list annotations from the currently viewed picture and generate link to meta album
     if (annotate_get_level('display_links') == 1 && $nr_notes > 0) {
-        $on_this_pic_array = array();
-        $n = 0;
-        foreach($notes as $value) {
-            $note = stripslashes($value['note']);
-            $on_this_pic_array[] = "<button onclick=\"window.location.href='thumbnails.php?album=shownotes&amp;note=".addslashes(str_replace(Array("#", "&"), Array("%23", "%26"), $note))."';\" class=\"admin_menu\" title=\"".sprintf($lang_plugin_annotate['all_pics_of'], $note)."\" onmouseover=\"notes.notes[$n].ShowNote(); notes.notes[$n].ShowNoteText();\" onmouseout=\"notes.notes[$n].HideNote(); notes.notes[$n].HideNoteText();\">$note</button> ";
-            $n++;
-        }
-        sort($on_this_pic_array);
-        $on_this_pic_div = "<div id=\"on_this_pic\" style=\"white-space:normal; cursor:default; padding-bottom:4px;\"> {$lang_plugin_annotate['on_this_pic']}: ";
-        foreach($on_this_pic_array as $value) {
-            $on_this_pic_div .= $value;
-        }
-        $on_this_pic_div .= "</div>";
-        $html = $on_this_pic_div.$html;
+        set_js_var('display_links', true);
+        set_js_var('lang_all_pics_of', $lang_plugin_annotate['all_pics_of']);
+        $html = "<div id=\"on_this_pic\" style=\"white-space:normal; cursor:default; padding-bottom:4px;\"> {$lang_plugin_annotate['on_this_pic']}: </div>".$html;
     }
 
     // Display annotation statistics of the currently viewed album
