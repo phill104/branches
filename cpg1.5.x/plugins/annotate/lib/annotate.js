@@ -33,6 +33,12 @@ $(document).ready(function() {
     /* create the Photo Note Container */
     container = document.getElementById('PhotoContainer');
     if (container) {
+        if (js_vars.lang_on_this_pic) {
+            $('#on_this_pic').append(js_vars.lang_on_this_pic + ': ');
+            $('#on_this_pic').css('white-space', 'normal');
+            $('#on_this_pic').css('cursor', 'default');
+            $('#on_this_pic').css('padding-bottom', '4px');
+        }
         notes = new PhotoNoteContainer(container);
         for (n = 0; n < js_vars.annotations.length; n++) {
             /* create a note */
@@ -46,7 +52,7 @@ $(document).ready(function() {
             if (js_vars.visitor_annotate_permission_level < 3 && js_vars.annotations[n].user_id != js_vars.visitor_annotate_user_id) note.editable = false;
             /* add it to the container */
             notes.AddNote(note);
-            if (js_vars.display_links) {
+            if (js_vars.lang_on_this_pic) {
                 $('#on_this_pic').append("<button onclick=\"window.location.href='thumbnails.php?album=shownotes&amp;note=" + encodeURIComponent(js_vars.annotations[n].note) + "';\" class=\"admin_menu\" title=\"" + js_vars.lang_all_pics_of.replace(/%s/, stripslashes(js_vars.annotations[n].note)) + "\" onmouseover=\"notes.notes[" + n + "].ShowNote(); notes.notes[" + n + "].ShowNoteText();\" onmouseout=\"notes.notes[" + n + "].HideNote(); notes.notes[" + n + "].HideNoteText();\">" + stripslashes(js_vars.annotations[n].note) + "</button> ");
             }
         }
