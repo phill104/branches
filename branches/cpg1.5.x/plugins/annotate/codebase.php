@@ -220,9 +220,9 @@ EOT;
 
     // list annotations from the currently viewed picture and generate link to meta album
     if (annotate_get_level('display_links') == 1 && $nr_notes > 0) {
-        set_js_var('display_links', true);
+        set_js_var('lang_on_this_pic', $lang_plugin_annotate['on_this_pic']);
         set_js_var('lang_all_pics_of', $lang_plugin_annotate['all_pics_of']);
-        $html = "<div id=\"on_this_pic\" style=\"white-space:normal; cursor:default; padding-bottom:4px;\"> {$lang_plugin_annotate['on_this_pic']}: </div>".$html;
+        $html = "<div id=\"on_this_pic\"></div>".$html;
     }
 
     // Display annotation statistics of the currently viewed album
