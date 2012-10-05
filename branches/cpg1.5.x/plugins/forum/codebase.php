@@ -29,10 +29,10 @@ $thisplugin->add_action('page_start', 'forum_start');
 function forum_start() {
     global $CONFIG;
     include('forum'.DS.'languages'.DS.'english'.DS.'codebase.php');
+    codebase_admin_button('forum.php?c=admin', $lang['fr_mgr'], '', $lang['fr_mgr']);
     if (USER_ID || $CONFIG['fr_guest_browse']) {
         codebase_sys_user_button('forum.php', $lang['fr'], '', $lang['fr']);
     }
-    codebase_sys_user_button('forum.php', $lang['fr'], '', $lang['fr']);
     // Atom feed
     $superCage = Inspekt::makeSuperCage();
     if ($superCage->get->getAlpha('feed') == 'atom') {
