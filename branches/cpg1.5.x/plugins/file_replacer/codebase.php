@@ -149,6 +149,8 @@ function file_replacer_page_start() {
                     cpg_db_query("UPDATE {$CONFIG['TABLE_PICTURES']} SET ctime = '".time()."' WHERE pid = '$pid' LIMIT 1");
                 }
 
+                cpg_db_query("DELETE FROM {$CONFIG['TABLE_EXIF']} WHERE pid = '$pid' LIMIT 1");
+
                 if ($CONFIG['read_exif_data']) {
                     include("include/exif_php.inc.php");
                     exif_parse_file($image, $pid);
