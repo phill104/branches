@@ -10,18 +10,20 @@ define('INDEX_PHP', true);
 
 include('include/archive.php');
 
+echo '<p>Creating file list...</p>';
 $filelist = array();
 $aid = $superCage->get->getInt('aid');
-$query = "SELECT filepath, filename FROM {$CONFIG['TABLE_PICTURES']} AS pictures , (SELECT keyword FROM {$CONFIG['TABLE_ALBUMS']} WHERE aid = '" . $aid . "' ) AS keyword WHERE pictures.aid = '" . $aid . "' OR ( keyword.keyword <> '' AND CONCAT(';', keywords, ';') LIKE CONCAT('%;', keyword.keyword, ';%'))";
+get_meta_album_set(0);
+$query = "SELECT filepath, filename FROM {$CONFIG['TABLE_PICTURES']} AS pictures , (SELECT keyword FROM {$CONFIG['TABLE_ALBUMS']} WHERE aid = '" . $aid . "' ) AS keyword, {$CONFIG['TABLE_ALBUMS']} AS r $RESTRICTEDWHERE AND r.aid = pictures.aid AND (pictures.aid = '" . $aid . "' OR ( keyword.keyword <> '' AND CONCAT(';', keywords, ';') LIKE CONCAT('%;', keyword.keyword, ';%')))";
 $result = cpg_db_query($query);
 $rowset = cpg_db_fetch_rowset($result);
 
-foreach ($rowset as $key => $row) {
-    $fileentry = $rowset[$key]['filepath'].$rowset[$key]['filename'];
-    echo $fileentry;
+foreach ($rowset as $row) {
+    $fileentry = $row['filepath'].$row['filename'];
     $filelist[] = $fileentry;
 }
 
+echo '<p>Creating zip file...</p>';
 $filename = 'edit/pictures-' . uniqid() . '.zip';
 $zip = new zip_file($filename);
 
@@ -30,15 +32,12 @@ $options = array(
     'recurse'    => 0,
     'storepaths' => 0,
 );
-    
+
 $zip->set_options($options);
 $zip->add_files($filelist);
 $zip->create_archive();
 
-
-if ($CONFIG['enable_zipdownload'] == 2) {
-    @unlink($CONFIG['fullpath'].'edit/'.$readme_filename);
-}
+echo '<p>Downloading...</p>';
 
 ob_end_clean();
 
