@@ -7,8 +7,18 @@ define('IN_COPPERMINE', true);
 define('THUMBNAILS_PHP', true);
 define('INDEX_PHP', true);
 
-
 include('include/archive.php');
+
+echo '<p>Deleting old zip files...</p>';
+$dir = $CONFIG['fullpath'].'edit/';
+if ($handle = opendir($dir)) {
+    while (false !== ($entry = readdir($handle))) {
+        if (preg_match('/^pictures-[0-9a-f]+.zip$/', $entry) && filemtime($dir.$entry) < time() - 2 * CPG_DAY) {
+            unlink($dir.$entry);
+        }
+    }
+    closedir($handle);
+}
 
 echo '<p>Creating file list...</p>';
 $filelist = array();
@@ -24,7 +34,7 @@ foreach ($rowset as $row) {
 }
 
 echo '<p>Creating zip file...</p>';
-$filename = 'edit/pictures-' . uniqid() . '.zip';
+$filename = 'edit/pictures-' . uniqid(null) . '.zip';
 $zip = new zip_file($filename);
 
 $options = array(
