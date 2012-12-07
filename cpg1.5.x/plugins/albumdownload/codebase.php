@@ -13,7 +13,7 @@ function downloadZip_header($html) {
     $superCage = Inspekt::makeSuperCage();
     if ($superCage->get->getInt('album') > 0) {
         $imgcode = '<img src="plugins/albumdownload/ico/ziparrow.png" alt="'.$lang_plugin_albumdownload['albumDownload'].'" title="'.$lang_plugin_albumdownload['albumDownload'].'" style="vertical-align:text-top;" />';
-        $html['{ALBUM_NAME}'] = $html['{ALBUM_NAME}'] . ' <a href="index.php?file=albumdownload/albumZip&aid='.$superCage->get->getInt('album').'">'.$imgcode.'</a>';
+        $html['{ALBUM_NAME}'] = $html['{ALBUM_NAME}'] . ' <a href="index.php?file=albumdownload/zip&aid='.$superCage->get->getInt('album').'">'.$imgcode.'</a>';
     }
     return $html;
 }
