@@ -26,7 +26,7 @@ if ($CONFIG['thumbnail_to_fullsize'] == 1) {
 
 
 function fmp_get_html($CURRENT_PIC_DATA, $check_only = false) {
-    if (in_array($CURRENT_PIC_DATA['extension'], array('flv', 'mp4', 'mp3', 'aac'))) {
+    if (in_array($CURRENT_PIC_DATA['extension'], array('mp4', 'flv', 'webm', 'aac', 'mp3', 'ogg'))) {
         if ($check_only == true) {
             return true;
         }
@@ -38,9 +38,6 @@ function fmp_get_html($CURRENT_PIC_DATA, $check_only = false) {
         if ($CONFIG['lang'] != 'english' && file_exists("./plugins/flash_media_player/lang/{$CONFIG['lang']}.php")) {
             require_once "./plugins/flash_media_player/lang/{$CONFIG['lang']}.php";
         }
-
-        // Add space for the player control bar
-        $CURRENT_PIC_DATA['pheight'] += 24;
 
         $media_file = $CONFIG['ecards_more_pic_target'].get_pic_url($CURRENT_PIC_DATA, 'fullsize');
 
@@ -71,26 +68,11 @@ function fmp_get_html($CURRENT_PIC_DATA, $check_only = false) {
             }
         }
 
-        // Read CSS files to set player colors
-        $theme = $USER['theme'] ? $USER['theme'] : $CONFIG['theme'];
-        $stylesheet = file_get_contents("themes/{$theme}/style.css");
-        preg_match_all('/\.tableh2.*{(.*)}/Us', $stylesheet, $matches);
-        $style = array();
-        foreach($matches[1] as $value) {
-            $split = explode(";", $value);
-            foreach($split as $value2) {
-                $split2 = explode(":", $value2);
-                if (isset($split2[0]) && isset($split2[1])) {
-                    $style[trim($split2[0])] = trim($split2[1]);
-                }
-            }
-        }
-
         // Use skin if available
         if ($handle = opendir('plugins/flash_media_player/skins/')) {
             $skins = array();
             while (false !== ($file = readdir($handle))) {
-                if (stripos($file, '.swf') || stripos($file, '.zip')) {
+                if (stripos($file, '.xml')) {
                     $skins[] = $file;
                 }
             }
@@ -107,11 +89,6 @@ function fmp_get_html($CURRENT_PIC_DATA, $check_only = false) {
             <div id="flash_media_player">{$lang_plugin_flash_media_player['loading_player']}</div>
             <script type="text/javascript">
                 jwplayer("flash_media_player").setup({
-                    flashplayer: "plugins/flash_media_player/player.swf",
-                    "controlbar.position": "bottom",
-                    backcolor: "{$style['background']}",
-                    frontcolor: "{$style['color']}",
-                    lightcolor: "{$style['color']}",
                     autostart: {$autostart},
                     height: {$CURRENT_PIC_DATA['pheight']},
                     width: {$CURRENT_PIC_DATA['pwidth']},
@@ -207,7 +184,7 @@ function fmp_fullsize_thumbnail_params($data) {
             }
         }
 
-        $new_height = ceil($CURRENT_PIC_DATA['pheight'] + $CONFIG['fullsize_padding_y'] + 24);
+        $new_height = ceil($CURRENT_PIC_DATA['pheight'] + $CONFIG['fullsize_padding_y']);
         $new_width = ceil($CURRENT_PIC_DATA['pwidth'] + $CONFIG['fullsize_padding_x']);
 
         $data['{LINK_TGT}'] = preg_replace('/width=([0-9]+),height=([0-9]+)/i', 'width='.$new_width.',height='.$new_height, $data['{LINK_TGT}']);
@@ -253,10 +230,12 @@ function fmp_reset_filetype($extension, $mime) {
 
 
 function fmp_install() {
-    fmp_update_filetype('flv', 'movie');
     fmp_update_filetype('mp4', 'movie');
-    fmp_update_filetype('mp3', 'audio');
+    fmp_update_filetype('flv', 'movie');
+    fmp_update_filetype('webm', 'movie');
     fmp_update_filetype('aac', 'audio');
+    fmp_update_filetype('mp3', 'audio');
+    fmp_update_filetype('ogg', 'audio');
     return true;
 }
 
@@ -274,10 +253,12 @@ function fmp_uninstall() {
     }
 
     if ($superCage->post->getInt('drop') == 1) {
-        fmp_reset_filetype('flv', 'video/x-flv');
         fmp_reset_filetype('mp4', 'video/mp4');
-        fmp_reset_filetype('mp3', 'audio/mpeg3');
-        fmp_reset_filetype('aac', 'audio/aac');
+        fmp_reset_filetype('flv', 'video/flv');
+        fmp_reset_filetype('webm', 'video/webm');
+        fmp_reset_filetype('aac', 'audio/mp4');
+        fmp_reset_filetype('mp3', 'audio/mpeg');
+        fmp_reset_filetype('ogg', 'audio/ogg');
         return true;
     }
 }
