@@ -2,7 +2,7 @@
 /*********************************************
   Coppermine 1.5.x Plugin - External tracker
   ********************************************
-  Copyright (c) 2009 - 2010 papukaija
+  Copyright (c) 2009 - 2012 papukaija
   
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License version 3
@@ -12,16 +12,24 @@
   $HeadURL$
   $Revision$
 **********************************************/
-$ext_js .= <<< EOT
+$ext_js_async .= <<< EOT
 <script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://{$row['tracker']}" : "http://{$row['tracker']}");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", {$row['tracker_extra']});
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
+var _paq = _paq || [];
+(function(){
+    var u=(("https:" == document.location.protocol) ? "https://{$row['tracker']}" : "http://{$row['tracker']}");
+    _paq.push(['setSiteId', {$row['tracker_extra']}]);
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    var d=document,
+        g=d.createElement('script'),
+        s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript';
+        g.defer=true;
+        g.async=true;
+        g.src=u+'piwik.js';
+        s.parentNode.insertBefore(g,s);
+})();
 </script>
 EOT;
 ?>
