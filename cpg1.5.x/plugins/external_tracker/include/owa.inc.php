@@ -2,7 +2,7 @@
 /*********************************************
   Coppermine 1.5.x Plugin - External tracker
   ********************************************
-  Copyright (c) 2009 - 2010 papukaija
+  Copyright (c) 2009 - 2012 papukaija
   
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License version 3
@@ -31,7 +31,7 @@ $event->setSiteId("$row['tracker_extra']");
 //$event->setPageTitle('some page title');
 
 // Set the type of page
-//$event->setPageType('Gallery view');   
+//$event->setPageType('Coppermine - IMG/video');   
 
 // Track the page request request
 $owa->trackEvent($event);

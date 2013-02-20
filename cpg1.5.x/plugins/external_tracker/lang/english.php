@@ -2,7 +2,7 @@
 /*********************************************
   Coppermine 1.5.x Plugin - External tracker
   ********************************************
-  Copyright (c) 2009 - 2010 papukaija
+  Copyright (c) 2009 - 2012 papukaija
   
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License version 3
@@ -25,7 +25,7 @@ $lang_plugin_external_tracker = array(
 'extra_settings'    => 'Extra setting',
 'help'              => 'Help',
 'help_for_service'  => 'Help for %s',
-'description'       => 'This plugin adds an external tracking code to every page if you aren\'t logged in as admin. An additional cookie based exclusion is also available after the installation of this plugin.',
+'description'       => 'This plugin adds an external tracking code to every page if you aren\'t logged in as admin. An additional cookie based exclusion is also available after the installation of this plugin. Users may also opt-out from tracking if they enable <a href="http://donottrack.us/" rel="external">Do Not Track</a> from their browser\'s settings.',
 'credits'           => 'Full credits',
 'support_track'     => 'Supported trackers',
 'and'               => 'and',

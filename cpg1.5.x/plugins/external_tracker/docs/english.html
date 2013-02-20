@@ -125,13 +125,13 @@ $(document).ready(function() {
 </div>
 
 <a name="about"></a><h2>About this plugin<a href="#about" title="Link to this section"><img src="../../../docs/en/images/anchor.gif" border="0" width="10" height="10" alt="" /></a></h2>
-<p>This plugin adds a tracking code to every page if the user isn't logged in as admin. An additional cookie based exclusion is also available after the installation of this plugin.</p>
+<p>This plugin adds a tracking code to every page if the user isn't logged in as admin. An additional cookie based exclusion is also available after the installation of this plugin. Users may also opt-out from tracking if they enable <a href="http://donottrack.us/" rel="external">Do Not Track</a> from their browser's settings.</p>
 <a name="about_end">
 
 <a name="features"></a><h2>Features<a href="#features" title="Link to this section"><img src="../../../docs/en/images/anchor.gif" border="0" width="10" height="10" alt="" /></a></h2>
 <ul>
-    <li>multilingual (currently: en,fr,fi and partly de,nl,ch,es)</li>
-    <li>puts tracker code in all pages except if an admin has logged in or if the user has installed an optional cookie</li>
+    <li>multilingual (currently: en,fi,fr,pl and partly de,nl,ch,es)</li>
+    <li>puts tracker code in all pages except if an admin has logged in or if the user has installed an optional cookie or if the user has enabled <a href="http://donottrack.us/" rel="external">Do Not Track</a></li>
     <li>doesn't overwrite any core files (eg. anycontent.php or theme.php)</li>
     <li>theme independent</li>
 </ul>
@@ -144,12 +144,13 @@ $(document).ready(function() {
     <li>Open Web Analytics (OWA)</li>
     <li>BBClone</li>
     <li>CrawlTrack</li>
+    <li>Yahoo! Web Analytics</li>
 </ul>
 <a name="trackers_end">
 
 <a name="install"></a><h2>Install<a href="#install" title="Link to this section"><img src="../../../docs/en/images/anchor.gif" border="0" width="10" height="10" alt="" /></a></h2>
 <p>Install through plugin manager.</p>
-<p>If you are upgrading from the <a href="http://forum.coppermine-gallery.net/index.php/topic,61232.0.html" rel="external" class="external">Google Analytics plugin</a> or from External tracker v. 2.0_beta1, you must completely uninstall the External tracker or the <a href="http://forum.coppermine-gallery.net/index.php/topic,61232.0.html" rel="external" class="external">Google Analytics plugin</a> before installing External tracker v.2.0 due to database changes.</p>
+<p>If you are upgrading from the <a href="http://forum.coppermine-gallery.net/index.php/topic,61232.0.html" rel="external" class="external">Google Analytics plugin</a>, you must completely uninstall that plugin before installing this plugin.</p>
 <p>Configure after installing.</p>
 <a name="install_end">
 
@@ -178,17 +179,18 @@ $(document).ready(function() {
     <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=58040" rel="external" class="external">tjiepie</a> (for Dutch)</li>
     <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=36610" rel="external" class="external"> a-m</a> (for Chinese)</li>
     <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=73633" rel="external" class="external">jmatute</a> (for Spanish)</li>
+    <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=68203" rel="external" class="external">FBleu</a> (for French)</li>
+    <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=111905" rel="external" class="external">fabkow</a> (for Polish)</li>
 </ul>
 <a name="credits_end">
 
 <a name="copyrights"></a><h2>Copyrights<a href="#copyrights" title="Link to this section"><img src="../../../docs/en/images/anchor.gif" border="0" width="10" height="10" alt="" /></a></h2>
-<p>The trackers' codes are taken from the tracker's documentation. All trademarks are property of their owners.</p>
+<p>The trackers' codes are taken from their documentation. All trademarks are property of their owners.</p>
 <a name="copyrights_end">
 
 <a name="todo"></a><h2>To do<a href="#todo" title="Link to this section"><img src="../../../docs/en/images/anchor.gif" border="0" width="10" height="10" alt="" /></a></h2>
 <ul>
     <li>Database optimisations in schema.sql ?</li>
-    <li>Test if OWA, BBClone, and CrawlTrack trackers actually work</li>
     <li>OWA and BBClone need to get the page's title in /include/tracker_short_name.inc.php</li>
     <li>The tracked page's type can be specifyed for OWA, maybe try to give it the media type of the viewed file</li>
     <li>Only show the relevant part of the doc in the greybox</li>

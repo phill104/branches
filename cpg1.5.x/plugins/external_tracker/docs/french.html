@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
 <head>
 <title>External tracker - Aide</title>
@@ -125,13 +125,13 @@ $(document).ready(function() {
 </div>
 
 <a name="about"></a><h2>À propos de ce plugin<a href="#about" title="Lien vers cette section"><img src="../../../docs/fr/images/anchor.gif" border="0" width="10" height="10" alt="" /></a></h2>
-<p>Ce plugin ajoute un code de traqueur externe à chaque page si vous n’êtes pas connecté en tant qu'administrateur. Un cookie d’exclusion supplémentaire est également disponible après l'installation de ce plugin.</p>
+<p>Ce plugin ajoute un code de traqueur externe à chaque page si vous n’êtes pas connecté en tant qu'administrateur. Un cookie d’exclusion supplémentaire est également disponible après l'installation de ce plugin. L'exclusion est aussi possible si l'utilisateur a opté pour <a href="http://donottrack.us/" rel="external">Do Not Track</a>.</p>
 <a name="about_end">
 
 <a name="features"></a><h2>Caractéristiques<a href="#features" title="Lien vers cette section"><img src="../../../docs/fr/images/anchor.gif" border="0" width="10" height="10" alt="" /></a></h2>
 <ul>
-    <li>Multilangue (actuellement: en,fr,fi et en partie de,nl,ch,es)</li>
-    <li>Met un code de traqueur dans toutes les pages, sauf si un administrateur est connecté ou si l'utilisateur a installé un cookie en option</li>
+    <li>Multilingue (actuellement: en,fi,fr,pl et en partie de,nl,ch,es)</li>
+    <li>Met un code de traqueur dans toutes les pages, sauf si un administrateur est connecté ou si l'utilisateur a installé un cookie en option ou si l'utilisateur a opté pour <a href="http://donottrack.us/" rel="external">Do Not Track</a></li>
     <li>N’écrase pas les fichiers de base (exemple: anycontent.php ou theme.php)</li>
     <li>Indépendance du thème</li>
 </ul>
@@ -144,12 +144,13 @@ $(document).ready(function() {
     <li>Open Web Analytics (OWA)</li>
     <li>BBClone</li>
     <li>CrawlTrack</li>
+    <li>Yahoo! Web Analytics</li>
 </ul>
 <a name="trackers_end">
 
 <a name="install"></a><h2>Installation<a href="#install" title="Lien vers cette section"><img src="../../../docs/fr/images/anchor.gif" border="0" width="10" height="10" alt="" /></a></h2>
 <p>Installation par le biais du gestionnaire de plugins.</p>
-<p>Si vous faites une mise à jour de plugin <a href="http://forum.coppermine-gallery.net/index.php/topic,61232.0.html" rel="external" class="external">Google Analytics</a> ou d'External tracker v. 2.0_beta1, vous devez désinstaller complètement External tracker ou le plugin <a href="http://forum.coppermine-gallery.net/index.php/topic,61232.0.html" rel="external" class="external">Google Analytics</a> avant d'installer External tracker v.2.0 en raison de changements dans la base de données.</p>
+<p>Si vous faites une mise à jour de plugin <a href="http://forum.coppermine-gallery.net/index.php/topic,61232.0.html" rel="external" class="external">Google Analytics</a>, vous devez désinstaller complètement celui-ci avant d'installer External tracker.</p>
 <p>Configurer après l'installation.</p>
 <a name="install_end">
 
@@ -169,7 +170,7 @@ $(document).ready(function() {
     <li>Rédigé par <a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=56739">papukaija</a></li>
     <li>v. 1.1 à été un contributeur <a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=24278" rel="external" class="external">André</a> </li>
     <li>v. 1.4 inclut quelques optimisations faite par <a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=2" rel="external" class="external">Joachim</a> </li>
-    <li>Ce plugin contient du code pour la base de donnée ainsi que pour les formulaires venant du plugin Social bookmark de la CPG Dev Team's</li>
+    <li>Ce plugin contient du code pour la base de donnée ainsi que pour les formulaires venant du plugin Social bookmark de la CPG Dev Team</li>
 </ul>
 
 <p>Traducteurs:</p>
@@ -177,8 +178,10 @@ $(document).ready(function() {
     <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=24278" rel="external" class="external">André</a> (pour l'allemand)</li>
     <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=58040" rel="external" class="external">tjiepie</a> (pour le néerlandais)</li>
     <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=36610" rel="external" class="external"> a-m</a> (pour le chinois)</li>
-    <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=73633" rel="external" class="external">jmatute</a> (pour l'espagnol)</li>
-    <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=68203" rel="external" class="external">FBleu</a> (pour le Français)</li></ul>
+    <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=73633" rel="external" class="external">jmatute</a> (pour l'espagnole)</li>
+    <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=68203" rel="external" class="external">FBleu</a> (pour le français)</li>
+    <li><a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=111905" rel="external" class="external">fabkow</a> (pour le polonais)</li>
+</ul>
 <a name="credits_end">
 
 <a name="copyrights"></a><h2>Droits d'auteur<a href="#copyrights" title="Lien vers cette section"><img src="../../../docs/fr/images/anchor.gif" border="0" width="10" height="10" alt="" /></a></h2>
@@ -188,8 +191,7 @@ $(document).ready(function() {
 <a name="todo"></a><h2>À faire<a href="#todo" title="Lien vers cette section"><img src="../../../docs/fr/images/anchor.gif" border="0" width="10" height="10" alt="" /></a></h2>
 <ul>
     <li>Optimisations de la base de données dans schema.sql ?</li>
-    <li>Tests des traqueurs OWA, BBClone, et CrawlTrack pour voir s'ils fonctionnent réellement</li>
-    <li>OWA et BBClone nécessite d'obtenir les titres des pages dans /include/tracker_short_name.inc.php</li>
+    <li>OWA et BBClone nécessitent d'obtenir les titres des pages dans /include/tracker_short_name.inc.php</li>
     <li>Dans la page ou il faut faire le choix du type de traqueur si vous spécifiez OWA, il faudrait peut-être essayer de donner le type de media consulté</li>
     <li>Afficher uniquement la partie pertinente de la doc dans une boite grise</li>
 </ul>
