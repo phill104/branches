@@ -22,7 +22,10 @@ if (defined('DISPLAYIMAGE_PHP')) {
 }
 
 function picture_navigation_page_start() {
-    js_include('plugins/picture_navigation/picture_navigation.js');
+    $superCage = Inspekt::makeSuperCage();
+    if (!$superCage->get->keyExists('slideshow')) {
+        js_include('plugins/picture_navigation/picture_navigation.js');
+    }
 }
 
 ?>
