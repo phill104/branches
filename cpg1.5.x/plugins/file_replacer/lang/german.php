@@ -29,5 +29,6 @@ $lang_plugin_file_replacer['announcement_thread'] = 'Ankündigungs-Thema';
 $lang_plugin_file_replacer['author'] = 'Erstellt von %s für cpg1.4.x - Portierung zu cpg1.5.x und Internationalisierung von %s';
 $lang_plugin_file_replacer['update_timestamp'] = 'Zeitstempel aktualisieren';
 $lang_plugin_file_replacer['error_move_file'] = 'Die Datei \'%s\' konnte nicht nach \'%s\' verschoben werden';
+$lang_plugin_file_replacer['overwrite_metadata'] = 'Überschreibe existierende Titel, Überschrift und Schlüsselwörter mit IPTC-Daten';
 
 ?>

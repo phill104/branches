@@ -78,10 +78,11 @@ function file_replacer_page_start() {
                     if ($CONFIG['read_iptc_data']) {
                         // read IPTC data
                         $iptc = get_IPTC($image);
-                        if (is_array($iptc) && !$title && !$caption && !$keywords) {  //if any of those 3 are filled out we don't want to override them, they may be blank on purpose.
-                            $title = (isset($iptc['Headline'])) ? $iptc['Headline'] : $title;
-                            $caption = (isset($iptc['Caption'])) ? $iptc['Caption'] : $caption;
-                            $keywords = (isset($iptc['Keywords'])) ? implode($CONFIG['keyword_separator'], $iptc['Keywords']) : $keywords;
+                        if ($superCage->post->keyExists('overwrite_metadata')) {
+                            $title = (isset($iptc['Headline'])) ? $iptc['Headline'] : '';
+                            $caption = (isset($iptc['Caption'])) ? $iptc['Caption'] : '';
+                            $keywords = (isset($iptc['Keywords'])) ? implode($CONFIG['keyword_separator'], $iptc['Keywords']) : '';
+                            $metadata_sql = ", title = '$title', caption = '$caption', keywords = '$keywords'";
                         }
                     }
 
@@ -143,7 +144,7 @@ function file_replacer_page_start() {
                 $image_filesize = filesize($image);
                 $total_filesize = is_image($row['filename']) ? ($image_filesize + (file_exists($normal) ? filesize($normal) : 0) + filesize($thumb)) : ($image_filesize);
     
-                cpg_db_query("UPDATE {$CONFIG['TABLE_PICTURES']} SET filesize = '$image_filesize', total_filesize = '$total_filesize', pwidth = '$width', pheight = '$height' WHERE pid = '$pid' LIMIT 1");
+                cpg_db_query("UPDATE {$CONFIG['TABLE_PICTURES']} SET filesize = '$image_filesize', total_filesize = '$total_filesize', pwidth = '$width', pheight = '$height' $metadata_sql WHERE pid = '$pid' LIMIT 1");
 
                 if ($superCage->post->keyExists('update_timestamp')) {
                     cpg_db_query("UPDATE {$CONFIG['TABLE_PICTURES']} SET ctime = '".time()."' WHERE pid = '$pid' LIMIT 1");
@@ -189,6 +190,14 @@ function file_replacer_page_start() {
                     </td>
                     <td class="tableb" valign="top">
                         <input type="checkbox" name="update_timestamp" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableb" valign="top">
+                        {$lang_plugin_file_replacer['overwrite_metadata']}
+                    </td>
+                    <td class="tableb" valign="top">
+                        <input type="checkbox" name="overwrite_metadata" />
                     </td>
                 </tr>
                 <tr>
