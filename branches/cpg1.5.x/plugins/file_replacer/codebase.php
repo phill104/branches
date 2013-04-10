@@ -141,7 +141,7 @@ function file_replacer_page_start() {
                 }
 
                 $image_filesize = filesize($image);
-                $total_filesize = is_image($filename) ? ($image_filesize + (file_exists($normal) ? filesize($normal) : 0) + filesize($thumb)) : ($image_filesize);
+                $total_filesize = is_image($row['filename']) ? ($image_filesize + (file_exists($normal) ? filesize($normal) : 0) + filesize($thumb)) : ($image_filesize);
     
                 cpg_db_query("UPDATE {$CONFIG['TABLE_PICTURES']} SET filesize = '$image_filesize', total_filesize = '$total_filesize', pwidth = '$width', pheight = '$height' WHERE pid = '$pid' LIMIT 1");
 
