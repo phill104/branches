@@ -29,5 +29,6 @@ $lang_plugin_file_replacer['announcement_thread'] = 'Announcement thread';
 $lang_plugin_file_replacer['author'] = 'Created by %s for cpg1.4.x - port to cpg1.5.x and internationalization by %s';
 $lang_plugin_file_replacer['update_timestamp'] = 'Update timestamp';
 $lang_plugin_file_replacer['error_move_file'] = 'There was an error moving the file \'%s\' to its destination \'%s\'';
+$lang_plugin_file_replacer['overwrite_metadata'] = 'Overwrite existing title, description and keywords with IPTC data';
 
 ?>
