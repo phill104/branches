@@ -34,4 +34,4 @@ CREATE TABLE IF NOT EXISTS `CPG_final_extract_config` (
   `my_profile` varchar(255) NOT NULL default '',
 
   PRIMARY KEY  (`Group_Id`)
-)TYPE=MyISAM;
+);
