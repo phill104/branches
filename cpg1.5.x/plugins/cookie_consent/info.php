@@ -19,7 +19,6 @@ foreach ($plugin_cookie_consent_cookies as $key => $value) {
     echo "<tr><td class=\"tableb\">{$key}</td><td class=\"tableb\">{$value}</td></tr>";
 }
 endtable();
-// TODO: add button "don't show message this session" -> add some parameter to url and use page_html to add it to all links & forms (does it work with JS redirections?) - only implement if it's possible to add that parameter to really every page call
 pagefooter();
 
 ?>
