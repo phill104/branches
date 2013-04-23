@@ -17,7 +17,7 @@ $url = recaptcha_get_signup_url($superCage->server->getRaw('HTTP_HOST'), 'Copper
 $recaptcha_info = <<<EOT
 <a href="{$url}" class="admin_menu">{$recap_lang['link_recaptcha']}</a>
 EOT;
-	
+
 
 $name = $recap_lang['display_name'];
 $configuration_link = '<a href="index.php?file=recaptcha/admin" class="admin_menu">' . $recaptcha_icon_array['configure'] . sprintf($recap_lang['configure_plugin_x'], $recap_lang['display_name']) . '</a> ';
@@ -32,6 +32,6 @@ EOT;
 
 $version='2.0';
 $plugin_cpg_version = array('min' => '1.5');
-$description = $recap_lang['description'];	
-	
+$description = $recap_lang['description'];
+
 ?>
