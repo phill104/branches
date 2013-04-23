@@ -179,16 +179,11 @@ echo <<< EOT
 <form name="cpgform" id="cpgform" action="{$_SERVER['REQUEST_URI']}" method="post">
 EOT;
 
-starttable('100%',  sprintf($recap_lang['configure_plugin_x'], $recap_lang['display_name']), 2, 'cpg_zebra');
+starttable('100%', $recap_lang['page_heading'], 2, 'cpg_zebra');
 
 
 // complete form
 echo <<< EOT
-        <tr>
-        <td class="tableb" colspan="2">
-        <b>{$recap_lang['page_heading']}</b>
-        </td>
-        </tr>
         <tr>
         <td class="tableb tableb_alternate">
         {$recap_lang['update_lang']}
@@ -282,7 +277,6 @@ echo <<< EOT
         <td class="tableb" colspan="2" align="center">
         <input type="hidden" name="form_token" value="{$form_token}" />
         <input type="hidden" name="timestamp" value="{$timestamp}" />
-
         <button value="{$recap_lang['submit_change']}" name="submit" class="button" type="submit"><img width="16" height="16" border="0" class="icon" alt="" src="images/icons/ok.png">{$recap_lang['submit_change']}</button>
         </td>
         </tr>
