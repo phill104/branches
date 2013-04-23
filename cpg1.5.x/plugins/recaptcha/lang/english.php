@@ -6,7 +6,7 @@
   Date: 2010-11-10
 **********************************************/
 
-// language file for plugin - submit changes to the Support thread for inclusion in  
+// language file for plugin - submit changes to the Support thread for inclusion in
 // the next release
 $recap_lang['install_explain'] = 'Insert your keys below and click go. Use copy + paste.';
 $recap_lang['recaptcha_key'] = 'reCAPTCHA public key';
@@ -30,13 +30,13 @@ $recap_lang['announcement_thread'] = 'Plugin Support Thread';
 $recap_lang['aka'] = 'aka';
 $recap_lang['description'] = 'reCAPTCHA for Coppermine Photo Gallery<br /><br />
 				reCAPTCHA is a free CAPTCHA service that helps to digitize books, newspapers and old time radio shows. <br />
-				reCAPTCHA improves the process of digitizing books by sending words that cannot be read by computers to the Web 
-				in the form of CAPTCHAs for humans to decipher. More specifically, each word that cannot be read correctly by OCR 
+				reCAPTCHA improves the process of digitizing books by sending words that cannot be read by computers to the Web
+				in the form of CAPTCHAs for humans to decipher. More specifically, each word that cannot be read correctly by OCR
 				is placed on an image and used as a CAPTCHA. This is possible because most OCR programs alert you when a word cannot be read correctly.';
 
-// admin + confguation				
-$recap_lang['display_name'] = 'AJAX reCaptcha';				
-$recap_lang['configure_plugin_x'] = 'Configure plugin %s';				
+// admin + confguation
+$recap_lang['display_name'] = 'AJAX reCaptcha';
+$recap_lang['configure_plugin_x'] = 'Configure plugin %s';
 $recap_lang['page_heading'] = 'Configure the settings of your AJAX reCaptcha plugin.';
 $recap_lang['update_lang'] = 'Select language for reCaptcha tool-tips and help pop-up';
 $recap_lang['update_style'] = 'Select style/color for reCaptcha';
@@ -71,7 +71,7 @@ $recap_lang['reg_instruct'] = <<<EOT
 EOT;
 
 $recap_lang['contact_instruct'] = <<<EOT
-    <div id="instruct"><br />1- Type the two words. 2- Click Go. </div>  
+    <div id="instruct"><br />1- Type the two words. 2- Click Go. </div>
 EOT;
 
 // error messages for wrong input to recaptcha confirmation

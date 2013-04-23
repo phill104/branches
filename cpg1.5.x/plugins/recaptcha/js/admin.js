@@ -10,6 +10,5 @@
 
   
 $(document).ready(function() {
-	$('#sawey_recaptcha_rows').SpinButton({min: 1,max: 9, step: 1});
+    $('#sawey_recaptcha_rows').SpinButton({min: 1,max: 9, step: 1});
 });
-	
