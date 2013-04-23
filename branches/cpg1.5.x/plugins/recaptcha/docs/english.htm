@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+<head>
+<title>AJAX reCaptcha for Coppermine 1.5.x v2.0</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="language" content="en" />
+<meta name="copyright" content="Sander Weyens - Joe Carver" />
+<meta name="description" content="" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<!--
+  SVN version info:
+
+  Coppermine version: 1.5.3
+  $HeadURL$
+  $Revision$
+  $LastChangedBy$
+  $Date$
+-->
+<link rel="stylesheet" type="text/css" href="../../../docs/style/style.css" media="all" />
+<link rel="stylesheet" type="text/css" href="../../../docs/style/screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="../../../docs/style/print.css" media="print" />
+<link rel="shortcut icon" href="../../../favicon.ico" />
+<script src="../../../js/jquery-1.3.2.js" type="text/javascript"></script>
+<script src="../../../js/jquery.treeview.min.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function(){
+        $("#toclist").treeview({
+            collapsed: true,
+            animated: "medium",
+            control:"#sidetreecontrol"
+        });
+    });
+</script>
+</head>
+<body>
+<a name="header"></a><h1 id="docheader">AJAX reCaptcha for cpg1.5.x: Documentation<a href="#header" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h1>
+<a name="top"></a>
+
+<div id="toc">
+    AJAX reCaptcha for cpg1.5.x
+    <ul id="toclist" class="tree">
+        <li><a href="#purpose">What's this?</a></li>
+        <li><a href="#install">Install</a></li>
+        <li><a href="#uninstall">Uninstall</a></li>
+        <li><a href="#config">Configuration</a></li>
+        <li><a href="#credits">Credits</a></li>
+        <li><a href="#copyrights">Copyrights</a></li>
+        <li><a href="#todo">To do</a></li>
+    </ul>
+</div>
+
+<a name="purpose"></a><h2>What's this?<a href="#purpose" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h2>
+<p>This plugin will override the default captcha included with Coppermine 1.5.x. It will load and
+show an AJAX reCaptcha only when the vistor clicks a button.</p>
+<p>Vistors will need to type two words for confirmation before registration or making a comment or sending a messge by the Contact form.</p>
+<p>Automatic spammers should not be able to post to a gallery with this plugin installed.</p>
+<a name="install"></a><h2>Install<a href="#install" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h2>
+<p>reCaptcha public and private keys are required for installation. They are entered when the plugin is installed.</p>
+<p>A link to get the free keys is on the installation page. reCaptcha is free for personal and commercial use.</p>
+<p>Show captcha for comments, registration and the Contact form must be set in Coppermine config.</p>
+<p>Customize the language on the buttons and help text by editing english.php or create a custom language file based on english.php</p>
+
+
+<a name="uninstall"></a><h2>Uninstall<a href="#uninstall" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h2>
+<p>Uninstall via plugin manager</p>
+
+<a name="config"></a><h2>Configuration<a href="#config" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h2>
+<ol>
+    <li>
+        <a name="set_lang"></a><h3>Set reCaptcha Language<a href="#set_lang" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h3>
+        Set the language for the tool-tips (mouseover language) and reCaptcha help page. Default value is English
+		<b>Note:</b> The language in the reCaptcha images can not be changed.
+    </li>
+    <li>    
+        <a name="set_style"></a><h3>reCaptcha Style<a href="#set_style" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h3>
+        Set the color and style of the reCaptcha display. This will help to blend the style with your theme.
+		There are 4 selections available. Default is the "clean" style which will work with most cpg themes.
+    </li>
+    <li>         
+        <a name="ajax_contact"></a><h3>Use AJAX reCaptcha for Contact<a href="#ajax_contact" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h3>
+        Select to use non-ajax or ajax type of reCaptcha to display. The non-ajax option will allow vistors with no javascript to use the Contact form.
+		<b>Note:</b> The "red" style is used with the non-ajax reCaptcha. It can not be changed.
+    </li>
+    <li>
+        <a name="ajax_commenthelp"></a><h3>Show help text Comment.<a href="#ajax_commenthelp" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h3>
+        Show a simple line of help over the reCaptcha image for Comment captcha. Default is off.
+    </li>
+    <li>    
+        <a name="set_style"></a><h3>Show help text Contact.<a href="#ajax_contacthelp" title="Li    nk to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h3>
+        Show a simple line of help over tthe reCaptcha image for Contact captcha. Default is on.
+    </li>
+    <li>         
+        <a name="ajax_reghelp"></a><h3>Show help text for Registration captcha.<a href="#ajax_reghelp" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h3>
+        Show a simple line of help over the reCaptcha image for Registration. Default is on.
+    </li>
+        <a name="ajax_rows"></a><h3>Set number of Comments rows<a href="#ajax_rows" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h3>
+        Set the number of rows for adding comments. Default is two.
+    </li>
+    <li>    
+        <a name="recaptcha_key"></a><h3>Public Key<a href="#recaptcha_key" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h3>
+        The public key number from reCaptcha that was entered when the plugin was installed. 
+		<br />Do not edit unless there are problems or there is a need to change the keys.
+    </li>
+    <li>         
+        <a name="recaptcha_privkey"></a><h3>Private Key<a href="#recaptcha_privkey" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h3>
+        The private key number from reCaptcha that was entered when the plugin was installed. 
+		<br />Do not edit unless there are problems or there is a need to change the keys.
+    </li>
+
+<a name="credits"></a><h2>Credits<a href="#credits" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h2>
+<ul>
+    <li>Sander Weyens aka SaWey for ver 0.9 of this plugin</li>
+	<li>Michael Martin for the multi-line comments snip + idea </li>
+    <li>Plugin updated by Joe Carver
+        <ul>
+            <li><a href="http://gallery.josephcarver.com/natural/" class="external" rel="external">Photography by Joe Carver: Nature</a></li>
+            <li><a href="http://i-imagine.net/artists/" class="external" rel="external">i-imagine.net: the free web gallery for visual artists</a></li>
+            <li><a href="http://photos-by.joe-carver.com/" class="external" rel="external">Photography by Joe Carver</a></li>
+        </ul>
+    </li>
+</ul>
+
+
+
+<a name="todo"></a><h2>To do<a href="#todo" title="Link to this section"><img src="../../../images/link.gif" width="15" height="9" border="0" alt="" /></a></h2>
+<ul>
+    <li></li>
+</ul>
+
+
+
+<div id="doc_footer">
+	<div class="doc_info_wrapper">
+		<span id="doc_last_changed">$LastChangedDate$</span>
+		<span id="doc_revision">$Revision$</span>
+	</div>
+</div>
+</body>
+</html>
