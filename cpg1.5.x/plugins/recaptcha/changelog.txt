@@ -1,0 +1,53 @@
+/***********************************
+  Coppermine reCAPTCHA plugin v1.3
+  **********************************
+  By: SaWey - Updated by Joe Carver
+  Date: 2010-08-22
+**********************************************/
+  
+Changelog
+=========
+[A] = Added new feature
+[B] = Bugfix (fix something that wasn't working as expected)
+[C] = Cosmetical fix (layout, typo etc.)
+[D] = Documentation improvements
+[M] = Maintenance works
+[O] = Optimization of code
+[S] = Security fix (issues that are related to security)
+*********************************************
+2010-11-10 [M] Counted version up from 1.2 to 2.0 {Joe Carver}
+2010-11-10 [B] codebase.php fix user level bug{Joe Carver}
+2010-11-10 [O] codebase.php, style / width improvements for buttons based on R/C theme {Joe Carver}
+2010-11-10 [O] codebase.php, style / width improvements logged / unlogged user {Joe Carver}
+2010-11-10 [A] codebase.php, add optional help text {Joe Carver}
+2010-11-10 [A] codebase.php, add multi-line comments {Joe Carver}
+2010-08-22 [M] Counted version up from 1.1 to 1.2 {Joe Carver}
+2010-08-22 [A] codebase.php add captcha new words button{Joe Carver}
+2010-08-22 [O] codebase.php, change form variable, install {Joe Carver}
+2010-08-22 [O] codebase.php, change to google server addresses {Joe Carver}
+2010-06-17 [M] Counted version up from 1.1 to 1.2 {Joe Carver}
+2010-06-17 [A] codebase.php add captcha hide button, move OK button to hidden div {Joe Carver}
+2010-06-17 [C] codebase.php, button class now "button" {Joe Carver}
+2010-06-17 [C] admin.php fix layout error {Joe Carver}
+2010-03-30 [M] Counted version up from 1.0 to 1.1 {Joe Carver}
+2010-03-30 [A] codebase.php add logging of comment, contact and reg. captcha error {Joe Carver}
+2010-03-30 [C] codebase.php, english.php text change for contact and reg. captcha errors {Joe Carver}
+2010-03-30 [B] enlgish.htm correct paths for images {Joe Carver}
+2010-03-07 [M] Counted version up from 0.9.5 to 1.0 {Joe Carver}
+2010-03-07 [O] admin.php sanitize input {Joe Carver}
+2010-03-07 [O] admin.php check for changes on submit {Joe Carver}
+2010-03-07 [O] admin.php all text is via lang. file {Joe Carver}
+2010-03-07 [O] codebase.php change captcha error response for comments{Joe Carver}
+2010-03-07 [D] add inline documentation to package {Joe Carver}
+2010-03-07 [D] add help (greybox pop ups) to admin.php {Joe Carver}
+2010-03-07 [D] configuation.php add doc link and lang file calls {Joe Carver}
+2010-03-07 [O] english.php additions admin - codebase - error {Joe Carver}
+2010-03-04 [M] Counted version up from 0.9 to 0.9.5 {Joe Carver}
+2010-03-04 [O] admin.php created for plugin configuration {Joe Carver}
+2010-03-04 [O] codebase.php change reCaptcha to AJAX load method {Joe Carver}
+2010-03-04 [O] codebase.php add method of plugin .js call to <head> {Joe Carver}
+2010-03-04 [O] configuation.php changes {Joe Carver}
+2010-03-04 [O] english.php add values for operations and config {Joe Carver}
+2010-03-04 [D] create readme.txt for plugin {Joe Carver}
+2010-03-04 [D] create changelog.txt for plugin {Joe Carver}
+2009-01-05 [A] release of version 0.9 (SaWey)
