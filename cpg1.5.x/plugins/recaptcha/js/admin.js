@@ -8,7 +8,7 @@
   Date: 2010-11-10
 **********************************************/
 
-  
+
 $(document).ready(function() {
     $('#sawey_recaptcha_rows').SpinButton({min: 1,max: 9, step: 1});
 });

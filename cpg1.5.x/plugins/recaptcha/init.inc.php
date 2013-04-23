@@ -5,8 +5,8 @@
   By: SaWey - Updated by Joe Carver
   Date: 2010-11-10
 **********************************************/
-  
-if (!defined('IN_COPPERMINE')) { 
+
+if (!defined('IN_COPPERMINE')) {
     die('Not in Coppermine...');
 }
 
@@ -16,7 +16,7 @@ require_once ("./plugins/recaptcha/lang/english.php");
 // plugin will try to use the configured language if it is available.
 if (file_exists("./plugins/recaptcha/lang/{$CONFIG['lang']}.php")) {
     require_once ("./plugins/recaptcha/lang/{$CONFIG['lang']}.php");
-} 
+}
 
 // Determine the help file link
 if (file_exists("./plugins/recaptcha/docs/{$CONFIG['lang']}.htm")) {

@@ -22,27 +22,27 @@
     $thisplugin->add_filter('captcha_register_validate', 'validate_register');
     $thisplugin->add_action('captcha_comment_validate', 'validate_comment');
     $thisplugin->add_action('captcha_contact_validate', 'validate_contact');
-    
+
     // Add plugin action - use a modified comment form
     $thisplugin->add_action('page_start','captcha_comment_form');
-    
+
     function captcha_comment_form()
-    {	
+    {
     global $CONFIG, $template_add_your_comment;
-    // HTML template for comment 
+    // HTML template for comment
 
     $spacers_user = '';
     $show_rows = $CONFIG['sawey_recaptcha_rows'];
     // FF workaround for added rows - change value 14 if it does not work with text style of theme
     $rows_height = ($show_rows * 15) . 'px';
     $style_rows = <<<EOT
- style="width: 100%; height: {$rows_height};"  
+ style="width: 100%; height: {$rows_height};"
 EOT;
 
     if (($CONFIG['comment_captcha'] == 1) || ($CONFIG['comment_captcha'] == 2 && !USER_ID)) {
     $show_ok = <<<EOT
                       <td class="tableb tableb_alternate" colspan="2">
-                                </td> 
+                                </td>
 EOT;
     if (USER_ID) {
         $spacers_user = <<<EOT
@@ -103,12 +103,12 @@ $template_add_your_comment = <<<EOT
                                 {COMMENT}
                                 </td>
                                 <td width="100%" class="tableb tableb_alternate">
-                                <textarea class="textinput" id="message" name="msg_body" {$style_rows} rows="{$show_rows}" cols= "60"></textarea> 
+                                <textarea class="textinput" id="message" name="msg_body" {$style_rows} rows="{$show_rows}" cols= "60"></textarea>
                                 </td>
 <!-- END input_box_no_smilies -->
 <!-- BEGIN submit -->
                                    {$show_ok}
-                                   
+
 <!-- END submit -->
                                                         </tr>
 <!-- BEGIN comment_captcha -->
@@ -118,7 +118,7 @@ $template_add_your_comment = <<<EOT
                                 </td>
                                 <td class="tableb tableb_alternate" colspan="2">
                                   <input type="text" name="confirmCode" size="5" maxlength="5" class="textinput" />
-                                  
+
                                 </td>
                                                         </tr>
 <!-- END comment_captcha -->
@@ -144,9 +144,9 @@ $template_add_your_comment = <<<EOT
 EOT;
 }
 
-// Form comment end	
+// Form comment end
     define('RECAPTCHAPATH', $thisplugin->fullpath);
-    
+
     // Add filter for remote .js to page meta
     $recaptcha_pages_array = array('displayimage.php', 'register.php', 'contact.php');
     if (in_array($CPG_PHP_SELF, $recaptcha_pages_array) == TRUE) {
@@ -159,20 +159,20 @@ EOT;
 <!-- reCaptcha plugin end -->
 EOT;
     return $html . $meta;
-    }	
+    }
     }
 
 //print the captcha image
 
     function add_captcha_comment($template){
     global $CONFIG, $lang_common;
-if (($CONFIG['comment_captcha'] == 1) || ($CONFIG['comment_captcha'] == 2 && !USER_ID)) {	
+if (($CONFIG['comment_captcha'] == 1) || ($CONFIG['comment_captcha'] == 2 && !USER_ID)) {
 
     require_once(RECAPTCHAPATH . '/recaptchalib.php');
     //load language
     $file_lang = RECAPTCHAPATH . '/lang/' . $CONFIG['lang'] . '.php';
-    include(file_exists($file_lang) ? $file_lang : RECAPTCHAPATH . '/lang/english.php');		
-    
+    include(file_exists($file_lang) ? $file_lang : RECAPTCHAPATH . '/lang/english.php');
+
     $key_public = $CONFIG['sawey_recaptcha_key'];
     $recapt_style = $CONFIG['sawey_recaptcha_style'];
     $recapt_lang = $CONFIG['sawey_recaptcha_lang'];
@@ -184,7 +184,7 @@ if (($CONFIG['comment_captcha'] == 1) || ($CONFIG['comment_captcha'] == 2 && !US
     if ($CONFIG['sawey_recaptcha_commenthelp'] == 1)  {
     $comment_instruct = $recap_lang['comment_instruct'];
     }
-    
+
     $captcha_html = <<< EOT
     <script type="text/javascript" >
     function showRecaptcha(element, submitButton, themeName) {
@@ -206,41 +206,41 @@ function destroyRecaptchaWidget()
 </script>
     <input type="button" class="button" title="{$recap_lang['confirm_title']}"  value="{$recap_lang['enter_confirm']}" onclick="showRecaptcha('dynamic_recaptcha_1', 'submit_button_1');" />
                 <div id="submit_button_1" style="visibility: hidden">
-                            {$comment_instruct}	
+                            {$comment_instruct}
                 <div id="dynamic_recaptcha_1"></div>
-                <img src="images/spacer.gif" width="25" height="1" border="0" alt="" />									
+                <img src="images/spacer.gif" width="25" height="1" border="0" alt="" />
                 <input type="hidden" name="event" value="comment" />
                 <input type="hidden" name="pid" value="{PIC_ID}" />
                 <button type="submit" class="button" name="submit" value="{OK}" title="{$recap_lang['ok_title']}" onclick="return notDefaultUsername(this.form, '{DEFAULT_USERNAME}', '{DEFAULT_USERNAME_MESSAGE}');">{OK_ICON}{OK}</button>
                 <input type="hidden" name="form_token" value="{FORM_TOKEN}" />
-                <input type="hidden" name="timestamp" value="{TIMESTAMP}" />								
-                <img src="images/spacer.gif" width="{$spacer_width}" height="1" border="0" alt="" />								
-                <input type="button" class="button" value="{$recap_lang['new_words']}" title="{$recap_lang['new_words_title']}" onclick="Recaptcha.reload();" />								
-                <img src="images/spacer.gif" width="20" height="1" border="0" alt="" />								
+                <input type="hidden" name="timestamp" value="{TIMESTAMP}" />
+                <img src="images/spacer.gif" width="{$spacer_width}" height="1" border="0" alt="" />
+                <input type="button" class="button" value="{$recap_lang['new_words']}" title="{$recap_lang['new_words_title']}" onclick="Recaptcha.reload();" />
+                <img src="images/spacer.gif" width="20" height="1" border="0" alt="" />
                 <input type="button" class="button" value="{$recap_lang['hide_button']}" title="{$recap_lang['hide_title']}" onclick="destroyRecaptchaWidget();" />
-                </div> 	
-                
+                </div>
+
 EOT;
 
 
-    
-    
+
+
     $new_template = <<< EOT
     <tr>
         <td class="tableb tableb_alternate tableb tableb_alternate_alternate_compact" colspan="3">
-          
+
         </td>
         <td class="tableb tableb_alternate tableb tableb_alternate_alternate_compact" colspan="3">
           <div id="captcha_div">{$captcha_html}</div>
         </td>
     </tr>
 EOT;
-    
+
     $pattern = "#(<!-- BEGIN comment_captcha -->)(.*?)(<!-- END comment_captcha -->)#s";
     if ( !preg_match($pattern, $template, $matches)) {
             die('<strong>Template error<strong><br />Failed to find block \''.$block_name.'\'('.htmlspecialchars($pattern).') in :<br /><pre>'.htmlspecialchars($template).'</pre>');
     }
-    
+
     $template = str_replace($matches[1].$matches[2].$matches[3], $new_template, $template);
     return $template;
 }
@@ -251,22 +251,22 @@ function add_captcha_contact($captcha_print){
     require_once(RECAPTCHAPATH . '/recaptchalib.php');
     //load language
     $file_lang = RECAPTCHAPATH . '/lang/' . $CONFIG['lang'] . '.php';
-    include(file_exists($file_lang) ? $file_lang : RECAPTCHAPATH . '/lang/english.php');	
-    
+    include(file_exists($file_lang) ? $file_lang : RECAPTCHAPATH . '/lang/english.php');
+
     $visibility = isset($expand_array['captcha_remark']) ? 'block' : 'none';
-    
+
     $key_public = $CONFIG['sawey_recaptcha_key'];
     $recapt_style = $CONFIG['sawey_recaptcha_style'];;
-    $recapt_lang = $CONFIG['sawey_recaptcha_lang'];	
+    $recapt_lang = $CONFIG['sawey_recaptcha_lang'];
     $spacer_width = 130;
     if ($CONFIG['sawey_recaptcha_style'] == 'clean')  {
     $spacer_width = 190;
-    }	
+    }
     $contact_instruct = '';
     if ($CONFIG['sawey_recaptcha_contacthelp'] == 1)  {
     $contact_instruct = $recap_lang['contact_instruct'];
-    }	
-    
+    }
+
     if (!$CONFIG['sawey_recaptcha_contact'] == 1 ) {
     $captcha_html = recaptcha_get_html($CONFIG['sawey_recaptcha_key']);
     }
@@ -292,16 +292,16 @@ function destroyRecaptchaWidget()
 </script>
     <input type="button" class="button" title="{$recap_lang['confirm_contact']}"  value="{$recap_lang['enter_confirm']}" onclick="showRecaptcha('dynamic_recaptcha_1', 'submit_button_1');" />
                 <div id="submit_button_1" style="visibility: hidden">
-                {$contact_instruct}  	
+                {$contact_instruct}
                 <div id="dynamic_recaptcha_1"></div>
-                <img src="images/spacer.gif" width="{$spacer_width}" height="10" border="0" alt="" />								
-                <input type="button" class="button" value="{$recap_lang['new_words']}" title="{$recap_lang['new_words_title']}" onclick="Recaptcha.reload();" />								
-                <img src="images/spacer.gif" width="20" height="10" border="0" alt="" />								
+                <img src="images/spacer.gif" width="{$spacer_width}" height="10" border="0" alt="" />
+                <input type="button" class="button" value="{$recap_lang['new_words']}" title="{$recap_lang['new_words_title']}" onclick="Recaptcha.reload();" />
+                <img src="images/spacer.gif" width="20" height="10" border="0" alt="" />
                 <input type="button" class="button" value="{$recap_lang['hide_button']}" title="{$recap_lang['hide_title']}" onclick="destroyRecaptchaWidget();" />
-                </div> 			
+                </div>
 EOT;
     }
-    
+
     $captcha_print = <<< EOT
     <tr>
       <td class="tableb" valign="top" align="right">
@@ -321,23 +321,23 @@ EOT;
 function add_captcha_register($captcha_print){
     global $CONFIG, $lang_common;
     require_once(RECAPTCHAPATH . '/recaptchalib.php');
-    
+
     //load language
     $file_lang = RECAPTCHAPATH . '/lang/' . $CONFIG['lang'] . '.php';
     include(file_exists($file_lang) ? $file_lang : RECAPTCHAPATH . '/lang/english.php');
-    
+
     $key_public = $CONFIG['sawey_recaptcha_key'];
     $recapt_style = $CONFIG['sawey_recaptcha_style'];;
     $recapt_lang = $CONFIG['sawey_recaptcha_lang'];
     $spacer_width = 130;
     if ($CONFIG['sawey_recaptcha_style'] == 'clean')  {
     $spacer_width = 190;
-    }	
-    $reg_instruct = '';	
+    }
+    $reg_instruct = '';
     if ($CONFIG['sawey_recaptcha_reghelp'] == 1)  {
     $reg_instruct = $recap_lang['reg_instruct'];
-    }		
-    
+    }
+
     $captcha_html = <<< EOT
     <script type="text/javascript" >
     function showRecaptcha(element, submitButton, themeName) {
@@ -360,14 +360,14 @@ function destroyRecaptchaWidget()
     <input type="button" class="button" title="{$recap_lang['confirm_reg']}"  value="{$recap_lang['enter_confirm']}" onclick="showRecaptcha('dynamic_recaptcha_1', 'submit_button_1');" />
                 <div id="submit_button_1" style="visibility: hidden">
                 {$reg_instruct}
-                <div id="dynamic_recaptcha_1"></div>  		
-                <img src="images/spacer.gif" width="{$spacer_width}" height="10" border="0" alt="" />								
-                <input type="button" class="button" value="{$recap_lang['new_words']}" title="{$recap_lang['new_words_title']}" onclick="Recaptcha.reload();" />								
-                <img src="images/spacer.gif" width="20" height="10" border="0" alt="" />								
+                <div id="dynamic_recaptcha_1"></div>
+                <img src="images/spacer.gif" width="{$spacer_width}" height="10" border="0" alt="" />
+                <input type="button" class="button" value="{$recap_lang['new_words']}" title="{$recap_lang['new_words_title']}" onclick="Recaptcha.reload();" />
+                <img src="images/spacer.gif" width="20" height="10" border="0" alt="" />
                 <input type="button" class="button" value="{$recap_lang['hide_button']}" title="{$recap_lang['hide_title']}" onclick="destroyRecaptchaWidget();" />
-                </div> 			
+                </div>
 EOT;
-    
+
     $captcha_print = <<< EOT
     <tr>
       <td class="tableb" valign="middle">
@@ -386,7 +386,7 @@ function validate_contact(){
     global $CONFIG, $USER_DATA, $hdr_ip;
     $superCage = Inspekt::makeSuperCage();
     require_once(RECAPTCHAPATH . '/recaptchalib.php');
-    
+
     $resp = recaptcha_check_answer ($CONFIG['sawey_recaptcha_privkey'], $superCage->server->getEscaped('REMOTE_ADDR'), $superCage->post->getRaw('recaptcha_challenge_field'), $superCage->post->getRaw('recaptcha_response_field'));
 
     if (!$resp->is_valid) {
@@ -406,14 +406,14 @@ function validate_register($error){
     global $CONFIG, $USER_DATA, $hdr_ip;
     $superCage = Inspekt::makeSuperCage();
     require_once(RECAPTCHAPATH . '/recaptchalib.php');
-    
+
     $resp = recaptcha_check_answer ($CONFIG['sawey_recaptcha_privkey'], $superCage->server->getEscaped('REMOTE_ADDR'), $superCage->post->getRaw('recaptcha_challenge_field'), $superCage->post->getRaw('recaptcha_response_field'));
 
     if (!$resp->is_valid) {
         if ($CONFIG['log_mode'] != 0) {
         log_write('Captcha authentication for Register failed for user '.$USER_DATA['user_name'].' at ' . $hdr_ip, CPG_SECURITY_LOG);
         }
-        //load language		
+        //load language
         $file_lang = RECAPTCHAPATH . '/lang/' . $CONFIG['lang'] . '.php';
         include(file_exists($file_lang) ? $file_lang : RECAPTCHAPATH . '/lang/english.php');
         $error .= '<li style="list-style-image:url(images/icons/stop.png)">' . $recap_lang['incorrect-captcha-reg'] . '</li>';
@@ -425,7 +425,7 @@ function validate_comment(){
     global $CONFIG, $USER_DATA, $hdr_ip;
     $superCage = Inspekt::makeSuperCage();
     require_once(RECAPTCHAPATH . '/recaptchalib.php');
-    
+
     $resp = recaptcha_check_answer ($CONFIG['sawey_recaptcha_privkey'], $superCage->server->getEscaped('REMOTE_ADDR'), $superCage->post->getRaw('recaptcha_challenge_field'), $superCage->post->getRaw('recaptcha_response_field'));
 
     if (!$resp->is_valid) {
@@ -436,7 +436,7 @@ function validate_comment(){
         $file_lang = RECAPTCHAPATH . '/lang/' . $CONFIG['lang'] . '.php';
         include(file_exists($file_lang) ? $file_lang : RECAPTCHAPATH . '/lang/english.php');
         cpg_die(ERROR, $recap_lang['incorrect-captcha-comment'], __FILE__, __LINE__);
-    }	
+    }
 }
 
 
@@ -468,7 +468,7 @@ function sawey_recaptcha_install() {
         cpg_db_query("INSERT IGNORE INTO {$CONFIG['TABLE_CONFIG']} (`name`, `value`) VALUES ('sawey_recaptcha_rows', '2')");
     return true;
     }
-    
+
 }
 
 // Configure function
@@ -477,7 +477,7 @@ function sawey_recaptcha_configure() {
     global $CONFIG, $lang_common;
     // Create the super cage
     $superCage = Inspekt::makeSuperCage();
-    
+
     //load language
     $file_lang = RECAPTCHAPATH . '/lang/' . $CONFIG['lang'] . '.php';
     include(file_exists($file_lang) ? $file_lang : RECAPTCHAPATH . '/lang/english.php');
@@ -485,7 +485,7 @@ function sawey_recaptcha_configure() {
     $superCage = Inspekt::makeSuperCage();
     $url = recaptcha_get_signup_url($superCage->server->getRaw('HTTP_HOST'), 'Coppermine Photo Gallery');
 
-    
+
     $action_uri = $superCage->server->getEscaped('REQUEST_URI');
     echo <<< EOT
     <form name="cpgform" id="cpgform" action="{$action_uri}" method="post">
@@ -542,9 +542,9 @@ function sawey_recaptcha_uninstall(){
     cpg_db_query("DELETE FROM {$CONFIG['TABLE_CONFIG']} WHERE name = 'sawey_recaptcha_reghelp'");
     cpg_db_query("DELETE FROM {$CONFIG['TABLE_CONFIG']} WHERE name = 'sawey_recaptcha_contacthelp'");
     cpg_db_query("DELETE FROM {$CONFIG['TABLE_CONFIG']} WHERE name = 'sawey_recaptcha_rows'");
-    
-    
-    return true;	
+
+
+    return true;
 }
 
 ?>
