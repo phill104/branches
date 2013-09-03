@@ -138,7 +138,7 @@ function rss20() {
         print "\t\t<dc:creator>{$row['owner_name']}</dc:creator>\n";
         print "\t\t<pubDate>" . lmdate($row['ctime']) . "</pubDate>\n";
         print "\t\t<description>";
-        echo  htmlspecialchars ("<p><img src=\"$base/".get_pic_url($row, 'thumb')."\" alt=\"{$row['filename']}\" /></p>", ENT_COMPAT, $CONFIG['charset']);
+        echo  htmlspecialchars ("<p><a href=\"$base/displayimage.php?pid={$row['pid']}\"><img src=\"$base/".get_pic_url($row, 'thumb')."\" alt=\"{$row['filename']}\" /></a></p>", ENT_COMPAT, $CONFIG['charset']);
         echo  htmlspecialchars ("<p>" . bb_decode($row['caption']) ."&nbsp;</p>", ENT_COMPAT, $CONFIG['charset']);
         echo  htmlspecialchars ("<p>" . bb_decode($row['keywords']) . "</p>", ENT_COMPAT, $CONFIG['charset']);
 
@@ -193,7 +193,7 @@ function atom10() {
         print "\t\t<id>$base/displayimage.php?pid={$row['pid']}</id>\n";
         print "\t\t<updated>" . rfc3339date($row['ctime']) . "</updated>\n";
         print "\t\t<content type=\"html\">\n";
-        echo  htmlspecialchars ("<p><img src=\"$base/".get_pic_url($row, 'thumb')."\" alt=\"{$row['filename']}\" /></p>", ENT_COMPAT, $CONFIG['charset']);
+        echo  htmlspecialchars ("<p><a href=\"$base/displayimage.php?pid={$row['pid']}\"><img src=\"$base/".get_pic_url($row, 'thumb')."\" alt=\"{$row['filename']}\" /></a></p>", ENT_COMPAT, $CONFIG['charset']);
         echo  htmlspecialchars ("<p>" . bb_decode($row['caption']) ."&nbsp;</p>", ENT_COMPAT, $CONFIG['charset']);
         echo  htmlspecialchars ("<p>" . bb_decode($row['keywords']) . "</p>", ENT_COMPAT, $CONFIG['charset']);
 
