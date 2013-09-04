@@ -2,7 +2,7 @@
 /**************************************************
   Coppermine 1.5.x Plugin - ShortURL
   *************************************************
-  Copyright (c) 2009-2010 eenemeenemuu
+  Copyright (c) 2009-2013 eenemeenemuu
   *************************************************
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -11,8 +11,6 @@
   ********************************************
   $HeadURL$
   $Revision$
-  $LastChangedBy$
-  $Date$
   **************************************************/
 
 if (!defined('IN_COPPERMINE')) {
@@ -40,6 +38,5 @@ $lang_plugin_shorturl['drop_db'] = 'URL-Datenbank löschen';
 $lang_plugin_shorturl['preview_status'] = 'Generelle URL-Vorschau ist derzeit %s';
 $lang_plugin_shorturl['enabled'] = 'aktiviert';
 $lang_plugin_shorturl['disabled'] = 'deaktiviert';
-
 
 ?>

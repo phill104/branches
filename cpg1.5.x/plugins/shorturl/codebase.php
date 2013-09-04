@@ -2,7 +2,7 @@
 /**************************************************
   Coppermine 1.5.x Plugin - ShortURL
   *************************************************
-  Copyright (c) 2009-2010 eenemeenemuu
+  Copyright (c) 2009-2013 eenemeenemuu
   *************************************************
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -11,8 +11,6 @@
   ********************************************
   $HeadURL$
   $Revision$
-  $LastChangedBy$
-  $Date$
   **************************************************/
 
 
@@ -358,7 +356,7 @@ $thisplugin->add_action('plugin_install', 'shorturl_install');
 
 function shorturl_install() {
     global $CONFIG;
-    return cpg_db_query("CREATE TABLE IF NOT EXISTS {$CONFIG['TABLE_PREFIX']}plugin_shorturl (rid int(11) unsigned NOT NULL auto_increment PRIMARY KEY, url text NOT NULL) TYPE=MyISAM  COMMENT='Contains the data for the shorturl plugin';");
+    return cpg_db_query("CREATE TABLE IF NOT EXISTS {$CONFIG['TABLE_PREFIX']}plugin_shorturl (rid int(11) unsigned NOT NULL auto_increment PRIMARY KEY, url text NOT NULL)");
 }
 
 
@@ -425,4 +423,5 @@ function shorturl_cleanup($action) {
 EOT;
     }
 }
+
 ?>
