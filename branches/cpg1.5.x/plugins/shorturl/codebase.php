@@ -309,8 +309,10 @@ function shorturl_sys_menu($menu) {
         require "./plugins/shorturl/lang/{$CONFIG['lang']}.php";
     }
 
+    $icon = $CONFIG['enable_menu_icons'] > 0 ? '<img class="icon" src="images/icons/hide_table_row.png" />' : '';
+
     $new_button = array();
-    $new_button[0][0] = $lang_plugin_shorturl['menu_link'];
+    $new_button[0][0] = $icon.$lang_plugin_shorturl['menu_link'];
     $new_button[0][1] = $lang_plugin_shorturl['title'];
     $new_button[0][2] = './?shorturl=add';
     $new_button[0][3] = '';
