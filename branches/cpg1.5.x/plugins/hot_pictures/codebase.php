@@ -177,7 +177,16 @@ function hot_pictures_meta_album($meta) {
 $thisplugin->add_action('plugin_install', 'hot_pictures_install');
 function hot_pictures_install() {
     global $CONFIG;
-    cpg_db_query("ALTER IGNORE TABLE {$CONFIG['TABLE_PICTURES']} ADD hot_expire int(11) default '0'");
+    cpg_db_query("ALTER TABLE {$CONFIG['TABLE_PICTURES']} ADD hot_expire int(11) default '0'");
+    return true;
+}
+
+
+// Remove new column
+$thisplugin->add_action('plugin_uninstall', 'hot_pictures_uninstall');
+function hot_pictures_uninstall() {
+    global $CONFIG;
+    cpg_db_query("ALTER TABLE {$CONFIG['TABLE_PICTURES']} DROP hot_expire");
     return true;
 }
 
