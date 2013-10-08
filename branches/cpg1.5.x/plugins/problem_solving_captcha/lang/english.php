@@ -22,6 +22,5 @@ if (!defined('IN_COPPERMINE')) {
 $lang_plugin_problem_solving_captcha['problem_solving_captcha'] = 'Problem Solving CAPTCHA';
 $lang_plugin_problem_solving_captcha['description'] = 'Create custom questions your users have to answer';
 $lang_plugin_problem_solving_captcha['announcement_thread'] = 'Announcement thread';
-$lang_plugin_problem_solving_captcha['incorrect_captcha'] = 'Wrong answer. Please try again.';
 
 ?>
