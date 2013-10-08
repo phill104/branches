@@ -53,23 +53,8 @@ function psc_check_captcha() {
 
 $thisplugin->add_filter('captcha_contact_print', 'psc_captcha_contact_print');
 function psc_captcha_contact_print($captcha_print) {
-    global $expand_array, $captcha_remark;
     $question = psc_get_random_question();
-    $visibility = $expand_array['captcha_remark'] ? 'block' : 'none';
-    $captcha_print = <<< EOT
-    <tr>
-        <td class="tableb" valign="top" align="right">
-            {$question['text']}
-        </td>
-        <td class="tableb" valign="top">
-            <input type="text" class="textinput" name="captcha" value="" />
-            <input type="hidden" name="captcha_id" value="{$question['id']}" />
-        </td>
-        <td class="tableb">
-            <span id="captcha_remark" style="display:{$visibility}">{$captcha_remark}</span>
-        </td>
-    </tr>
-EOT;
+    $captcha_print = str_replace('<img src="captcha.php" align="middle" border="0" alt="" />', $question['text'].'<input type="hidden" name="captcha_id" value="'.$question['id'].'" />', $captcha_print);
     return $captcha_print;
 }
 
@@ -77,23 +62,37 @@ EOT;
 $thisplugin->add_action('captcha_contact_validate', 'psc_captcha_contact_validate');
 function psc_captcha_contact_validate() {
     if (!psc_check_captcha()) {
-        global $CONFIG;
-        require_once "./plugins/problem_solving_captcha/lang/english.php";
-        if ($CONFIG['lang'] != 'english' && file_exists("./plugins/problem_solving_captcha/lang/{$CONFIG['lang']}.php")) {
-            require_once "./plugins/problem_solving_captcha/lang/{$CONFIG['lang']}.php";
-        }
-        $GLOBALS['captcha_remark'] = $lang_plugin_problem_solving_captcha['incorrect_captcha'];
-        $GLOBALS['expand_array'] = 'captcha_remark';
-        $GLOBALS['error']++;
+        global $lang_errors, $captcha_remark, $expand_array, $error;
+        $captcha_remark = $lang_errors['captcha_error'];
+        $expand_array[] = 'captcha_remark';
+        $error++;
     }
 }
 
 
-//$thisplugin->add_filter('captcha_register_print', 'psc_captcha_register_print');
-//$thisplugin->add_filter('captcha_register_validate', 'psc_captcha_register_validate');
-//$thisplugin->add_filter('captcha_comment_print', 'psc_captcha_comment_print');
-//$thisplugin->add_action('captcha_comment_validate', 'psc_captcha_comment_validate');
+$thisplugin->add_filter('captcha_comment_print', 'psc_captcha_comment_print');
+function psc_captcha_comment_print($template_add_your_comment) {
+    $question = psc_get_random_question();
+    $template_add_your_comment = preg_replace('/<input type="text" name="confirmCode" size="5" maxlength="5" class="textinput" \/>.*<img src="captcha.php" align="middle" border="0" alt="" \/>/Usi', $question['text'].' <input type="text" class="textinput" name="captcha" value="" /><input type="hidden" name="captcha_id" value="'.$question['id'].'" />', $template_add_your_comment);
+    return $template_add_your_comment;
+}
+
+
+$thisplugin->add_action('captcha_comment_validate', 'psc_captcha_comment_validate');
+function psc_captcha_comment_validate() {
+    if (!psc_check_captcha()) {
+        global $CONFIG, $USER_DATA, $hdr_ip, $lang_errors;
+        if ($CONFIG['log_mode'] != 0) {
+            log_write('Captcha authentication for comment failed for user '.$USER_DATA['user_name'].' at ' . $hdr_ip, CPG_SECURITY_LOG);
+        }
+        cpg_die(ERROR, $lang_errors['captcha_error'], __FILE__, __LINE__);
+    }
+}
+
+
 //$thisplugin->add_filter('captcha_ecard_print', 'psc_captcha_ecard_print');
 //$thisplugin->add_action('captcha_ecard_validate', 'psc_captcha_ecard_validate');
+//$thisplugin->add_filter('captcha_register_print', 'psc_captcha_register_print');
+//$thisplugin->add_filter('captcha_register_validate', 'psc_captcha_register_validate');
 
 ?>
