@@ -90,8 +90,10 @@ function psc_captcha_contact_validate() {
 
 
 //$thisplugin->add_filter('captcha_register_print', 'psc_captcha_register_print');
-//$thisplugin->add_filter('captcha_comment_print', 'psc_captcha_comment_print');
 //$thisplugin->add_filter('captcha_register_validate', 'psc_captcha_register_validate');
+//$thisplugin->add_filter('captcha_comment_print', 'psc_captcha_comment_print');
 //$thisplugin->add_action('captcha_comment_validate', 'psc_captcha_comment_validate');
+//$thisplugin->add_filter('captcha_ecard_print', 'psc_captcha_ecard_print');
+//$thisplugin->add_action('captcha_ecard_validate', 'psc_captcha_ecard_validate');
 
 ?>
