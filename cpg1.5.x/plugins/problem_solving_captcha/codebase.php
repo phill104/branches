@@ -73,7 +73,7 @@ function psc_captcha_contact_validate() {
 $thisplugin->add_filter('captcha_comment_print', 'psc_captcha_comment_print');
 function psc_captcha_comment_print($template_add_your_comment) {
     $question = psc_get_random_question();
-    $template_add_your_comment = preg_replace('/<input type="text" name="confirmCode" size="5" maxlength="5" class="textinput" \/>.*<img src="captcha.php" align="middle" border="0" alt="" \/>/Usi', $question['text'].' <input type="text" class="textinput" name="captcha" value="" /><input type="hidden" name="captcha_id" value="'.$question['id'].'" />', $template_add_your_comment);
+    $template_add_your_comment = str_replace('<img src="captcha.php" align="middle" border="0" alt="" />', $question['text'].'<input type="hidden" name="captcha_id" value="'.$question['id'].'" />', $template_add_your_comment);
     return $template_add_your_comment;
 }
 
