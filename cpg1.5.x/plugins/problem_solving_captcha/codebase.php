@@ -40,10 +40,10 @@ function psc_get_random_question() {
 }
 
 
-function psc_check_captcha() {
+function psc_check_captcha($name) {
     global $CONFIG;
     $superCage = Inspekt::makeSuperCage();
-    if (strtolower(trim($superCage->post->getRaw('captcha'))) == strtolower(trim($CONFIG[PSC_ANSWER_PREFIX . $superCage->post->getInt('captcha_id')]))) {
+    if (strtolower(trim($superCage->post->getRaw($name))) == strtolower(trim($CONFIG[PSC_ANSWER_PREFIX . $superCage->post->getInt('captcha_id')]))) {
         return true;
     } else {
         return false;
@@ -61,7 +61,7 @@ function psc_captcha_contact_print($captcha_print) {
 
 $thisplugin->add_action('captcha_contact_validate', 'psc_captcha_contact_validate');
 function psc_captcha_contact_validate() {
-    if (!psc_check_captcha()) {
+    if (!psc_check_captcha('captcha')) {
         global $lang_errors, $captcha_remark, $expand_array, $error;
         $captcha_remark = $lang_errors['captcha_error'];
         $expand_array[] = 'captcha_remark';
@@ -80,7 +80,7 @@ function psc_captcha_comment_print($template_add_your_comment) {
 
 $thisplugin->add_action('captcha_comment_validate', 'psc_captcha_comment_validate');
 function psc_captcha_comment_validate() {
-    if (!psc_check_captcha()) {
+    if (!psc_check_captcha('confirmCode')) {
         global $CONFIG, $USER_DATA, $hdr_ip, $lang_errors;
         if ($CONFIG['log_mode'] != 0) {
             log_write('Captcha authentication for comment failed for user '.$USER_DATA['user_name'].' at ' . $hdr_ip, CPG_SECURITY_LOG);
