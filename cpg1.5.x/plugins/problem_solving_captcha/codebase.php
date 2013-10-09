@@ -40,7 +40,7 @@ function psc_get_random_question() {
 function psc_check_captcha($name) {
     global $CONFIG;
     $superCage = Inspekt::makeSuperCage();
-    if (strtolower(trim($superCage->post->getRaw($name))) == strtolower(trim($CONFIG[PSC_ANSWER_PREFIX . $superCage->post->getInt('captcha_id')]))) {
+    if ($superCage->post->getRaw('comment') == '' && strtolower(trim($superCage->post->getRaw($name))) == strtolower(trim($CONFIG[PSC_ANSWER_PREFIX . $superCage->post->getInt('captcha_id')]))) {
         return true;
     } else {
         return false;
@@ -53,7 +53,8 @@ $thisplugin->add_filter('captcha_comment_print', 'psc_captcha_print');
 $thisplugin->add_filter('captcha_ecard_print', 'psc_captcha_print');
 function psc_captcha_print($captcha_print) {
     $question = psc_get_random_question();
-    $captcha_print = str_replace('<img src="captcha.php" align="middle" border="0" alt="" />', $question['text'].'<input type="hidden" name="captcha_id" value="'.$question['id'].'" />', $captcha_print);
+    $additional_hidden_field = '<div style="display:none"><textarea name="comment" id="comment"></textarea></div>';
+    $captcha_print = str_replace('<img src="captcha.php" align="middle" border="0" alt="" />', $question['text'].'<input type="hidden" name="captcha_id" value="'.$question['id'].'" />'.$additional_hidden_field, $captcha_print);
     return $captcha_print;
 }
 
