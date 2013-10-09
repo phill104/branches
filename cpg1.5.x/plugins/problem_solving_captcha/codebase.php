@@ -20,7 +20,6 @@ if (!defined('IN_COPPERMINE')) die('Not in Coppermine...');
 define('PSC_QUESTION_PREFIX', 'plugin_psc_q_');
 define('PSC_ANSWER_PREFIX', 'plugin_psc_a_');
 
-
 function psc_get_question_ids() {
     global $CONFIG;
     foreach ($CONFIG as $key => $value) {
@@ -31,14 +30,12 @@ function psc_get_question_ids() {
     return $psc_question_ids;
 }
 
-
 function psc_get_random_question() {
     global $CONFIG;
     $psc_question_ids = psc_get_question_ids();
     $rand_id = $psc_question_ids[mt_rand() % count($psc_question_ids)];
     return array('id' => $rand_id, 'text' => $CONFIG[PSC_QUESTION_PREFIX . $rand_id]);
 }
-
 
 function psc_check_captcha($name) {
     global $CONFIG;
@@ -50,14 +47,15 @@ function psc_check_captcha($name) {
     }
 }
 
-
-$thisplugin->add_filter('captcha_contact_print', 'psc_captcha_contact_print');
-function psc_captcha_contact_print($captcha_print) {
+$thisplugin->add_filter('captcha_contact_print', 'psc_captcha_print');
+$thisplugin->add_filter('captcha_register_print', 'psc_captcha_print');
+$thisplugin->add_filter('captcha_comment_print', 'psc_captcha_print');
+$thisplugin->add_filter('captcha_ecard_print', 'psc_captcha_print');
+function psc_captcha_print($captcha_print) {
     $question = psc_get_random_question();
     $captcha_print = str_replace('<img src="captcha.php" align="middle" border="0" alt="" />', $question['text'].'<input type="hidden" name="captcha_id" value="'.$question['id'].'" />', $captcha_print);
     return $captcha_print;
 }
-
 
 $thisplugin->add_action('captcha_contact_validate', 'psc_captcha_contact_validate');
 function psc_captcha_contact_validate() {
@@ -69,14 +67,14 @@ function psc_captcha_contact_validate() {
     }
 }
 
-
-$thisplugin->add_filter('captcha_comment_print', 'psc_captcha_comment_print');
-function psc_captcha_comment_print($template_add_your_comment) {
-    $question = psc_get_random_question();
-    $template_add_your_comment = str_replace('<img src="captcha.php" align="middle" border="0" alt="" />', $question['text'].'<input type="hidden" name="captcha_id" value="'.$question['id'].'" />', $template_add_your_comment);
-    return $template_add_your_comment;
+$thisplugin->add_filter('captcha_register_validate', 'psc_captcha_register_validate');
+function psc_captcha_register_validate($error) {
+    if (!psc_check_captcha('confirmCode')) {
+        global $lang_errors, $error;
+        $error .= '<li style="list-style-image:url(images/icons/stop.png)">' . $lang_errors['captcha_error'] . '</li>';
+    }
+    return $error;
 }
-
 
 $thisplugin->add_action('captcha_comment_validate', 'psc_captcha_comment_validate');
 function psc_captcha_comment_validate() {
@@ -89,10 +87,15 @@ function psc_captcha_comment_validate() {
     }
 }
 
-
-//$thisplugin->add_filter('captcha_ecard_print', 'psc_captcha_ecard_print');
-//$thisplugin->add_action('captcha_ecard_validate', 'psc_captcha_ecard_validate');
-//$thisplugin->add_filter('captcha_register_print', 'psc_captcha_register_print');
-//$thisplugin->add_filter('captcha_register_validate', 'psc_captcha_register_validate');
+$thisplugin->add_action('captcha_ecard_validate', 'psc_captcha_ecard_validate');
+function psc_captcha_ecard_validate() {
+    if (!psc_check_captcha('confirmCode')) {
+        global $CONFIG, $USER_DATA, $hdr_ip, $lang_errors;
+        if ($CONFIG['log_mode'] != 0) {
+            log_write('Captcha authentication for ecard failed for user '.$USER_DATA['user_name'].' at ' . $hdr_ip, CPG_SECURITY_LOG);
+        }
+        cpg_die(ERROR, $lang_errors['captcha_error'], __FILE__, __LINE__);
+    }
+}
 
 ?>
