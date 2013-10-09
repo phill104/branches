@@ -114,7 +114,7 @@ class topic_controller extends Controller {
             }
             global $CONFIG;
             if ($CONFIG['comment_captcha'] == 1 || $CONFIG['comment_captcha'] == 2 && !USER_ID) {
-                if (!captcha_plugin_enabled()) {
+                if (!captcha_plugin_enabled('comment')) {
                     global $lang_errors;
                     $superCage = Inspekt::makeSuperCage();
                     require("include/captcha.inc.php");
