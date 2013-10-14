@@ -24,4 +24,4 @@ CREATE TABLE IF NOT EXISTS `CPG_plugin_annotate` (
   note text NOT NULL,
   user_id smallint(5) unsigned NOT NULL,
   PRIMARY KEY  (nid)
-) TYPE=MyISAM  COMMENT='Contains the data for the annotate plugin';
+);
