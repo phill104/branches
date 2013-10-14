@@ -16,10 +16,10 @@ if (!GALLERY_ADMIN_MODE) {
 
 // get sanitized POST parameters
 if ($superCage->post->keyExists('submit')) {
-	//Check if the form token is valid
-	if(!checkFormToken()){
-		cpg_die(ERROR, $lang_errors['invalid_form_token'], __FILE__, __LINE__);
-	}
+    //Check if the form token is valid
+    if(!checkFormToken()){
+        cpg_die(ERROR, $lang_errors['invalid_form_token'], __FILE__, __LINE__);
+    }
   // Define the sanitization patterns
   $sanitization_array = array(
       'plugin_template_adminmode' => array('type' => 'checkbox', 'min' => '0', 'max' => '1'),
@@ -52,9 +52,9 @@ if ($superCage->post->keyExists('submit')) {
           if ($san_value['type'] == 'raw') { // type is raw --- start
               if (isset($san_value['regex_ok']) == TRUE && preg_match($san_value['regex_ok'], $superCage->post->getRaw($san_key)) && $superCage->post->getRaw($san_key) != $CONFIG[$san_key]) {
                   $CONFIG[$san_key] = $superCage->post->getRaw($san_key);
-				  if ($superCage->post->getRaw($san_key) == 'none') {
-					$CONFIG[$san_key] = '';
-				  }
+                  if ($superCage->post->getRaw($san_key) == 'none') {
+                    $CONFIG[$san_key] = '';
+                  }
                   cpg_db_query("UPDATE {$CONFIG['TABLE_CONFIG']} SET value='{$CONFIG[$san_key]}' WHERE name='$san_key'");
                   $config_changes_counter++;
               }
@@ -87,9 +87,9 @@ if ($superCage->post->keyExists('submit')) {
 
 // Set the option output stuff 
 if ($CONFIG['plugin_template_adminmode'] == '1') {
-	$option_output['plugin_template_adminmode'] = 'checked="checked"';
+    $option_output['plugin_template_adminmode'] = 'checked="checked"';
 } else { 
-	$option_output['plugin_template_adminmode'] = '';
+    $option_output['plugin_template_adminmode'] = '';
 }
 
 pageheader(sprintf($lang_plugin_template['configure_x'], $lang_plugin_template['plugin_name']));
@@ -102,28 +102,28 @@ starttable('100%', sprintf($lang_plugin_template['configure_x'], $lang_plugin_te
 if ($superCage->post->keyExists('submit')) {
     if ($config_changes_counter > 0) {
         echo <<< EOT
-	<tr>
-		<td class="tablef" colspan="2" >
+    <tr>
+        <td class="tablef" colspan="2" >
 EOT;
         msg_box('', $lang_plugin_template['update_success'], '', '', 'success');
     } else {
         msg_box('', $lang_plugin_template['no_changes'], '', '', 'validation');
     }
         echo <<< EOT
-		</td>
-	</tr>
+        </td>
+    </tr>
 EOT;
 }
 echo <<< EOT
     <!-- insert config option form code start -->
     <!-- insert config option form code end -->
-	<tr>
-		<td class="tablef" colspan="3">
-			<input type="hidden" name="form_token" value="{$form_token}" />
-			<input type="hidden" name="timestamp" value="{$timestamp}" />
-			<button type="submit" class="button" name="submit" value="{$lang_plugin_template['submit']}">{$lang_plugin_template['submit']}</button>
-		</td>
-	</tr>
+    <tr>
+        <td class="tablef" colspan="3">
+            <input type="hidden" name="form_token" value="{$form_token}" />
+            <input type="hidden" name="timestamp" value="{$timestamp}" />
+            <button type="submit" class="button" name="submit" value="{$lang_plugin_template['submit']}">{$lang_plugin_template['submit']}</button>
+        </td>
+    </tr>
 EOT;
 
 endtable();
