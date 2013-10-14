@@ -6,7 +6,8 @@
 // create Inspekt supercage
 $superCage = Inspekt::makeSuperCage();
 
-// Make sure that this file can't be accessed directly, but only from within the Coppermine user interfaceif (!defined('IN_COPPERMINE')) {
+// Make sure that this file can't be accessed directly, but only from within the Coppermine user interface
+if (!defined('IN_COPPERMINE')) {
     die('Not in Coppermine...');
 }
 
@@ -28,12 +29,8 @@ if ($superCage->post->keyExists('submit')) {
   foreach ($sanitization_array as $san_key => $san_value) {
       if (isset($CONFIG[$san_key]) == TRUE) { // only loop if config value is set --- start
           if ($san_value['type'] == 'checkbox') { // type is checkbox --- start
-            if ($superCage->post->getInt($san_key) == $san_value['max'] && $CONFIG[$san_key] != $san_value['max']) {
-                $CONFIG[$san_key] = $san_value['max'];
-                cpg_db_query("UPDATE {$CONFIG['TABLE_CONFIG']} SET value='{$CONFIG[$san_key]}' WHERE name='$san_key'");
-                $config_changes_counter++;
-            } elseif($superCage->post->getInt($san_key) == $san_value['min'] && $CONFIG[$san_key] != $san_value['min']) {
-                $CONFIG[$san_key] = $san_value['min'];
+            if ($superCage->post->getInt($san_key) <= $san_value['max'] && $superCage->post->getInt($san_key) >= $san_value['min'] && $superCage->post->getInt($san_key) != $CONFIG[$san_key]) {
+                $CONFIG[$san_key] = $superCage->post->getInt($san_key);
                 cpg_db_query("UPDATE {$CONFIG['TABLE_CONFIG']} SET value='{$CONFIG[$san_key]}' WHERE name='$san_key'");
                 $config_changes_counter++;
             } elseif($superCage->post->keyExists($san_key) != TRUE && $CONFIG[$san_key] != '0') {
