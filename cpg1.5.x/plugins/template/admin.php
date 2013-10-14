@@ -47,7 +47,7 @@ if ($superCage->post->keyExists('submit')) {
               }
           } // type is integer --- end
           if ($san_value['type'] == 'raw') { // type is raw --- start
-              if (isset($san_value['regex_ok']) == TRUE && preg_match($san_value['regex_ok'], $superCage->post->getRaw($san_key)) && $superCage->post->getRaw($san_key) != $CONFIG[$san_key]) {
+              if (isset($san_value['regex']) == TRUE && preg_match($san_value['regex'], $superCage->post->getRaw($san_key)) && $superCage->post->getRaw($san_key) != $CONFIG[$san_key]) {
                   $CONFIG[$san_key] = $superCage->post->getRaw($san_key);
                   if ($superCage->post->getRaw($san_key) == 'none') {
                     $CONFIG[$san_key] = '';
@@ -58,10 +58,10 @@ if ($superCage->post->keyExists('submit')) {
           } // type is raw --- end
           if ($san_value['type'] == 'array') { // type is array --- start              
           $evaluate_value = $superCage->post->getRaw($san_key);
-              if (is_array($evaluate_value) && isset($san_value['regex_ok']) == TRUE && isset($san_value['delimiter']) == TRUE) {
+              if (is_array($evaluate_value) && isset($san_value['regex']) == TRUE && isset($san_value['delimiter']) == TRUE) {
                   $temp = '';
                   for ($i = 0; $i <= count($evaluate_value); $i++) {
-                      if (preg_match($san_value['regex_ok'], $evaluate_value[$i])) {
+                      if (preg_match($san_value['regex'], $evaluate_value[$i])) {
                           $temp .= $evaluate_value[$i] . $san_value['delimiter'];
                       }
                   }
