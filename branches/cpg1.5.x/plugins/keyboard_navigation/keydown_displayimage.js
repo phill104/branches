@@ -29,13 +29,22 @@ $(document).ready(function() {
         }
         if (!$(':input').is(':focus') && $("#jquery-lightbox").length != 1) {
             if(kcode == 37) {
-                window.location = $('.navmenu_pic img[src*=prev]').parent().attr('href');
+                href = $('.navmenu_pic img[src*=prev]').parent().attr('href');
+                if (href) {
+                    window.location = href;
+                }
             }
             if(kcode == 39) {
-                window.location = $('.navmenu_pic img[src*=next]').parent().attr('href');
+                href = $('.navmenu_pic img[src*=next]').parent().attr('href');
+                if (href) {
+                    window.location = href;
+                }
             }
             if(kcode == 38) {
-                window.location = $('.navmenu_pic img[src*=thumb]').parent().attr('href');
+                href = $('.navmenu_pic img[src*=thumb]').parent().attr('href');
+                if (href) {
+                    window.location = href;
+                }
             }
             if(kcode == 40) {
                 blocking('picinfo', 'yes', 'block');
