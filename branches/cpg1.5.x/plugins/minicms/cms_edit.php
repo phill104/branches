@@ -60,7 +60,7 @@ if(isset($request['submit']) && $request['submit']==$lang_minicms['submit'] && $
     $MINICMS['type']=(int)$request['type'];
     $title=mysql_real_escape_string($request['title']);
     $content=mysql_real_escape_string($request['minicms_content']);
-    $query = "UPDATE {$CONFIG['TABLE_CMS']} SET title = '$title', content = '$content', type = '{$MINICMS['type']}' WHERE ID = '$id'";
+    $query = "UPDATE {$CONFIG['TABLE_CMS']} SET title = '$title', content = '$content', type = '{$MINICMS['type']}', conid = '{$MINICMS['conid']}' WHERE ID = '$id'";
     $result = cpg_db_query($query);
     if ($result) {
         $redirect=urldecode($referer);
