@@ -193,7 +193,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'myvideo':
             $params = array(
-                'search_pattern' => '/http:\/\/www.myvideo.de\/watch\/([0-9]+)\/?/',
+                'search_pattern' => '/http:\/\/www\.myvideo\.de\/watch\/([0-9]+)\/?/',
                 'default_width'  => 613,
                 'default_height' => 383,
                 'player'         => 'http://www.myvideo.de/movie/{MATCH_1}',
@@ -204,10 +204,10 @@ function remote_videos_other_media($pic_html) {
 
         case 'vimeo':
             $params = array(
-                'search_pattern' => '/http:\/\/(www.)?vimeo.com\/([0-9]+)/',
+                'search_pattern' => '/http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)/',
                 'default_width'  => 640,
                 'default_height' => 360,
-                'player'         => 'http://vimeo.com/moogaloop.swf?clip_id={MATCH_2}',
+                'player'         => 'http://vimeo.com/moogaloop.swf?clip_id={MATCH_1}',
                 'player_height'  => 0,
             );
             return remote_videos_html_replace($params, $pic_html);
@@ -215,7 +215,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'yahoo':
             $params = array(
-                'search_pattern' => '/http:\/\/video.yahoo.com\/watch\/([0-9]+)\/([0-9]+)/',
+                'search_pattern' => '/http:\/\/video\.yahoo\.com\/watch\/([0-9]+)\/([0-9]+)/',
                 'default_width'  => 576,
                 'default_height' => 357,
                 'player'         => 'http://d.yimg.com/static.video.yahoo.com/yep/YV_YEP.swf?ver=2.2.40',
@@ -227,7 +227,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'metacafe':
             $params = array(
-                'search_pattern' => '/http:\/\/www.metacafe.com\/watch\/([0-9]+)\/([a-z0-9_-])/',
+                'search_pattern' => '/http:\/\/www\.metacafe\.com\/watch\/([0-9]+)\/([a-z0-9_-])/',
                 'default_width'  => 565,
                 'default_height' => 458,
                 'player'         => 'http://www.metacafe.com/fplayer/{MATCH_1}/{MATCH_2}.swf',
@@ -238,7 +238,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'google':
             $params = array(
-                'search_pattern' => '/http:\/\/video.google.[\w]+\/videoplay\?docid=([0-9]+)/',
+                'search_pattern' => '/http:\/\/video\.google\.[\w]+\/videoplay\?docid=([0-9]+)/',
                 'default_width'  => 640,
                 'default_height' => 385,
                 'player'         => 'http://video.google.com/googleplayer.swf?docid={MATCH_1}',
@@ -249,7 +249,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'myspace':
             $params = array(
-                'search_pattern' => '/http:\/\/vids.myspace.com\/index.cfm\?fuseaction=vids.individual&videoid=([0-9]+)/',
+                'search_pattern' => '/http:\/\/vids\.myspace\.com\/index\.cfm\?fuseaction=vids\.individual&videoid=([0-9]+)/',
                 'default_width'  => 640,
                 'default_height' => 400,
                 'player'         => 'http://mediaservices.myspace.com/services/media/embed.aspx/m={MATCH_1}',
@@ -260,7 +260,7 @@ function remote_videos_other_media($pic_html) {
 
          case 'sevenload':
             $params = array(
-                'search_pattern' => '/http:\/\/([\w]+).sevenload.com\/videos\/([A-Za-z0-9]{7})/',
+                'search_pattern' => '/http:\/\/([\w]+)\.sevenload\.com\/videos\/([A-Za-z0-9]{7})/',
                 'default_width'  => 445,
                 'default_height' => 334,
                 'player'         => 'http://{MATCH_1}.sevenload.com/pl/{MATCH_2}/{WIDTH}x{HEIGHT}/swf',
@@ -271,7 +271,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'clipfish':
             $params = array(
-                'search_pattern' => '/http:\/\/www.clipfish.de\/video\/([0-9]+)/',
+                'search_pattern' => '/http:\/\/www\.clipfish\.de\/video\/([0-9]+)/',
                 'default_width'  => 464,
                 'default_height' => 380,
                 'player'         => 'http://www.clipfish.de/videoplayer.swf?vid={MATCH_1}&r=1',
@@ -282,7 +282,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'dailymotion':
             $params = array(
-                'search_pattern' => '/http:\/\/www.dailymotion.com\/video\/([a-z0-9]{6})/',
+                'search_pattern' => '/http:\/\/www\.dailymotion\.com\/video\/([a-z0-9]{6})/',
                 'default_width'  => 608,
                 'default_height' => 356,
                 'player'         => 'http://www.dailymotion.com/swf/{MATCH_1}',
@@ -293,7 +293,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'gametrailers':
             $params = array(
-                'search_pattern' => '/http:\/\/www.gametrailers.com\/video\/.*\/([0-9]+)/',
+                'search_pattern' => '/http:\/\/www\.gametrailers\.com\/video\/.*\/([0-9]+)/',
                 'default_width'  => 480,
                 'default_height' => 392,
                 'player'         => 'http://www.gametrailers.com/remote_wrap.php?mid={MATCH_1}',
@@ -304,10 +304,10 @@ function remote_videos_other_media($pic_html) {
 
         case 'megavideo':
             $params = array(
-                'search_pattern' => '/http:\/\/(www.)?megavideo.com\/\?v=([A-Z0-9]{8})/',
+                'search_pattern' => '/http:\/\/(?:www\.)?megavideo\.com\/\?v=([A-Z0-9]{8})/',
                 'default_width'  => 640,
                 'default_height' => 480,
-                'player'         => 'http://www.megavideo.com/v/{MATCH_2}',
+                'player'         => 'http://www.megavideo.com/v/{MATCH_1}',
                 'player_height'  => 0,
             );
             return remote_videos_html_replace($params, $pic_html);
@@ -315,7 +315,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'spike':
             $params = array(
-                'search_pattern' => '/http:\/\/www.spike.com\/video\/.*\/([0-9]+)/',
+                'search_pattern' => '/http:\/\/www\.spike\.com\/video\/.*\/([0-9]+)/',
                 'default_width'  => 640,
                 'default_height' => 384,
                 'player'         => 'http://www.spike.com/efp',
@@ -327,7 +327,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'current':
             $params = array(
-                'search_pattern' => '/http:\/\/current.com\/items\/([0-9]+)_.*/',
+                'search_pattern' => '/http:\/\/current\.com\/items\/([0-9]+)_.*/',
                 'default_width'  => 560,
                 'default_height' => 420,
                 'player'         => 'http://current.com/e/{MATCH_1}',
@@ -338,7 +338,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'collegehumor':
             $params = array(
-                'search_pattern' => '/http:\/\/www.collegehumor.com\/video:([0-9]+)/',
+                'search_pattern' => '/http:\/\/www\.collegehumor\.com\/video:([0-9]+)/',
                 'default_width'  => 640,
                 'default_height' => 360,
                 'player'         => 'http://www.collegehumor.com/moogaloop/moogaloop.swf?clip_id={MATCH_1}',
@@ -349,10 +349,10 @@ function remote_videos_other_media($pic_html) {
 
         case 'stickam':
             $params = array(
-                'search_pattern' => '/http:\/\/(www.)?stickam.com\/viewMedia.do\?mId=([0-9]+)/',
+                'search_pattern' => '/http:\/\/(?:www\.)?stickam\.com\/viewMedia.do\?mId=([0-9]+)/',
                 'default_width'  => 448,
                 'default_height' => 336,
-                'player'         => 'http://player.stickam.com/flashVarMediaPlayer/{MATCH_2}',
+                'player'         => 'http://player.stickam.com/flashVarMediaPlayer/{MATCH_1}',
                 'player_height'  => 0,
             );
             return remote_videos_html_replace($params, $pic_html);
@@ -360,11 +360,11 @@ function remote_videos_other_media($pic_html) {
 
         case 'revver':
             $params = array(
-                'search_pattern' => '/http:\/\/(www.)?revver.com\/video\/([0-9]+)\/.*/',
+                'search_pattern' => '/http:\/\/(?:www\.)?revver\.com\/video\/([0-9]+)\/.*/',
                 'default_width'  => 480,
                 'default_height' => 392,
                 'player'         => 'http://flash.revver.com/player/1.0/player.swf',
-                'extra_params'   => '<param name="flashVars" value="mediaId={MATCH_2}" />',
+                'extra_params'   => '<param name="flashVars" value="mediaId={MATCH_1}" />',
                 'player_height'  => 31,
             );
             return remote_videos_html_replace($params, $pic_html);
