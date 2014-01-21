@@ -13,7 +13,7 @@
 #  $LastChangedBy$
 #  $Date$
 #  **************************************************/
-  
+
 CREATE TABLE IF NOT EXISTS `CPG_fr_boards` (
   `board_id` smallint(5) NOT NULL auto_increment,
   `cat_id` tinyint(4) NOT NULL default '0',
@@ -27,14 +27,14 @@ CREATE TABLE IF NOT EXISTS `CPG_fr_boards` (
   `topics` mediumint(8) NOT NULL default '0',
   `posts` mediumint(8) NOT NULL default '0',
   PRIMARY KEY (`board_id`)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE IF NOT EXISTS `CPG_fr_categories` (
   `cat_id` tinyint(4) NOT NULL auto_increment,
   `cat_order` tinyint(4) NOT NULL default '0',
   `name` tinytext NOT NULL,
   PRIMARY KEY  (`cat_id`)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE IF NOT EXISTS `CPG_fr_message_icons` (
   `icon_id` smallint(5) NOT NULL auto_increment,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `CPG_fr_message_icons` (
   `filename` varchar(80) NOT NULL default '',
   `icon_order` smallint(5) NOT NULL default '0',
   PRIMARY KEY (`icon_id`)
-) TYPE=MyISAM AUTO_INCREMENT=14 ;
+) AUTO_INCREMENT=14;
 
 INSERT INTO `CPG_fr_message_icons` 
 (`icon_id`, `title`, `filename`, `icon_order`) 
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `CPG_fr_messages` (
   `body` text NOT NULL,
   `icon` varchar(16) NOT NULL default '1',
   PRIMARY KEY  (`msg_id`)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE IF NOT EXISTS `CPG_fr_topics` (
   `topic_id` mediumint(8) NOT NULL auto_increment,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `CPG_fr_topics` (
   `views` int(10) NOT NULL default '0',
   `locked` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`topic_id`)
-) TYPE=MyISAM;
+);
 
 INSERT INTO `CPG_config` (name, value) VALUES ('fr_version', '2.0 Beta');
 INSERT INTO `CPG_config` (name, value) VALUES ('fr_title', 'Coppermine Simple Forum');
