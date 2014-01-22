@@ -2,7 +2,7 @@
 /**************************************************
   Coppermine 1.5.x plugin - More meta albums
   *************************************************
-  Copyright (c) 2010 eenemeenemuu
+  Copyright (c) 2010-2014 eenemeenemuu
   *************************************************
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -426,14 +426,14 @@ function mma_meta_album($meta) {
                 break;
             }
 
-            $query = "SELECT p.*, c1.*, UNIX_TIMESTAMP(c1.msg_date) AS msg_date FROM {$CONFIG['TABLE_COMMENTS']} AS c1 
-                LEFT JOIN {$CONFIG['TABLE_COMMENTS']} AS c2 ON (c2.pid = c1.pid AND c2.msg_date > c1.msg_date)
-                INNER JOIN {$CONFIG['TABLE_PICTURES']} AS p ON p.pid = c1.pid 
+            $query = "SELECT p.*, com1.*, UNIX_TIMESTAMP(com1.msg_date) AS msg_date FROM {$CONFIG['TABLE_COMMENTS']} AS com1 
+                LEFT JOIN {$CONFIG['TABLE_COMMENTS']} AS com2 ON (com2.pid = com1.pid AND com2.msg_date > com1.msg_date)
+                INNER JOIN {$CONFIG['TABLE_PICTURES']} AS p ON p.pid = com1.pid 
                 INNER JOIN {$CONFIG['TABLE_ALBUMS']} AS r ON r.aid = p.aid
                 $RESTRICTEDWHERE 
                 AND approved = 'YES'
-                AND c1.approval = 'YES'
-                AND c2.pid IS NULL
+                AND com1.approval = 'YES'
+                AND com2.pid IS NULL
                 ORDER BY msg_date DESC 
                 {$meta['limit']}";
             $result = cpg_db_query($query);
