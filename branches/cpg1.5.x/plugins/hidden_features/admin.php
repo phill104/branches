@@ -19,16 +19,7 @@ if (!GALLERY_ADMIN_MODE) {
     cpg_die(ERROR, $lang_errors['access_denied'], __FILE__, __LINE__);
 }
 
-/*
-$CONFIG['link_last_upload']                 2014-01-21 [A] Added hidden feature to regard upload time of linked files in album info (thread ID 77021) {eenemeenemuu}
-$CONFIG['editpics_ignore_newer_than']       2012-11-28 [A] Added hidden feature to display all files after flash upload (thread ID 75588) {eenemeenemuu}
-$CONFIG['custom_sortorder_thumbs']          2012-07-06 [A] Added hidden feature to toggle the display of the sort buttons on the thumbnail page {eenemeenemuu}
-$CONFIG['album_sort_order']                 2012-06-29 [A] Added hidden feature to set sort order of albums (thread ID 75112) {eenemeenemuu}
-$CONFIG['upload_create_album_directory']    2011-11-17 [A] Added hidden feature "Create sub-directory named according to the album ID in users' upload directories during HTTP upload" {eenemeenemuu}
-$CONFIG['allow_guests_enter_file_details']  2010-07-13 [A] Disable the possibility for guests to enter file details by default (thread ID 62522) {eenemeenemuu}
-*/
-
-// List of all possible hidden config option - will be checked later if available at used gallery version
+// List of all possible hidden config option
 $hidden_features_config_options = array(
     'allow_guests_enter_file_details' => array(
         'type' => 'checkbox',
@@ -61,11 +52,12 @@ foreach ($hidden_features_config_options as $option => $data) {
 pageheader($lang_plugin_hidden_features['hidden_features'].' - '.$lang_gallery_admin_menu['admin_lnk']);
 $superCage = Inspekt::makeSuperCage();
 
-if ($superCage->post->keyExists('submit')) {
+if ($superCage->post->keyExists('update_config')) {
     if (!checkFormToken()) {
         cpg_die(ERROR, $lang_errors['invalid_form_token'], __FILE__, __LINE__);
     }
 
+    $updated = array();
     foreach ($hidden_features_config_options as $option => $data) {
         if ($data['type'] == 'checkbox') {
             $value = $superCage->post->keyExists($option) ? '1' : '0';
@@ -85,18 +77,30 @@ if ($superCage->post->keyExists('submit')) {
         } else {
             continue;
         }
-        $CONFIG[$option] = $value;
-        cpg_db_query("UPDATE {$CONFIG['TABLE_CONFIG']} SET value = '$value' WHERE name = '$option'");
+        if ($value != $CONFIG[$option]) {
+            cpg_db_query("UPDATE {$CONFIG['TABLE_CONFIG']} SET value = '$value' WHERE name = '$option'");
+            $CONFIG[$option] = $value;
+            $updated[] = $option;
+        }
     }
 
-    starttable("100%", $lang_common['information']);
-    echo "
+    if (count($updated)) {
+        $status = '<ul>';
+        foreach ($updated as $option) {
+            $status .= '<li style="list-style-image:url(images/icons/ok.png)">'.sprintf($lang_admin_php['config_setting_ok'], $lang_plugin_hidden_features[$option]).'</li>';
+        }
+        $status .= '</ul>';
+    } else {
+        $status = $lang_admin_php['upd_not_needed'];
+    }
+    starttable("100%", cpg_fetch_icon('info', 1).$lang_common['information']);
+    echo <<< EOT
         <tr>
-            <td class=\"tableb\" width=\"200\">
-                {$lang_plugin_hidden_features['saved']}
+            <td class="tableb">
+                {$status}
             </td>
         </tr>
-    ";
+EOT;
     endtable();
     echo "<br />";
 }
@@ -117,24 +121,33 @@ foreach ($hidden_features_config_options as $option => $data) {
     } else {
         continue;
     }
+    $tableb_alternate = (++$i % 2 == 0) ? ' tableb_alternate' : '';
     echo <<<EOT
         <tr>
-            <td class="tableb">
+            <td class="tableb{$tableb_alternate}">
                 {$lang_plugin_hidden_features[$option]}
             </td>
-            <td class="tableb">
-                $input
+            <td class="tableb{$tableb_alternate}">
+                {$input}
             </td>
         </tr>
 EOT;
 }
-endtable();
 
 list($timestamp, $form_token) = getFormToken();
-echo "<input type=\"hidden\" name=\"form_token\" value=\"{$form_token}\" />";
-echo "<input type=\"hidden\" name=\"timestamp\" value=\"{$timestamp}\" />";
-echo "<input type=\"submit\" value=\"{$lang_common['apply_changes']}\" name=\"submit\" class=\"button\" /> ";
-echo "<input type=\"reset\" value=\"reset\" name=\"reset\" class=\"button\" /> </form>";
+echo <<< EOT
+    <tr>
+        <td class="tableb"></td>
+        <td class="tableb">
+            <input type="hidden" name="form_token" value="{$form_token}" />
+            <input type="hidden" name="timestamp" value="{$timestamp}" />
+            <button type="submit" class="button" name="update_config" value="{$lang_admin_php['save_cfg']}"><img src="images/icons/ok.png" border="0" alt="" width="16" height="16" class="icon" />{$lang_admin_php['save_cfg']}</button>
+        </td>
+    </tr>
+EOT;
+
+endtable();
+echo '</form><br />';
 pagefooter();
 
 ?>

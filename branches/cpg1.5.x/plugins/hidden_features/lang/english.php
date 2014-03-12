@@ -20,7 +20,6 @@ if (!defined('IN_COPPERMINE')) die('Not in Coppermine...');
 $lang_plugin_hidden_features['hidden_features'] = 'Hidden features';
 $lang_plugin_hidden_features['description'] = 'Adds a config panel for all available hidden features.';
 $lang_plugin_hidden_features['announcement_thread'] = 'Announcement thread';
-$lang_plugin_hidden_features['saved'] = 'Your settings have been saved.';
 $lang_plugin_hidden_features['allow_guests_enter_file_details'] = 'Allow guests to enter file details after flash upload';
 $lang_plugin_hidden_features['upload_create_album_directory'] = 'Create sub-directory for each album in users\' upload directories';
 $lang_plugin_hidden_features['album_sort_order'] = 'Sort order for albums';
