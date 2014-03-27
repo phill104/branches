@@ -57,7 +57,7 @@ function custom_thumb_page_start() {
             if (is_image($fileupload['name'])) {
                 if (!is_image($row['filename'])) {
                     $path_parts = pathinfo($row['filename']);
-                    $row['filename'] = str_replace($row['filename'], basename($row['filename'], '.'.$path_parts['extension']).'.jpg', $row['filename']);
+                    $row['filename'] = basename($row['filename'], '.'.$path_parts['extension']).'.png';
                 }
                 $thumb = $CONFIG['fullpath'] . $row['filepath'] . $CONFIG['thumb_pfx'] . $row['filename'];
                 if (move_uploaded_file($fileupload['tmp_name'], $thumb) == TRUE) {
