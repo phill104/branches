@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `CPG_fr_messages` (
   `modified_id` int(10) NOT NULL default '0',
   `subject` tinytext NOT NULL,
   `poster_name` tinytext NOT NULL,
-  `poster_email` tinytext NOT NULL,
+  `poster_email` tinytext NOT NULL default '',
   `poster_ip` tinytext NOT NULL,
   `smileys_enabled` tinyint(4) NOT NULL default '1',
   `modified_time` int(10) NOT NULL default '0',
