@@ -26,7 +26,7 @@ $author = '<a href="http://forum.coppermine-gallery.net/index.php?action=profile
 $version = '1.0';
 $plugin_cpg_version = array('min' => '1.5');
 
-$install_info = '<a href="http://forum.coppermine-gallery.net/index.php/topic,TODO.0.html" rel="external" class="admin_menu">'.cpg_fetch_icon('announcement', 1).$lang_plugin_fit_screen['announcement_thread'].'</a>';
+$install_info = '<a href="http://forum.coppermine-gallery.net/index.php/topic,77586.0.html" rel="external" class="admin_menu">'.cpg_fetch_icon('announcement', 1).$lang_plugin_fit_screen['announcement_thread'].'</a>';
 $extra_info = $install_info;
 
 ?>
