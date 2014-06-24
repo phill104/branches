@@ -16,15 +16,15 @@
   **************************************************/
 
 $name = 'Auto tag';
-$description = 'Automatically add already existing keywords if they\'re found in the title or description.';
+$description = 'Automatically add already existing keywords if they\'re found in the title or description. For more information, please visit the plugin announcement thread.';
 $author = '<a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=24278" rel="external" class="external">eenemeenemuu</a>';
-$version = '0.1';
+$version = '1.0';
 $plugin_cpg_version = array('min' => '1.5');
 
 $announcement_icon = cpg_fetch_icon('announcement', 1);
 
 $extra_info = $install_info = <<<EOT
-    <a href="http://forum.coppermine-gallery.net/index.php/topic,TODO.0.html" rel="external" class="admin_menu">{$announcement_icon}Announcement thread</a>
+    <a href="http://forum.coppermine-gallery.net/index.php/topic,77621.0.html" rel="external" class="admin_menu">{$announcement_icon}Announcement thread</a>
 EOT;
 
 ?>
