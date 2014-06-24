@@ -66,9 +66,18 @@ function auto_tag_after_edit_file($pid) {
         }
     }
 
-    print_r($word_array);
-    print_r($keyword_array);
+    $new_keyword = false;
+    foreach ($word_array as $word) {
+        $word = utf_strtolower($word);
+        if (!in_array($word, $keyword_array) && in_array($word, $keywords_array)) {
+            $new_keyword = true;
+            $keyword_array[] = $word;
+        }
+    }
 
+    if ($new_keyword) {
+        cpg_db_query("UPDATE {$CONFIG['TABLE_PICTURES']} SET keywords = '".implode($CONFIG['keyword_separator'], $keyword_array)."' WHERE pid = $pid LIMIT 1");
+    }
 }
 
 ?>
