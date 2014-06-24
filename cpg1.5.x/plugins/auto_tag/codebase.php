@@ -58,20 +58,22 @@ function auto_tag_after_edit_file($pid) {
 
     if ($picture['keywords']) {
         $keyword_array = array();
+        $keyword_array_lowercase = array();
         $array = explode($CONFIG['keyword_separator'], html_entity_decode($picture['keywords']));
         foreach($array as $word) {
-            if (!in_array($word = utf_strtolower($word), $keyword_array) && trim($word)) {
+            if (!in_array(utf_strtolower($word), $keyword_array_lowercase) && trim($word)) {
                 $keyword_array[] = $word;
+                $keyword_array_lowercase[] = utf_strtolower($word);
             }
         }
     }
 
     $new_keyword = false;
     foreach ($word_array as $word) {
-        $word = utf_strtolower($word);
-        if (!in_array($word, $keyword_array) && in_array($word, $keywords_array)) {
+        if (!in_array(utf_strtolower($word), $keyword_array_lowercase) && in_array(utf_strtolower($word), $keywords_array)) {
             $new_keyword = true;
             $keyword_array[] = $word;
+            $keyword_array_lowercase[] = utf_strtolower($word);
         }
     }
 
