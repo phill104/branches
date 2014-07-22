@@ -22,9 +22,14 @@ $version = '1.0';
 $plugin_cpg_version = array('min' => '1.5');
 
 $announcement_icon = cpg_fetch_icon('announcement', 1);
+$export_icon = cpg_fetch_icon('download', 1);
 
 $extra_info = $install_info = <<<EOT
     <a href="http://forum.coppermine-gallery.net/index.php/topic,TODO.0.html" rel="external" class="admin_menu">{$announcement_icon}Announcement thread</a>
+EOT;
+
+$extra_info .= <<<EOT
+    <a href="index.php?file=log_fullsize_access/export" class="admin_menu">{$export_icon}Export</a>
 EOT;
 
 ?>
