@@ -39,10 +39,14 @@ if ($superCage->post->keyExists('change_stat')){
 	$sql="select group_id FROM `{$CONFIG['TABLE_FINAL_EXTRACT_CONFIG']}` WHERE `group_id`=$groupid";
 	$result=cpg_db_query($sql);
 	$row=mysql_num_rows($result);
-	$home=0;$login=0;$my_gallery=0;$upload_pic=0;$album_list=0;$lastup=0;$lastcom=0;$topn=0;$toprated=0;$favpics=0;$search=0;$my_profile=0;
+	$home=0;$register=0;$login=0;$my_gallery=0;$upload_pic=0;$album_list=0;$lastup=0;$lastcom=0;$topn=0;$toprated=0;$favpics=0;$search=0;$my_profile=0;
 	$cnt=0;
 	if($superCage->post->getAlpha('home')<>""){
 		$home=1;
+		$cnt++;
+	}
+	if($superCage->post->getAlpha('register')<>""){
+		$register=1;
 		$cnt++;
 	}
 	if($superCage->post->getAlpha('login')<>""){
@@ -90,10 +94,10 @@ if ($superCage->post->keyExists('change_stat')){
 		$cnt++;
 	}
 	if ($row==FALSE){
-		$sql="INSERT INTO `{$CONFIG['TABLE_FINAL_EXTRACT_CONFIG']}`VALUE($groupid,$home,$login,$my_gallery,$upload_pic,$album_list,$lastup,$lastcom,$topn,$toprated,$favpics,$search,$my_profile)";
+		$sql="INSERT INTO `{$CONFIG['TABLE_FINAL_EXTRACT_CONFIG']}`VALUE($groupid,$home,$login,$my_gallery,$upload_pic,$album_list,$lastup,$lastcom,$topn,$toprated,$favpics,$search,$my_profile,$register)";
 		cpg_db_query($sql);
 	}else{	
-		$sql="UPDATE `{$CONFIG['TABLE_FINAL_EXTRACT_CONFIG']}` SET `home`=$home,`login`=$login,`my_gallery`=$my_gallery,`upload_pic`=$upload_pic,`album_list`=$album_list,`lastup`=$lastup,`lastcom`=$lastcom,`topn`=$topn,`toprated`=$toprated,`favpics`=$favpics,`search`=$search,`my_profile`=$my_profile  WHERE Group_Id=$groupid";
+		$sql="UPDATE `{$CONFIG['TABLE_FINAL_EXTRACT_CONFIG']}` SET `home`=$home,`login`=$login,`my_gallery`=$my_gallery,`upload_pic`=$upload_pic,`album_list`=$album_list,`lastup`=$lastup,`lastcom`=$lastcom,`topn`=$topn,`toprated`=$toprated,`favpics`=$favpics,`search`=$search,`my_profile`=$my_profile,`register`=$register WHERE Group_Id=$groupid";
 		cpg_db_query($sql);
 		
 		unset($chang_stat);
@@ -203,6 +207,10 @@ $nb=0
             	<tr>
             		<td class=tableb align="<?php echo $align ?>" dir="<?php echo $direction ?>"><?php echo $lang_plugin_final_extract['home_block'];?></td>
             		<td align="center" valign=top class=tableb><input name="home" type="checkbox"   <?php if($row2['home']==1) { echo 'checked="cheked"';$nb++;} ?>/></td>
+            	</tr>
+            	<tr>
+            		<td class=tableb align="<?php echo $align ?>" dir="<?php echo $direction ?>"><?php echo $lang_plugin_final_extract['register_block'];?></td>
+            		<td align="center" valign=top class=tableb><input name="register" type="checkbox"  <?php if($row2['register']==1) { echo 'checked="cheked"';$nb++;} ?>/></td>
             	</tr>
             	<tr>
             		<td class=tableb align="<?php echo $align ?>" dir="<?php echo $direction ?>"><?php echo $lang_plugin_final_extract['login_block'];?></td>

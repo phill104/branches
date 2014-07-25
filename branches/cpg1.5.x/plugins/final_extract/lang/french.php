@@ -26,6 +26,7 @@ $lang_plugin_final_extract['install_note'] = 'Utilisez le bouton du menu Adminis
 $lang_plugin_final_extract['install_click'] = 'Cliquez sur le bouton pour installer le plugin.';        // Message to install plugin
 $lang_plugin_final_extract['group_name'] = 'Sélectionnez le groupe d\'utilisateur';
 $lang_plugin_final_extract['home_block'] = 'Accueil';
+$lang_plugin_final_extract['register_block'] = 'Inscription';
 $lang_plugin_final_extract['login_block'] = 's\'identifier';
 $lang_plugin_final_extract['my_galery_block'] = 'Ma galerie';
 $lang_plugin_final_extract['upload_pic_block'] = 'Télécharger une image';

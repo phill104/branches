@@ -26,6 +26,7 @@ $lang_plugin_final_extract['install_note'] = 'Configure plugin using button on A
 $lang_plugin_final_extract['install_click'] = 'Click button to install plugin.';        // Message to install plugin
 $lang_plugin_final_extract['group_name'] = 'Select User Group';
 $lang_plugin_final_extract['home_block'] = 'Home';
+$lang_plugin_final_extract['register_block'] = 'Register';
 $lang_plugin_final_extract['login_block'] = 'Login';
 $lang_plugin_final_extract['my_galery_block'] = 'My Gallery';
 $lang_plugin_final_extract['upload_pic_block'] = 'Upload File';

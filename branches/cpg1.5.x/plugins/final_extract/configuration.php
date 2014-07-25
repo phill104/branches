@@ -27,7 +27,7 @@ $author = <<< EOT
     Modified by: Frantz
 EOT;
 $extra_info .= 'Configure this plugin using the admin menu item <a href="index.php?file=final_extract/admin" class="admin_menu">Final extract</a>';
-$version = '2.5';
+$version = '2.6';
 $plugin_cpg_version = array('min' => '1.5');
 $final_extract_icon_array['ok'] = cpg_fetch_icon('ok', 1); 
 ?>
