@@ -172,8 +172,15 @@ function final_extract_page_start()
 	global $CONFIG, $lang_plugin_final_extract, $lang_plugin_final_extract_config, $lang_plugin_final_extract_manage, $FEX,$lang_plugin_final_extract_delete;
 	require ('plugins/final_extract/configuration.php');
 
+    $result = cpg_db_query("SELECT * FROM {$CONFIG['TABLE_PREFIX']}final_extract_config LIMIT 1");
+    $row = mysql_fetch_assoc($result);
+    if (!isset($row['register'])) {
+        cpg_db_query("ALTER TABLE {$CONFIG['TABLE_PREFIX']}final_extract_config ADD `register` varchar(255) NOT NULL default ''");
+    }
+    mysql_free_result($result);
+
     $group=explode(',',substr(USER_GROUP_SET,1,-1));
-    $result = cpg_db_query("SELECT home,login,my_gallery,upload_pic,album_list,lastup,lastcom,topn,toprated,favpics,search,my_profile FROM {$CONFIG['TABLE_PREFIX']}final_extract_config WHERE Group_Id=$group[0]");
+    $result = cpg_db_query("SELECT home,login,my_gallery,upload_pic,album_list,lastup,lastcom,topn,toprated,favpics,search,my_profile,register FROM {$CONFIG['TABLE_PREFIX']}final_extract_config WHERE Group_Id=$group[0]");
     while($row = mysql_fetch_array($result,MYSQL_ASSOC)){	
         $FEX=$row;				
     }

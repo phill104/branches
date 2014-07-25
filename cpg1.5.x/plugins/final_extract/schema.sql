@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `CPG_final_extract_config` (
   `favpics` varchar(255) NOT NULL default '',
   `search` varchar(255) NOT NULL default '',
   `my_profile` varchar(255) NOT NULL default '',
+  `register` varchar(255) NOT NULL default '',
 
   PRIMARY KEY  (`Group_Id`)
 );
