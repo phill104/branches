@@ -51,7 +51,7 @@ function quick_tag_page_html($html) {
         if ($i++ >= $num_keywords) {
             break;
         }
-        $buttons .= "<span class=\"admin_menu\" onclick=\"jQuery('#keywords\\1').val(jQuery('#keywords\\1').val() + '{$CONFIG['keyword_separator']}$keyword')\">$keyword</span>";
+        $buttons .= "<span class=\"admin_menu\" onclick=\"jQuery('#keywords\\1').focus();jQuery('#keywords\\1').val(jQuery('#keywords\\1').val() + '{$CONFIG['keyword_separator']}$keyword{$CONFIG['keyword_separator']}');\">$keyword</span>";
     }
 
     $html = preg_replace('/<input type="text" style="width: 100%" name="keywords([0-9]+)?".* \/>/U', "\\0".$buttons, $html);
