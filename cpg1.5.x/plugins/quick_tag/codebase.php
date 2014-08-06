@@ -17,13 +17,12 @@
 
 if (!defined('IN_COPPERMINE')) die('Not in Coppermine...');
 
-global $CPG_PHP_SELF;
 if (GALLERY_ADMIN_MODE && ($CPG_PHP_SELF == 'edit_one_pic.php' || $CPG_PHP_SELF == 'editpics.php')) {
     $thisplugin->add_filter('page_html', 'quick_tag_page_html');
 }
 
 function quick_tag_page_html($html) {
-    global $CONFIG, $CPG_PHP_SELF;
+    global $CONFIG;
 
     $num_keywords = 10;
 
