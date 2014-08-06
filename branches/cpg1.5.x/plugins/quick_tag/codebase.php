@@ -34,7 +34,10 @@ function quick_tag_page_html($html) {
         while (list($keywords) = mysql_fetch_row($result)) {
             $array = explode($CONFIG['keyword_separator'], html_entity_decode($keywords));
             foreach($array as $word) {
-                if (!in_array($word = utf_strtolower($word), $keywords_array) && trim($word)) {
+                if (!trim($word)) {
+                    continue;
+                }
+                if (!in_array($word = utf_strtolower($word), $keywords_array)) {
                     $keywords_array[] = $word;
                     $keyword_count[$word] = 1;
                 } else {
@@ -51,10 +54,10 @@ function quick_tag_page_html($html) {
         if ($i++ >= $num_keywords) {
             break;
         }
-        $buttons .= "<span class=\"admin_menu\" onclick=\"jQuery('#keywords\\1').focus();jQuery('#keywords\\1').val(jQuery('#keywords\\1').val() + '{$CONFIG['keyword_separator']}$keyword{$CONFIG['keyword_separator']}');\">$keyword</span>";
+        $buttons .= "<span class=\"admin_menu\" style=\"white-space: nowrap;\" onclick=\"jQuery('#keywords\\1').focus(); jQuery('#keywords\\1').val(jQuery('#keywords\\1').val() + '{$CONFIG['keyword_separator']}$keyword{$CONFIG['keyword_separator']}');\">$keyword</span> ";
     }
 
-    $html = preg_replace('/<input type="text" style="width: 100%" name="keywords([0-9]+)?".* \/>/U', "\\0".$buttons, $html);
+    $html = preg_replace('/<input type="text" style="width: 100%" name="keywords([0-9]+)?".* \/>/U', "\\0<p></p>".$buttons, $html);
 
     return $html;
 }
