@@ -17,6 +17,7 @@
 
 if (!defined('IN_COPPERMINE')) die('Not in Coppermine...');
 
+global $CPG_PHP_SELF;
 if ($CPG_PHP_SELF == 'edit_one_pic.php' || $CPG_PHP_SELF == 'editpics.php') {
     $thisplugin->add_filter('page_html', 'quick_tag_page_html');
 }
