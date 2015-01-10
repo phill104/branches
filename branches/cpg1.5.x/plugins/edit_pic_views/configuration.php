@@ -18,7 +18,7 @@
 $name = 'Edit picture views';
 $description = 'Edit the picture views on the editpics.php form.';
 $author = '<a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=24278" rel="external" class="external">eenemeenemuu</a>';
-$version = '1.0';
+$version = '1.1';
 $plugin_cpg_version = array('min' => '1.5');
 
 $announcement_icon = cpg_fetch_icon('announcement', 1);

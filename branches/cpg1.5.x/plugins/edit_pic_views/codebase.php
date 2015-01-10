@@ -24,15 +24,20 @@ if (GALLERY_ADMIN_MODE && $CPG_PHP_SELF == 'editpics.php') {
 }
 
 function edit_pic_views_page_html($html) {
-    global $lang_editpics_php;
+    global $lang_editpics_php, $lang_common;
 
+    // we need to replace the HTML code of video files first
+    $replace = '<input type="hidden" name="pid[]" value="'."\\1".'" />';
+    $replace .= sprintf($lang_editpics_php['pic_info_str'], '<input type="text" name="pwidth'."\\1".'" value="'."\\2".'" size="5" maxlength="5" class="textinput" />', '<input type="text" name="pheight'."\\1".'" value="'."\\3".'" size="5" maxlength="5" class="textinput" />', "\\4", '<input type="text" name="hits'."\\1".'" value="'."\\5".'" size="8" class="textinput" />', "\\6");
+    $html = preg_replace('/<input type="hidden" name="pid\[\]" value="([0-9]+)" \/>[\s]*'.str_replace('%s', '([0-9]+)', str_replace('%s &times; %s', '<input type="text" name="pwidth[0-9]+" value="%s".*\/> &times; <input type="text" name="pheight[0-9]+" value="%s".*\/>', $lang_editpics_php['pic_info_str'])).'[\s]*<\/td>/Ui', $replace, $html);
+
+    // non-movie files
     $replace = '<input type="hidden" name="pid[]" value="'."\\1".'" />';
     $replace .= sprintf($lang_editpics_php['pic_info_str'], "\\2", "\\3", "\\4", '<input type="text" name="hits'."\\1".'" value="'."\\5".'" size="8" class="textinput" />', "\\6");
-    $html = preg_replace('/<input type="hidden" name="pid\[\]" value="([0-9]+)" \/>.*'.str_replace('%s', '([0-9]+)', $lang_editpics_php['pic_info_str']).'/Usi', $replace, $html);
+    $html = preg_replace('/<input type="hidden" name="pid\[\]" value="([0-9]+)" \/>[\s]*'.str_replace('%s', '([0-9]+)', $lang_editpics_php['pic_info_str']).'[\s]*<\/td>/Ui', $replace, $html);
 
     return $html;
 }
-
 
 function edit_pic_views_after_edit_file($pid) {
     global $CONFIG;
