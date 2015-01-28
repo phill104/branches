@@ -72,8 +72,10 @@ if ($superCage->get->getAlpha('do') == 'search') {
         cpg_db_query("DROP TABLE IF EXISTS {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing");
         cpg_db_query("CREATE TABLE {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing (
                         id int(11) NOT NULL auto_increment,
+                        pid int(11) NOT NULL,
                         filepath varchar(255) NOT NULL,
                         filename varchar(255) NOT NULL,
+                        type varchar(8) NOT NULL,
                         PRIMARY KEY (id) )");
     }
 
@@ -83,22 +85,22 @@ if ($superCage->get->getAlpha('do') == 'search') {
         $filetype[] = $row[0];
     }
 
-    $result = cpg_db_query("SELECT filepath, filename, pwidth, pheight FROM {$CONFIG['TABLE_PICTURES']} ORDER BY filepath LIMIT $limit_offset, $limit_row_count");
+    $result = cpg_db_query("SELECT pid, filepath, filename, pwidth, pheight FROM {$CONFIG['TABLE_PICTURES']} ORDER BY filepath LIMIT $limit_offset, $limit_row_count");
     while ($file = mysql_fetch_assoc($result)) {
         if (!file_exists($CONFIG['fullpath'].$file['filepath'].$file['filename'])) {
-            cpg_db_query("INSERT INTO {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing (filepath, filename) VALUES('{$file['filepath']}', '{$file['filename']}')");
+            cpg_db_query("INSERT INTO {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing (pid, filepath, filename, type) VALUES('{$file['pid']}', '{$file['filepath']}', '{$file['filename']}', 'fullsize')");
             $found++;
         }
 
         if (is_image($file['filename'])) {
             if (!file_exists($CONFIG['fullpath'].$file['filepath'].$CONFIG['thumb_pfx'].$file['filename'])) {
-                cpg_db_query("INSERT INTO {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing (filepath, filename) VALUES('{$file['filepath']}', '{$CONFIG['thumb_pfx']}{$file['filename']}')");
+                cpg_db_query("INSERT INTO {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing (pid, filepath, filename, type) VALUES('{$file['pid']}', '{$file['filepath']}', '{$CONFIG['thumb_pfx']}{$file['filename']}', 'thumb')");
                 $found++;
             }
 
             if ($CONFIG['make_intermediate'] && cpg_picture_dimension_exceeds_intermediate_limit($file['pwidth'], $file['pheight'])) {
                 if(!file_exists($CONFIG['fullpath'].$file['filepath'].$CONFIG['normal_pfx'].$file['filename'])) {
-                    cpg_db_query("INSERT INTO {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing (filepath, filename) VALUES('{$file['filepath']}', '{$CONFIG['normal_pfx']}{$file['filename']}')");
+                    cpg_db_query("INSERT INTO {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing (pid, filepath, filename, type) VALUES('{$file['pid']}', '{$file['filepath']}', '{$CONFIG['normal_pfx']}{$file['filename']}', 'normal')");
                     $found++;
                 }
             }
@@ -106,7 +108,7 @@ if ($superCage->get->getAlpha('do') == 'search') {
             /*
             if ($CONFIG['enable_watermark']) {
                 if(!file_exists($CONFIG['fullpath'].$file['filepath'].$CONFIG['orig_pfx'].$file['filename'])) {
-                    cpg_db_query("INSERT INTO {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing (filepath, filename) VALUES('{$file['filepath']}', '{$CONFIG['orig_pfx']}{$file['filename']}')");
+                    cpg_db_query("INSERT INTO {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing (pid, filepath, filename, type) VALUES('{$file['pid']}', '{$file['filepath']}', '{$CONFIG['orig_pfx']}{$file['filename']}', 'orig')");
                     $found++;
                 }
             }
@@ -152,9 +154,9 @@ if ($superCage->get->getAlpha('do') == 'view') {
         $missing[$row['filepath']][] = $row['filename'];
     }
     if (!$missing) {
-        echo "<tr><td class=\"tableb\" colspan=\"2\">There are no missing files in the albums directory, hooray!</tr></td>";
+        echo "<tr><td class=\"tableb\" colspan=\"2\">There are no missing files in the albums directory, hooray!</td></tr>";
     } else {
-        echo "<tr><td class=\"tableb\" colspan=\"2\">The following files are missing in the albums directory (grouped by expandable paths):</tr></td>";
+        echo "<tr><td class=\"tableb\" colspan=\"2\">The following files are missing in the albums directory (grouped by expandable paths):</td></tr>";
         foreach($missing as $dir => $files) {
             $id = "check_files_missing_".$i++;
             echo "<tr><td class=\"tableb\" colspan=\"2\"><span onclick=\"$('#{$id}').slideToggle();\" style=\"cursor:pointer;\">{$dir} [".count($files)."]</span></td></tr>";
@@ -162,11 +164,39 @@ if ($superCage->get->getAlpha('do') == 'view') {
             foreach($files as $file) {
                 echo $CONFIG['fullpath'].$dir.$file."<br />";
             }
-            echo "</td></tr></table></tr></td></div>";
+            echo "</td></tr></table></td></tr></div>";
         }
+        echo "<tr><td class=\"tableb\" colspan=\"2\"><a href=\"index.php?file=check_files/missing_files&amp;do=delete&amp;missing=fullsize\" class=\"admin_menu\">Delete all files with missing full-sized picture from database</a></td></tr>";
     }
     endtable();
     pagefooter();
+}
+
+if ($superCage->get->getAlpha('do') == 'delete') {
+    if ($CONFIG['plugin_check_files_status_missing'] != 'complete') {
+        header("Location: index.php?file=check_files/missing_files&do=continue");
+    }
+
+    if ($superCage->get->getEscaped('missing') == 'fullsize') {
+        $result = cpg_db_query("SELECT DISTINCT pid FROM {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing WHERE type = 'fullsize'");
+        while ($row = mysql_fetch_assoc($result)) {
+            $missing[] = $row['pid'];
+        }
+        $missing_pids = implode(', ', $missing);
+
+        cpg_db_query("DELETE FROM {$CONFIG['TABLE_PICTURES']} WHERE pid IN ($missing_pids)");
+        cpg_db_query("DELETE FROM {$CONFIG['TABLE_COMMENTS']} WHERE pid IN ($missing_pids)");
+        cpg_db_query("DELETE FROM {$CONFIG['TABLE_EXIF']} WHERE pid IN ($missing_pids)");
+        cpg_db_query("DELETE FROM {$CONFIG['TABLE_HIT_STATS']} WHERE pid IN ($missing_pids)");
+        cpg_db_query("DELETE FROM {$CONFIG['TABLE_VOTE_STATS']} WHERE pid IN ($missing_pids)");
+        cpg_db_query("DELETE FROM {$CONFIG['TABLE_VOTES']} WHERE pic_id IN ($missing_pids)");
+        cpg_db_query("UPDATE {$CONFIG['TABLE_ALBUMS']} SET thumb = '0' WHERE thumb IN ($missing_pids)");
+        cpg_db_query("UPDATE {$CONFIG['TABLE_CATEGORIES']} SET thumb = '0' WHERE thumb IN ($missing_pids)");
+        // and favpics (remove pid preserving other pics) references...
+        cpg_db_query("DELETE FROM {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing WHERE pid IN ($missing_pids)");
+    }
+
+    header("Location: index.php?file=check_files/missing_files&do=view");
 }
 
 ?>

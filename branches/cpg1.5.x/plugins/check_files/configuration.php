@@ -17,9 +17,9 @@
 
 
 $name = 'Check files';
-$description = 'Checks either if all files in the database exist in the albums directory OR if all files in the albums directory exist in the database';
+$description = 'Adds 2 options to the admin menu:<ol><li>Check if all files in the database exist in the albums directory (with the possibility to delete the affected entries from the database)</li><li>Check if all files in the albums directory exist in the database</li></ol>';
 $author = '<a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=24278" rel="external" class="external">eenemeenemuu</a>';
-$version = '0.1';
+$version = '0.2';
 $plugin_cpg_version = array('min' => '1.5.20');
 
 ?>
