@@ -47,8 +47,10 @@ function check_files_install() {
                     PRIMARY KEY (id) )");
     cpg_db_query("CREATE TABLE IF NOT EXISTS {$CONFIG['TABLE_PREFIX']}plugin_check_files_missing (
                     id int(11) NOT NULL auto_increment,
+                    pid int(11) NOT NULL,
                     filepath varchar(255) NOT NULL,
                     filename varchar(255) NOT NULL,
+                    type varchar(8) NOT NULL,
                     PRIMARY KEY (id) )");
     cpg_db_query("INSERT IGNORE INTO {$CONFIG['TABLE_CONFIG']} (name, value) VALUES ('plugin_check_files_status_additional', ''), ('plugin_check_files_status_missing', '')");
     return true;
