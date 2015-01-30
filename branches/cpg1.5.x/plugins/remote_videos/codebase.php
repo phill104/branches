@@ -130,6 +130,7 @@ function remote_videos_get_hoster() {
         'collegehumor' => 'College Humor',
         'stickam'      => 'Stickam',
         'revver'       => 'Revver',
+        'vine'         => 'Vine',
     );
     asort($hoster);
 
@@ -155,20 +156,30 @@ function remote_videos_html_replace($params, $pic_html) {
         } else {
             $pheight += $params['player_height'];
         }
-        $params['player'] = str_replace("{MATCH_1}", $video_id[1], $params['player']);
-        $params['player'] = str_replace("{MATCH_2}", $video_id[2], $params['player']);
-        $params['player'] = str_replace("{WIDTH}", $pwidth, $params['player']);
-        $params['player'] = str_replace("{HEIGHT}", $pheight, $params['player']);
-        $new_html  = "<object type=\"{$CURRENT_PIC_DATA['mime']}\" width=\"{$pwidth}\" height=\"{$pheight}\" data=\"{$params['player']}\">";
-        $new_html .= "<param name=\"movie\" value=\"{$params['player']}\" />";
-        $new_html .= "<param name=\"allowfullscreen\" value=\"true\" />";
-        if (isset($params['extra_params'])) {
-            $params['extra_params'] = str_replace("{MATCH_1}", $video_id[1], $params['extra_params']);
-            $params['extra_params'] = str_replace("{MATCH_2}", $video_id[2], $params['extra_params']);
-            $params['extra_params'] = str_replace("{THUMBURL}", "&thumbUrl=", $params['extra_params']); // 2do!
-            $new_html .= $params['extra_params'];
+        if ($CURRENT_PIC_DATA['extension'] == "vine") {
+            $vine_mode = strlen($CONFIG['remote_video_vine_mode']) > 0 ? $CONFIG['remote_video_vine_mode'] : 'simple';
+            $vine_audio = $CONFIG['remote_video_vine_autoaudio'] ? $CONFIG['remote_video_vine_autoaudio'] : 0;
+            $new_html = str_replace("{MATCH_1}", $video_id[1], $params['iframe']);
+            $new_html = str_replace("{WIDTH}", $pwidth, $new_html);
+            $new_html = str_replace("{HEIGHT}", $pwidth, $new_html);
+            $new_html = str_replace("{VINE_MODE}", $vine_mode, $new_html);
+            $new_html = str_replace("{VINE_AUDIO}", $vine_audio, $new_html);
+        } else {
+            $params['player'] = str_replace("{MATCH_1}", $video_id[1], $params['player']);
+            $params['player'] = str_replace("{MATCH_2}", $video_id[2], $params['player']);
+            $params['player'] = str_replace("{WIDTH}", $pwidth, $params['player']);
+            $params['player'] = str_replace("{HEIGHT}", $pheight, $params['player']);
+            $new_html  = "<object type=\"{$CURRENT_PIC_DATA['mime']}\" width=\"{$pwidth}\" height=\"{$pheight}\" data=\"{$params['player']}\">";
+            $new_html .= "<param name=\"movie\" value=\"{$params['player']}\" />";
+            $new_html .= "<param name=\"allowfullscreen\" value=\"true\" />";
+            if (isset($params['extra_params'])) {
+                $params['extra_params'] = str_replace("{MATCH_1}", $video_id[1], $params['extra_params']);
+                $params['extra_params'] = str_replace("{MATCH_2}", $video_id[2], $params['extra_params']);
+                $params['extra_params'] = str_replace("{THUMBURL}", "&thumbUrl=", $params['extra_params']); // 2do!
+                $new_html .= $params['extra_params'];
+            }
+            $new_html .= "</object>";                         
         }
-        $new_html .= "</object>";                         
     } else {
         $new_html = "Error: invalid video id";
     }
@@ -184,7 +195,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'youtube':
             $params = array(
-                'search_pattern' => '/http:\/\/(?:www\.youtube\.com\/watch(?:_private)?\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/',
+                'search_pattern' => '/http(?:s)?:\/\/(?:www\.)?(?:youtube\.com\/watch(?:_private)?\?v=|(?:www\.)?youtu\.be\/)([A-Za-z0-9_-]{11})/',
                 'default_width'  => 640,
                 'default_height' => 385,
                 'player'         => 'http://www.youtube-nocookie.com/v/{MATCH_1}',
@@ -206,7 +217,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'vimeo':
             $params = array(
-                'search_pattern' => '/http:\/\/(?:www\.)?vimeo\.com\/([0-9]+)/',
+                'search_pattern' => '/http(?:s)?:\/\/(?:www\.)?vimeo\.com\/([0-9]+)/',
                 'default_width'  => 640,
                 'default_height' => 360,
                 'player'         => 'http://vimeo.com/moogaloop.swf?clip_id={MATCH_1}',
@@ -372,6 +383,18 @@ function remote_videos_other_media($pic_html) {
             return remote_videos_html_replace($params, $pic_html);
         break;
 
+        case 'vine':
+            $params = array(
+                'search_pattern'         => '/http(?:s)?:\/\/(?:www\.)?vine\.co\/v\/([A-Za-z0-9]+)/',
+                'default_width'          => 600,
+                'default_height'         => 600,
+                'player'                 => '',
+                'extra_params'           => '',
+                'iframe'                 => '<iframe class="vine-embed" src="//vine.co/v/{MATCH_1}/embed/{VINE_MODE}?audio={VINE_AUDIO}" width="{WIDTH}" height="{HEIGHT}" frameborder="0" style="border: 1px #000 solid;"></iframe><script async src="//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>',
+                'player_height'          => 0,
+            );
+            return remote_videos_html_replace($params, $pic_html);
+        break;
 
 
 /*

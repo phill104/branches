@@ -54,7 +54,11 @@ if ($superCage->post->keyExists('submit')) {
         }
         global $CONFIG;
         $superCage = Inspekt::makeSuperCage();
-        $new_value = $superCage->post->getInt($name);
+        if ($name == 'remote_video_vine_mode') {
+            $new_value = $superCage->post->getAlpha($name);
+        } else {
+            $new_value = $superCage->post->getInt($name);
+        }
         
         if ($new_value >= 0) {
             if (!isset($CONFIG[$name])) {
@@ -68,6 +72,8 @@ if ($superCage->post->keyExists('submit')) {
     }
     remote_videos_save_value('remote_video_movie_width');
     remote_videos_save_value('remote_video_movie_height');
+    remote_videos_save_value('remote_video_vine_mode');
+    remote_videos_save_value('remote_video_vine_autoaudio');
 
     starttable("100%", $lang_common['information']);
     echo "
@@ -164,6 +170,35 @@ echo <<<EOT
 EOT;
 endtable();
 
+$default_vine_mode = strlen($CONFIG['remote_video_vine_mode']) > 0 ? $CONFIG['remote_video_vine_mode'] : 'simple';
+$default_vine_autoaudio = $CONFIG['remote_video_vine_autoaudio'] ? $CONFIG['remote_video_vine_autoaudio'] : 0;
+starttable("100%", "Vine Options", 2);
+echo <<<EOT
+<tr>
+        <td class="tableb" width="200">
+            Mode (default = simple)
+        </td>
+        <td class="tableb">
+            <select name="remote_video_vine_mode">
+EOT;
+echo '<option value="postcard" '.($default_vine_mode == 'postcard' ? 'selected="selected"' : '').'>Postcard</option>';
+echo '<option value="simple" '.($default_vine_mode == 'simple' ? 'selected="selected"' : '').'>Simple</option>';
+echo <<<EOT
+<tr>
+        <td class="tableb" width="200">
+            Start with audio (default = off)
+        </td>
+        <td class="tableb">
+            <select name="remote_video_vine_autoaudio">
+EOT;
+echo '<option value="0" '.($default_vine_autoaudio == 0 ? 'selected="selected"' : '').'>Off</option>';
+echo '<option value="1" '.($default_vine_autoaudio == 1 ? 'selected="selected"' : '').'>On</option>';
+echo <<<EOT
+            </select>
+        </td>
+    </tr>
+EOT;
+endtable();
 list($timestamp, $form_token) = getFormToken();
 echo "<input type=\"hidden\" name=\"form_token\" value=\"{$form_token}\" />";
 echo "<input type=\"hidden\" name=\"timestamp\" value=\"{$timestamp}\" />";
