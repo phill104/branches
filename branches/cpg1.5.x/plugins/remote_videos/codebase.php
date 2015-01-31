@@ -17,9 +17,9 @@
 
 if (!defined('IN_COPPERMINE')) die('Not in Coppermine...');
 
-$thisplugin->add_action('plugin_install','remote_videos_install');
-$thisplugin->add_action('plugin_uninstall','remote_videos_uninstall');
-$thisplugin->add_filter('html_other_media','remote_videos_other_media');
+$thisplugin->add_action('plugin_install', 'remote_videos_install');
+$thisplugin->add_action('plugin_uninstall', 'remote_videos_uninstall');
+$thisplugin->add_filter('html_other_media', 'remote_videos_other_media');
 
 /*
 if (defined('THUMBNAILS_PHP') && USER_CAN_UPLOAD_PICTURES) {
@@ -175,10 +175,10 @@ function remote_videos_html_replace($params, $pic_html) {
             if (isset($params['extra_params'])) {
                 $params['extra_params'] = str_replace("{MATCH_1}", $video_id[1], $params['extra_params']);
                 $params['extra_params'] = str_replace("{MATCH_2}", $video_id[2], $params['extra_params']);
-                $params['extra_params'] = str_replace("{THUMBURL}", "&thumbUrl=", $params['extra_params']); // 2do!
+                $params['extra_params'] = str_replace("{THUMBURL}", "&thumbUrl=", $params['extra_params']); // TODO
                 $new_html .= $params['extra_params'];
             }
-            $new_html .= "</object>";                         
+            $new_html .= "</object>";
         }
     } else {
         $new_html = "Error: invalid video id";
@@ -195,7 +195,7 @@ function remote_videos_other_media($pic_html) {
 
         case 'youtube':
             $params = array(
-                'search_pattern' => '/http(?:s)?:\/\/(?:www\.)?(?:youtube\.com\/watch(?:_private)?\?v=|(?:www\.)?youtu\.be\/)([A-Za-z0-9_-]{11})/',
+                'search_pattern' => '/http(?:s)?:\/\/(?:www\.)?(?:youtube\.com\/watch(?:_private)?\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/',
                 'default_width'  => 640,
                 'default_height' => 385,
                 'player'         => 'http://www.youtube-nocookie.com/v/{MATCH_1}',
@@ -396,7 +396,6 @@ function remote_videos_other_media($pic_html) {
             return remote_videos_html_replace($params, $pic_html);
         break;
 
-
 /*
         case '':
             $params = array(
@@ -409,7 +408,7 @@ function remote_videos_other_media($pic_html) {
             return remote_videos_html_replace($params, $pic_html);
         break;
 
-    2do
+    TODO
     * 6.cn -- derivation not possible -> need to enter parts from provided embed code
     * Apple trailers -- no embed code provided
     * Blip.tv -- derivation not possible -> need to enter parts from provided embed code
@@ -423,8 +422,8 @@ function remote_videos_other_media($pic_html) {
     * Virb.com -- derivation not possible -> need to enter parts from provided embed code
     * TED.com -- no embed code provided
 
-*/    
-            
+*/
+
         default: return $pic_html;
     }
     return $pic_html;
