@@ -40,6 +40,9 @@ $hidden_features_config_options = array(
     'link_last_upload' => array(
         'type' => 'checkbox',
     ),
+    'batch_add_hide_existing_files' => array(
+        'type' => 'checkbox',
+    ),
 );
 
 // Remove non-available options for currently used gallery version

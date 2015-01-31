@@ -26,5 +26,6 @@ $lang_plugin_hidden_features['album_sort_order'] = 'Sort order for albums';
 $lang_plugin_hidden_features['custom_sortorder_thumbs'] = 'Display sort buttons on thumbnail page';
 $lang_plugin_hidden_features['editpics_ignore_newer_than'] = 'Show previously uploaded files at edit files form after flash upload';
 $lang_plugin_hidden_features['link_last_upload'] = 'Regard upload time of linked files in album info';
+$lang_plugin_hidden_features['batch_add_hide_existing_files'] = 'Hide already added files in batch-add interface';
 
 ?>
