@@ -193,8 +193,8 @@ function remote_videos_other_media($pic_html) {
                 'search_pattern' => '/http(?:s)?:\/\/(?:www\.)?(?:youtube\.com\/watch(?:_private)?\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/',
                 'default_width'  => 640,
                 'default_height' => 385,
-                'player'         => 'http://www.youtube-nocookie.com/v/{MATCH_1}',
-                'player_height'  => 25,
+                'player'         => 'http://www.youtube.com/v/{MATCH_1}',
+                'player_height'  => 30,
             );
             return remote_videos_html_replace($params, $pic_html);
         break;
