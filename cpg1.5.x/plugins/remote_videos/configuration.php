@@ -13,7 +13,7 @@
 $name = 'Remote Videos';
 $description = 'Upload videos from video file hosters to your gallery (YouTube, Google, Yahoo!, ...)';
 $author = '<a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=24278" rel="external" class="external">eenemeenemuu</a>';
-$version = '1.9';
+$version = '1.10';
 $plugin_cpg_version = array('min' => '1.5.10');
 
 global $lang_gallery_admin_menu;
