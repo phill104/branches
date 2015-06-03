@@ -30,13 +30,19 @@ if (in_array($lang, $enabled_languages_array) == TRUE && file_exists('plugins/bb
     include('plugins/bbcode_control/lang/'.$lang.'.php');
 }
 
+// add recently added BBCodes to database
+$bbcode_tags = get_bbcode_tags('available');
+foreach ($bbcode_tags as $tag) {
+    insert_into_config('bbcode_control_tag_'.$tag.'_show', '1');
+    insert_into_config('bbcode_control_tag_'.$tag.'_process', '1');
+}
 
 if ($superCage->post->keyExists('submit')) {
     if (!checkFormToken()) {
         global $lang_errors;
         cpg_die(ERROR, $lang_errors['invalid_form_token'], __FILE__, __LINE__);
     }
-    $bbcode_tags = get_bbcode_tags('available');
+
     foreach ($bbcode_tags as $tag) {
         if ($superCage->post->keyExists('show_'.$tag)) {
             cpg_db_query("UPDATE {$CONFIG['TABLE_CONFIG']} SET value = '".$superCage->post->getInt('show_'.$tag)."' WHERE name = 'bbcode_control_tag_{$tag}_show'");
