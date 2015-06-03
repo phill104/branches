@@ -26,7 +26,7 @@ if (in_array($lang, $enabled_languages_array) == TRUE && file_exists('plugins/bb
 }
 
 $name = 'BBCode Control';
-$version = '1.10';
+$version = '1.11';
 $plugin_cpg_version = array('min' => '1.5');
 $description = <<< EOT
 <ul>

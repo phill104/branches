@@ -46,6 +46,11 @@ $lang_plugin_bbcode_control['quote'] = 'Zitat';
 $lang_plugin_bbcode_control['youtube'] = 'Youtube-Video';
 $lang_plugin_bbcode_control['tt'] = 'Schreibmaschinenschrift';
 $lang_plugin_bbcode_control['hr'] = 'Horizontale Linie';
+$lang_plugin_bbcode_control['pid'] = 'Bild in dieser Galerie';
+$lang_plugin_bbcode_control['aid'] = 'Album in dieser Galerie';
+$lang_plugin_bbcode_control['cid'] = 'Kategorie in dieser Galerie';
+$lang_plugin_bbcode_control['audio'] = 'Audiodatei (mp3, ogg, wav)';
+$lang_plugin_bbcode_control['audio_no_support'] = 'Dein Browser unterstützt das "audio"-Element nicht.';
 
 // admin.php & configuration.php
 $lang_plugin_bbcode_control['show_in_file_info'] = 'Zeige vorgefertigten BBCode in den Datei-Informationen';

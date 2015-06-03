@@ -135,7 +135,14 @@ function bbcode_control_config_button($admin_menu){
 
 
 function new_bbcodes($text) {
-    global $CONFIG;
+    global $CONFIG, $lang_common, $enabled_languages_array;
+
+    // language detection
+    $lang = isset($CONFIG['lang']) ? $CONFIG['lang'] : 'english';
+    include('plugins/bbcode_control/lang/english.php');
+    if (in_array($lang, $enabled_languages_array) == TRUE && file_exists('plugins/bbcode_control/lang/'.$lang.'.php')) {
+        include('plugins/bbcode_control/lang/'.$lang.'.php');
+    }
 
     // remove disabled bbcode tags
     $bbcode_tags_disabled = get_bbcode_tags('disabled');
@@ -147,14 +154,6 @@ function new_bbcodes($text) {
 
     // images on same domain only
     if ($CONFIG['bbcode_control_tag_img_localhost_only'] == 1) {
-        // language detection
-        global $CONFIG, $enabled_languages_array;
-        $lang = isset($CONFIG['lang']) ? $CONFIG['lang'] : 'english';
-        include('plugins/bbcode_control/lang/english.php');
-        if (in_array($lang, $enabled_languages_array) == TRUE && file_exists('plugins/bbcode_control/lang/'.$lang.'.php')) {
-            include('plugins/bbcode_control/lang/'.$lang.'.php');
-        }
-
         // get host name from URL
         preg_match('@^(?:http://)?([^/]+)@i', $CONFIG['ecards_more_pic_target'], $matches);
         $host = $matches[1];
@@ -186,6 +185,11 @@ function new_bbcodes($text) {
         $youtube_embed_code_replacement .= "<param name=\"allowfullscreen\" value=\"true\" />";
         $youtube_embed_code_replacement .= "</object>";
         $text = preg_replace("/\[youtube\].*(youtube\.com\/watch\?v=|youtu\.be\/)(.*)\[\/youtube\]/Usi", $youtube_embed_code_replacement, $text);
+    }
+
+    if (!in_array('audio', $bbcode_tags_disabled)) {
+        $text = preg_replace("/\[audio](.*)\.(mp3|ogg|wav)\[\/audio\]/Usi", "<audio controls><source src=\"\\1.\\2\" type=\"audio/\\2\">{$lang_plugin_bbcode_control['audio_no_support']}</audio>", $text);
+        $text = str_replace(' type="audio/mp3">', ' type="audio/mpeg">', $text);
     }
 
     // insert quote
@@ -243,6 +247,7 @@ function get_bbcode_tags($which) {
         'quote',
         'url', // cpg standard
         'img', // cpg standard
+        'audio',
         'youtube',
         'pid', // cpg special for internal referencing
         'aid', // cpg special for internal referencing
