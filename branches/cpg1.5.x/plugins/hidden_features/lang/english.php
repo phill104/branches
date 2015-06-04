@@ -27,5 +27,7 @@ $lang_plugin_hidden_features['custom_sortorder_thumbs'] = 'Display sort buttons 
 $lang_plugin_hidden_features['editpics_ignore_newer_than'] = 'Show previously uploaded files at edit files form after flash upload';
 $lang_plugin_hidden_features['link_last_upload'] = 'Regard upload time of linked files in album info';
 $lang_plugin_hidden_features['batch_add_hide_existing_files'] = 'Hide already added files in batch-add interface';
+$lang_plugin_hidden_features['only_empty_albums'] = 'Display only empty albums on batch-add interface';
+$lang_plugin_hidden_features['user_manager_hide_file_stats'] = 'Hide file count and disk space usage in user manager';
 
 ?>
