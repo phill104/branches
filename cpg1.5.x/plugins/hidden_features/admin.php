@@ -46,12 +46,9 @@ $hidden_features_config_options = array(
     'user_manager_hide_file_stats' => array(
         'type' => 'checkbox',
     ),
-    /*
-    // TODO, thread ID 77824
     'only_empty_albums' => array(
         'type' => 'checkbox',
     ),
-    */
 );
 
 // Remove non-available options for currently used gallery version
