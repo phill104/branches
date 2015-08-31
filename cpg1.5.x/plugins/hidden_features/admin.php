@@ -49,6 +49,10 @@ $hidden_features_config_options = array(
     'only_empty_albums' => array(
         'type' => 'checkbox',
     ),
+    'album_uploads_default' => array(
+        'type' => 'select',
+        'options' => array('YES', 'NO'),
+    ),
 );
 
 // Remove non-available options for currently used gallery version
@@ -124,7 +128,11 @@ foreach ($hidden_features_config_options as $option => $data) {
         $input = '<select class="listbox" name="'.$option.'">';
         foreach ($data['options'] as $select_option) {
             $selected = $CONFIG[$option] == $select_option ? ' selected="selected"': '';
-            $input .= '<option value="'.$select_option.'"'.$selected.'>'.$lang_thumb_view['sort_'.$select_option].'</option>';
+            if ($option == 'album_sort_order') {
+                $input .= '<option value="'.$select_option.'"'.$selected.'>'.$lang_thumb_view['sort_'.$select_option].'</option>';
+            } else {
+                $input .= '<option value="'.$select_option.'"'.$selected.'>'.$select_option.'</option>';
+            }
         }
         $input .= '</select>';
     } else {
