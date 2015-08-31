@@ -91,7 +91,7 @@ while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
     $bbcode_process[$tag] = $row['value'];
 }
 
-echo "<form action=\"index.php?file=bbcode_control/admin\" method=\"post\">";
+echo '<form action="'.$superCage->server->getEscaped('REQUEST_URI').'" method="post">';
 
 starttable("100%", "BBCode Control - ".$lang_gallery_admin_menu['admin_lnk'], 3);
 
