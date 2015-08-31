@@ -114,7 +114,7 @@ EOT;
     echo "<br />";
 }
 
-echo '<form action="index.php?file=hidden_features/admin" method="post">';
+echo '<form action="'.$superCage->server->getEscaped('REQUEST_URI').'" method="post">';
 starttable("100%", $lang_plugin_hidden_features['hidden_features'].' - '.$lang_gallery_admin_menu['admin_lnk'], 3);
 foreach ($hidden_features_config_options as $option => $data) {
     if ($data['type'] == 'checkbox') {
