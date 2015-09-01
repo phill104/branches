@@ -29,7 +29,7 @@ $lang_plugin_hidden_features['link_last_upload'] = 'Regard upload time of linked
 $lang_plugin_hidden_features['batch_add_hide_existing_files'] = 'Hide already added files in batch-add interface';
 $lang_plugin_hidden_features['user_manager_hide_file_stats'] = 'Hide file count and disk space usage in user manager';
 $lang_plugin_hidden_features['only_empty_albums'] = 'Add button next to album drop-down box to display only empty albums';
-$lang_plugin_hidden_features['album_uploads_default'] = 'Default value for album property "Visitors can upload files" (only for new albums)';
+$lang_plugin_hidden_features['album_uploads_default'] = 'Default value for album property "Visitors can upload files" (affects just new albums)';
 
 $lang_plugin_hidden_features['only_empty_albums_button_empty'] = 'Show only empty albums';
 $lang_plugin_hidden_features['only_empty_albums_button_all'] = 'Show all albums';

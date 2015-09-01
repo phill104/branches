@@ -29,7 +29,14 @@ $hidden_features_config_options = array(
     ),
     'album_sort_order' => array(
         'type' => 'select',
-        'options' => array('ta', 'td', 'da', 'dd', 'pa', 'pd'),
+        'options' => array(
+            'ta' => $lang_thumb_view['sort_ta'],
+            'td' => $lang_thumb_view['sort_td'],
+            'da' => $lang_thumb_view['sort_da'],
+            'dd' => $lang_thumb_view['sort_dd'],
+            'pa' => $lang_thumb_view['sort_pa'],
+            'pd' => $lang_thumb_view['sort_pd'],
+        ),
     ),
     'custom_sortorder_thumbs' => array(
         'type' => 'checkbox',
@@ -51,7 +58,10 @@ $hidden_features_config_options = array(
     ),
     'album_uploads_default' => array(
         'type' => 'select',
-        'options' => array('YES', 'NO'),
+        'options' => array(
+            'YES' => $lang_common['yes'],
+            'NO' => $lang_common['no'],
+        ),
     ),
 );
 
@@ -126,13 +136,9 @@ foreach ($hidden_features_config_options as $option => $data) {
         $input = '<input class="checkbox" type="checkbox" name="'.$option.'"'.$checked.' />';
     } elseif ($data['type'] == 'select') {
         $input = '<select class="listbox" name="'.$option.'">';
-        foreach ($data['options'] as $select_option) {
+        foreach ($data['options'] as $select_option => $text) {
             $selected = $CONFIG[$option] == $select_option ? ' selected="selected"': '';
-            if ($option == 'album_sort_order') {
-                $input .= '<option value="'.$select_option.'"'.$selected.'>'.$lang_thumb_view['sort_'.$select_option].'</option>';
-            } else {
-                $input .= '<option value="'.$select_option.'"'.$selected.'>'.$select_option.'</option>';
-            }
+            $input .= '<option value="'.$select_option.'"'.$selected.'>'.$text.'</option>';
         }
         $input .= '</select>';
     } else {
