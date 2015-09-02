@@ -29,6 +29,7 @@ $lang_plugin_hidden_features['link_last_upload'] = 'Weź pod uwagę czas wysłan
 $lang_plugin_hidden_features['batch_add_hide_existing_files'] = 'Ukryj już dodane pliki w interfejsie seryjnej wysyłki';
 $lang_plugin_hidden_features['user_manager_hide_file_stats'] = 'Ukryj licznik plików i zajmowanego przez nie miejsca w managerze użytkowników';
 $lang_plugin_hidden_features['only_empty_albums'] = 'Dodaj przycisk obok pola wyboru albumów, aby wyświetlać tylko puste albumy';
+$lang_plugin_hidden_features['album_uploads_default'] = 'Domyślna wartość ustawienia albumów "Odwiedzający mogą dodawać pliki" (dotyczy tylko nowych albumów)';
 
 $lang_plugin_hidden_features['only_empty_albums_button_empty'] = 'Pokaż tylko puste albumy';
 $lang_plugin_hidden_features['only_empty_albums_button_all'] = 'Pokaż wszystkie albumy';
