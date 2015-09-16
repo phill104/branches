@@ -34,4 +34,7 @@ $lang_plugin_hidden_features['album_uploads_default'] = 'Default value for album
 $lang_plugin_hidden_features['only_empty_albums_button_empty'] = 'Show only empty albums';
 $lang_plugin_hidden_features['only_empty_albums_button_all'] = 'Show all albums';
 
+$lang_plugin_hidden_features['fav_added'] = 'Picture has been added to favorites';
+$lang_plugin_hidden_features['fav_removed'] = 'Picture has been removed from favorites';
+
 ?>
