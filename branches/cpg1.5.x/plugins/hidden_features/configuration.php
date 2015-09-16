@@ -23,7 +23,7 @@ if ($CONFIG['lang'] != 'english' && file_exists("./plugins/hidden_features/lang/
 $name = $lang_plugin_hidden_features['hidden_features'];
 $description = $lang_plugin_hidden_features['description'];
 $author = '<a href="http://forum.coppermine-gallery.net/index.php?action=profile;u=24278" rel="external" class="external">eenemeenemuu</a>';
-$version = '1.4';
+$version = '1.5';
 $plugin_cpg_version = array('min' => '1.5');
 
 $install_info = '<a href="http://forum.coppermine-gallery.net/index.php/topic,77314.0.html" rel="external" class="admin_menu">'.cpg_fetch_icon('announcement', 1).$lang_plugin_hidden_features['announcement_thread'].'</a>';

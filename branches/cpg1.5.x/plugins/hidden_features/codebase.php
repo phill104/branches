@@ -19,7 +19,7 @@ if (!defined('IN_COPPERMINE')) die('Not in Coppermine...');
 
 define('ADMIN_PHP', true);
 
-$thisplugin->add_action('page_start','hidden_features_page_start');
+$thisplugin->add_action('page_start', 'hidden_features_page_start');
 function hidden_features_page_start() {
     global $CONFIG, $lang_plugin_hidden_features;
 
